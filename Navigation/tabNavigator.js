@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet } from "react-native"; 4
+import { StyleSheet } from "react-native"; 4
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { RFValue } from "react-native-responsive-fontsize";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Clients from "../Screens/clients";
-import Historic from "../Screens/historic";
 import Schedule from "../Screens/schedule";
 import Dashboard from "../Screens/dashboard";
 import Settings from "../Screens/settings";
-
+import Records from "../Screens/records";
+import DrawerNavigator from "./drawerNavigator";
 
 const Tab = createMaterialBottomTabNavigator()
 
@@ -24,16 +23,18 @@ export default class TabNavigator extends Component {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
             let iconSize = RFValue(20);
+            let iconColor = color
 
             if (route.name === 'Clients') {
               iconName = focused
                 ? 'people'
                 : 'people-outline';
-            } else if (route.name === 'Historic') {
-              iconName = focused ? 'refresh-circle' : 'refresh-circle-outline';
+            } else if (route.name === 'Records') {
+              iconName ='add-circle' 
+              iconSize = RFValue(25)
+              iconColor = "#0047FF"
             } else if (route.name === 'Schedule') {
               iconName = focused ? 'calendar' : 'calendar-outline';
-              iconSize = RFValue(25)
             } else if (route.name === 'Dashboard') {
               iconName = focused ? 'bar-chart' : 'bar-chart-outline';
             } else if (route.name === 'Settings') {
@@ -41,17 +42,17 @@ export default class TabNavigator extends Component {
             }
 
             // You can return any component that you like here!
-            return <Ionicons name={iconName} size={iconSize} color={color} style={styles.icons} />;
+            return <Ionicons name={iconName} size={iconSize} color={iconColor} style={styles.icons} />;
           },       
         })}
         activeColor={"black"}
         inactiveColor={"gray"}
 
       >
-        <Tab.Screen name="Clients" component={Clients} />
-        <Tab.Screen name="Historic" component={Historic} />
         <Tab.Screen name="Schedule" component={Schedule} />
         <Tab.Screen name="Dashboard" component={Dashboard} />
+        <Tab.Screen name="Records" component={DrawerNavigator} />
+        <Tab.Screen name="Clients" component={Clients} />
         <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator>
     )

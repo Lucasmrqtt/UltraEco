@@ -1,26 +1,19 @@
 import React, {Component} from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
+import AddEmployee from "../Screens/AddEmployee";
+import AddService from "../Screens/addService";
+import AddClients from "../Screens/addClients";
+
+const Stack = createStackNavigator()
 
 export default class StackNavigator extends Component{
   render(){
     return(
-      <View style={styles.container}>
-        <Text style={styles.text}>
-          StackNavigator
-        </Text>
-      </View>
+      <Stack.Navigator>
+        <Stack.Screen name="AddEmployee" component={AddEmployee}/>
+        <Stack.Screen name="AddService" component={AddService}/>
+        <Stack.Screen name="AddClients" component={AddClients}/>
+      </Stack.Navigator>
     )
   }
 }
-
-const style = StyleSheet.create({
-  container:{
-    flex:1,
-    justifyContent:"center",
-    alignItems:"center",
-  },
-  text:{
-    fontSize:20,
-    fontWeight:"bold",
-  },
-})
