@@ -1,19 +1,64 @@
-import React, {Component} from "react";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-// import AddEmployee from "../Screens/AddEmployee";
-import AddService from "../Screens/addService";
-import AddClients from "../Screens/addClients";
+import React,{useEffect} from 'react';
+import { View, Text, Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from '@react-navigation/drawer';
 
-const Drawer = createDrawerNavigator()
+function Feed({ navigation }) {
 
-export default class DrawerNavigator extends Component{
-  render(){
-    return(
-      <Drawer.Navigator screenOptions={{drawerPosition:""}}>
-        {/* <Drawer.Screen name="AddEmployee" component={AddEmployee}/> */}
-        <Drawer.Screen name="AddService" component={AddService}/>
-        <Drawer.Screen name="AddClients" component={AddClients}/>
-      </Drawer.Navigator>
-    )
-  }
+  useEffect(()=>{
+  navigation.openDrawer()
+  })
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Feed Screen</Text>
+      <Button title="Open drawer" onPress={() => navigation.openDrawer()} />
+      <Button title="Toggle drawer" onPress={() => navigation.toggleDrawer()} />
+    </View>
+  );
+}
+
+
+
+
+function Notifications() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Notifications Screen</Text>
+    </View>
+  );
+}
+
+function CustomDrawerContent(props) {
+  return (
+    <DrawerContentScrollView {...props} style={{padding:50,justifyContent: "flex-end", backgroundColor:"pink"}}>
+      <DrawerItemList {...props} />
+      <DrawerItem
+        label="Close drawer"
+        onPress={() => props.navigation.closeDrawer()}
+      />
+      <DrawerItem
+        label="Toggle drawer"
+        onPress={() => props.navigation.toggleDrawer()}
+      />
+    </DrawerContentScrollView>
+  );
+}
+
+const Drawer = createDrawerNavigator();
+
+export default function MyDrawer() {
+  return (
+    <Drawer.Navigator
+      useLegacyImplementation
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
+    >
+      <Drawer.Screen name="Feed" component={Feed} />
+      <Drawer.Screen name="Notifications" component={Notifications} />
+    </Drawer.Navigator>
+  );
 }

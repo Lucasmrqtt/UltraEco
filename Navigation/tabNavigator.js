@@ -19,18 +19,20 @@ export default class TabNavigator extends Component {
       <Tab.Navigator
         labeled={true}
         barStyle={styles.bottomTabStyle}
+        tabBarStyle={{ backgroundColor: 'transparent' }}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
             let iconSize = RFValue(20);
             let iconColor = color
+            
 
             if (route.name === 'Clients') {
               iconName = focused
                 ? 'people'
                 : 'people-outline';
             } else if (route.name === 'Records') {
-              iconName ='add-circle' 
+              iconName = 'add-circle'
               iconSize = RFValue(25)
               iconColor = "#0047FF"
             } else if (route.name === 'Schedule') {
@@ -39,11 +41,15 @@ export default class TabNavigator extends Component {
               iconName = focused ? 'bar-chart' : 'bar-chart-outline';
             } else if (route.name === 'Settings') {
               iconName = focused ? 'settings' : 'settings-outline';
+            } else if (route.name === 'Search') {
+              iconName = focused ? 'search' : 'search-outline';
+            } else if (route.name === 'ScheduleChange') {
+              iconName = focused ? 'options' : 'options-outline';
             }
 
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={iconSize} color={iconColor} style={styles.icons} />;
-          },       
+          },
         })}
         activeColor={"black"}
         inactiveColor={"gray"}
@@ -51,10 +57,10 @@ export default class TabNavigator extends Component {
       >
         <Tab.Screen name="Schedule" component={Schedule} />
         <Tab.Screen name="Dashboard" component={Dashboard} />
-        <Tab.Screen name="Records" component={DrawerNavigator} />
+        <Tab.Screen name="Records" component={Records} />
         <Tab.Screen name="Clients" component={Clients} />
         <Tab.Screen name="Settings" component={Settings} />
-      </Tab.Navigator>
+      </Tab.Navigator >
     )
   }
 }
@@ -63,13 +69,15 @@ const styles = StyleSheet.create({
   bottomTabStyle: {
     backgroundColor: "#7dff8c",
     height: "10%",
-    borderTopLeftRadius: RFValue(30),
+    borderTopLeftRadius: RFValue(50),
     borderTopRightRadius: RFValue(30),
     overflow: "hidden",
     position: "absolute",
   },
   icons: {
     width: RFValue(30),
-    height: RFValue(30)
+    height: RFValue(30),
+    backgroundColor:"#7dff8c",
+    
   }
 });
