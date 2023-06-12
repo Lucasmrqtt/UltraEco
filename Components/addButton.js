@@ -40,12 +40,7 @@ export default class AddButton extends React.Component {
         <TouchableOpacity
           onPress={() => this.handleOpenBottomSheet()}
           style={styles.button}>
-          <Ionicons 
-                name="add-circle"
-                size={RFValue(90)} 
-                color={"blue"} 
-                style={styles.icons}
-              />
+          <Image source={require("../assets/botao-adicionar.png")} style={styles.icons}/>
           <Modal
             animationType="slide"
             transparent={true}
@@ -99,7 +94,7 @@ const styles = StyleSheet.create({
   button: {
     position: 'absolute',
     alignSelf:'center',
-    bottom: 25,
+    bottom: 50,
     width: 50,
     height:50,
     zIndex:1,
@@ -111,9 +106,10 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   icons: {
-    // alignSelf:'center',
-    // width: RFValue(30),
-    // height: RFValue(30),
+    alignSelf:'center',
+    width: RFValue(50),
+    height: RFValue(50),
     // backgroundColor:"red"
+    
   }
 });

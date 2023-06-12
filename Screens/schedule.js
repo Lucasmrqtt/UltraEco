@@ -1,143 +1,93 @@
-import React, { Component } from "react"
-import { Text, Image, View, ScrollView, StyleSheet, TouchableOpacity, StatusBar, Platform, SafeAreaView } from "react-native"
-import { RFValue } from "react-native-responsive-fontsize"
-import Historic from "./historic"
+import React, { Component } from 'react';
+import {
+  Text,
+  Image,
+  View,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  StatusBar,
+  Platform,
+  SafeAreaView,
+} from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize';
+// import Historic from "./historic"
 
 export default class Schedule extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <SafeAreaView style={styles.droidSafeArea} />
+        {/* <SafeAreaView style={styles.droidSafeArea} /> */}
         <ScrollView>
           <View style={styles.square}>
-            <TouchableOpacity style={styles.equalizer} >
+            <TouchableOpacity style={styles.equalizer}>
               <Image
-                source={require("../assets/equalizer.png")}
+                source={require('../assets/equalizer.png')}
                 style={styles.equalizer}
               />
             </TouchableOpacity>
+
             <View style={styles.iconSquareRight}>
-              <TouchableOpacity onPress={()=>this.navigation.navigate(Historic)} style={styles.historic}>
+              <TouchableOpacity
+                onPress={() => this.navigation.navigate(Historic)}
+                style={styles.historic}>
                 <Image
-                  source={require("../assets/historic.png")}
+                  source={require('../assets/historic.png')}
                   style={styles.historic}
                 />
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.search}>
                 <Image
-                  source={require("../assets/search-interface-symbol.png")}
+                  source={require('../assets/search-interface-symbol.png')}
                   style={styles.search}
                 />
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.employee}>
-            <TouchableOpacity style={styles.userEmployee}>
-              <Image
-                source={require("../assets/userProfile.png")}
-                style={styles.userEmployee}
-              />
-            </TouchableOpacity>
-            <Text style={styles.text}>
-              Pedro
-            </Text>
-            <TouchableOpacity style={styles.menu}>
-              <Image
-                source={require("../assets/menu.png")}
-                style={styles.menu}
-              />
-            </TouchableOpacity>
-            <Text style={{
-              left: 320,
-              top: 12,
-              fontWeight: "bold"
-            }}>
-              Funcionários
-            </Text>
+
+          <View style={styles.boxEmployee}>
+            <View style={styles.profile}>
+              <TouchableOpacity style={styles.userEmployee}>
+                <Image
+                  source={require('../assets/userProfile.png')}
+                  style={styles.userEmployee}
+                />
+              </TouchableOpacity>
+              <Text style={styles.text}>Pedro</Text>
+            </View>
           </View>
 
           <View style={styles.bgHours}>
-            <Text style={styles.hours}>
-              7h
-            </Text>
-            <Text style={styles.hours}>
-              7:30
-            </Text>
-            <Text style={styles.hours}>
-              8h
-            </Text>
-            <Text style={styles.hours}>
-              8:30
-            </Text>
-            <Text style={styles.hours}>
-              9h
-            </Text>
-            <Text style={styles.hours}>
-              9:30
-            </Text>
-            <Text style={styles.hours}>
-              10h
-            </Text>
-            <Text style={styles.hours}>
-              10:30
-            </Text>
-            <Text style={styles.hours}>
-              11h
-            </Text>
-            <Text style={styles.hours}>
-              11:30
-            </Text>
-            <Text style={styles.hours}>
-              12h
-            </Text>
-            <Text style={styles.hours}>
-              12:30
-            </Text>
-            <Text style={styles.hours}>
-              13h
-            </Text>
-            <Text style={styles.hours}>
-              13:30
-            </Text>
-            <Text style={styles.hours}>
-              14h
-            </Text>
-            <Text style={styles.hours}>
-              14:30
-            </Text>
-            <Text style={styles.hours}>
-              15h
-            </Text>
-            <Text style={styles.hours}>
-              15:30
-            </Text>
-            <Text style={styles.hours}>
-              16h
-            </Text>
-            <Text style={styles.hours}>
-              16:30
-            </Text>
-            <Text style={styles.hours}>
-              17h
-            </Text>
-            <Text style={styles.hours}>
-              17:30
-            </Text>
-            <Text style={styles.hours}>
-              18h
-            </Text>
-            <Text style={styles.hours}>
-              18:30
-            </Text>
-            <Text style={styles.hours}>
-              19h
-            </Text>
+            <Text style={styles.hours}>7h</Text>
+            <Text style={styles.hours}>7:30</Text>
+            <Text style={styles.hours}>8h</Text>
+            <Text style={styles.hours}>8:30</Text>
+            <Text style={styles.hours}>9h</Text>
+            <Text style={styles.hours}>9:30</Text>
+            <Text style={styles.hours}>10h</Text>
+            <Text style={styles.hours}>10:30</Text>
+            <Text style={styles.hours}>11h</Text>
+            <Text style={styles.hours}>11:30</Text>
+            <Text style={styles.hours}>12h</Text>
+            <Text style={styles.hours}>12:30</Text>
+            <Text style={styles.hours}>13h</Text>
+            <Text style={styles.hours}>13:30</Text>
+            <Text style={styles.hours}>14h</Text>
+            <Text style={styles.hours}>14:30</Text>
+            <Text style={styles.hours}>15h</Text>
+            <Text style={styles.hours}>15:30</Text>
+            <Text style={styles.hours}>16h</Text>
+            <Text style={styles.hours}>16:30</Text>
+            <Text style={styles.hours}>17h</Text>
+            <Text style={styles.hours}>17:30</Text>
+            <Text style={styles.hours}>18h</Text>
+            <Text style={styles.hours}>18:30</Text>
+            <Text style={styles.hours}>19h</Text>
           </View>
-        </ScrollView >
+        </ScrollView>
       </View>
-
-    )
+    );
   }
 }
 
@@ -147,84 +97,75 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     // alignItems: "center",
   },
+  droidSafeArea: {
+    marginTop:
+      Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
+  },
   square: {
-    alignSelf: "stretch",
-    alignItems:"space-between",
-    justifyContent: "start",
+    flex: 0.25,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'start',
     borderWidth: 4,
     borderRadius: 10,
     borderColor: 'black',
-    backgroundColor: 'red',
-    // width: "100%",
-    height: 250,
+    // backgroundColor: 'red',
+    width: '100%',
+    height: RFValue(250),
   },
   iconSquareRight: {
-
+    // backgroundColor:"green",
+    flexDirection: 'row',
+    margin: 15,
+    justifyContent: 'space-between',
+    width: RFValue(90),
+    height: RFValue(50),
+    alignItems: 'center',
   },
   equalizer: {
-    // position: "absolute",
-    top: RFValue(25),
-    left: 10,
-    width: 32,
-    height: 32,
+    width: RFValue(32),
+    height: RFValue(32),
+    // backgroundColor:"pink",
+    margin: 10,
   },
   historic: {
-    // position: "absolute",
-    top: RFValue(25),
-    left: 157,
-    width: 32,
-    height: 32,
+    width: RFValue(32),
+    height: RFValue(32),
+    // marginRight:10,
   },
   search: {
-    // position: "absolute",
-    // top: RFValue(25),
-    // left: RFValue(160),
-    width: 32,
-    height: 32,
+    width: RFValue(32),
+    height: RFValue(32),
   },
-  droidSafeArea: {
-    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : RFValue(35)
-  },
-  employee: {
+
+  boxEmployee: {
+    flex: 0.2,
     borderWidth: 4,
     borderRadius: 10,
     borderColor: 'black',
-    backgroundColor: 'transparent',
-    width: "100%",
-    height: 100,
-    bottom: 3,
+    width: '100%',
+    alignItems: 'center',
+  },
+  profile: {
+    // backgroundColor:"blue",
   },
   userEmployee: {
-    left: 90,
-    top: 10,
-    width: 40,
-    height: 40,
+    width: RFValue(32),
+    height: RFValue(32),
+    //  backgroundColor: 'pink',
   },
   text: {
-    left: 183,
-    top: 20,
-    fontWeight: "bold"
-  },
-  menu: {
-    position: "absolute",
-    top: 15,
-    left: 180,
-    width: 32,
-    height: 32,
+    fontWeight: 'bold',
   },
   hours: {
-    backgroundColor: "#abb0ad",
-    margin: 30,
-    fontWeight: "bold",
-    bottom: 10,
-    left: 0
+    // backgroundColor: 'red',
+    justifyContent:"flex-start",
+    margin:15,
+    width: RFValue(30),
   },
   bgHours: {
-    backgroundColor: "#abb0ad",
-    margin: 30,
-    fontWeight: "bold",
-    bottom: 33,
-    right: 170
+    backgroundColor: '#bdbdbd',
+    justifyContent:"flex-start",
+    width: RFValue(50),
   },
-
-})
+});
