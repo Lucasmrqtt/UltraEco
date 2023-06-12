@@ -6,7 +6,7 @@ export default class AddEmployee extends Component{
     return(
       <View style={styles.container}>
         <Text style={styles.text}>
-          ServiceEmployeeRegister
+          AddEmployee
         </Text>
       </View>
     )

@@ -10,6 +10,7 @@ import Settings from "../Screens/settings";
 import Records from "../Screens/records";
 import DrawerNavigator from "./drawerNavigator";
 
+
 const Tab = createMaterialBottomTabNavigator()
 
 
@@ -51,13 +52,13 @@ export default class TabNavigator extends Component {
             return <Ionicons name={iconName} size={iconSize} color={iconColor} style={styles.icons} />;
           },
         })}
+        initialRouteName="Schedule"
         activeColor={"black"}
         inactiveColor={"gray"}
 
       >
         <Tab.Screen name="Schedule" component={Schedule} />
         <Tab.Screen name="Dashboard" component={Dashboard} />
-        <Tab.Screen name="Records" component={Records} />
         <Tab.Screen name="Clients" component={Clients} />
         <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator >
@@ -69,15 +70,14 @@ const styles = StyleSheet.create({
   bottomTabStyle: {
     backgroundColor: "#7dff8c",
     height: "10%",
-    borderTopLeftRadius: RFValue(50),
-    borderTopRightRadius: RFValue(30),
+    // borderTopLeftRadius: RFValue(50),
+    // borderTopRightRadius: RFValue(30),
     overflow: "hidden",
     position: "absolute",
   },
   icons: {
     width: RFValue(30),
     height: RFValue(30),
-    backgroundColor:"#7dff8c",
-    
+    backgroundColor:"#7dff8c",   
   }
 });
