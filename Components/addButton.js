@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Image,
   Modal,
@@ -36,80 +36,121 @@ export default class AddButton extends React.Component {
   // });
   render() {
     return (
+      <TouchableOpacity
+        onPress={() => this.handleOpenBottomSheet()}
+        style={styles.button}>
+        <Image source={require("../assets/botao-adicionar.png")} style={styles.icon} />
+        <Modal
+          animationType="slide"
+          transparent={true}
 
-        <TouchableOpacity
-          onPress={() => this.handleOpenBottomSheet()}
-          style={styles.button}>
-          <Image source={require("../assets/botao-adicionar.png")} style={styles.icons}/>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            
-            visible={this.state.isBottomSheetOpen}
-            
-            onRequestClose={() => this.handleCloseBottomSheet()}>
-            <View style={[styles.bottomSheet, { height: windowHeight * 0.5 }]}>
-              <View
-                style={{
-                  flex: 0,
-                  width: '100%',
-                  justifyContent: 'space-between',
-                  flexDirection: 'column',
-                }}>
-                <Text>Título aqui</Text>
-                <TouchableOpacity onPress={() => this.handleCloseBottomSheet()}>
-                  <Text>Fechar</Text>
+          visible={this.state.isBottomSheetOpen}
+
+          onRequestClose={() => this.handleCloseBottomSheet()}>
+          <View style={[styles.bottomSheet, { height: windowHeight * 0.6 }]}>
+            <View style={styles.modal}>
+              <TouchableOpacity style={styles.closeButton} onPress={() => this.handleCloseBottomSheet()}>
+                <Image source={require("../assets/botao-adicionar.png")} style={styles.close} />
+              </TouchableOpacity>
+              <View style={styles.adds}>
+                <TouchableOpacity style={styles.add} onPress={() => this.handleCloseBottomSheet()}>
+                  <Image source={require("../assets/add.png")} style={styles.icons} />
+                  <Text style={styles.text}>Adicionar Serviço</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.navigation.replace("Home")}>
-                  <Text>Home</Text>
+                <TouchableOpacity style={styles.add} onPress={() => this.handleCloseBottomSheet()}>
+                  <Image source={require("../assets/customer-support.png")} style={{
+                    width: RFValue(35),
+                    height: RFValue(35),
+                    marginRight: 35,
+                  }} />
+                  <Text style={styles.text}>Cadastrar Serviço</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.handleCloseBottomSheet()}>
-                  <Text>Fechar</Text>
+                <TouchableOpacity style={styles.add} onPress={() => this.navigation.replace("Schedule")}>
+                  <Image source={require("../assets/employee.png")} style={styles.icons} />
+                  <Text style={styles.text}>Cadastrar Funcionário</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.add} onPress={() => this.handleCloseBottomSheet()}>
+                  <Image source={require("../assets/client.png")} style={styles.icons} />
+                  <Text style={styles.text}>Cadastrar Cliente</Text>
                 </TouchableOpacity>
               </View>
             </View>
-          </Modal>
-        </TouchableOpacity>
+          </View>
+        </Modal>
+      </TouchableOpacity >
 
     );
   }
 }
 
 const styles = StyleSheet.create({
-  bottomSheet: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    paddingVertical: 23,
-    paddingHorizontal: 25,
-    bottom: 50,
-    borderWidth: 1,
-    borderColor: 'red',
+  icon: {
+    alignSelf: 'center',
+    width: RFValue(50),
+    height: RFValue(50),
+    // backgroundColor:"red"
   },
   button: {
     position: 'absolute',
-    alignSelf:'center',
+    alignSelf: 'center',
     bottom: 50,
     width: 50,
-    height:50,
-    zIndex:1,
+    height: 50,
+    zIndex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     // borderWidth: 1,
     // borderColor: '#86827e',
     paddingVertical: 12,
     borderRadius: 100,
+    // backgroundColor:"red"
+  },
+
+  bottomSheet: {
+    position: 'absolute',
+    width: "100%",
+    backgroundColor: 'white',
+    borderWidth: 1.5,
+    bottom: 0,
+    // alignItems:'flex-start',
+  },
+  modal: {
+    width: '100%',
+    // borderWidth: 3,
+    // backgroundColor: "pink",
+    justifyContent: 'center'
+  },
+  closeButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor:"gray"
+  },
+  close: {
+    width: RFValue(60),
+    height: RFValue(60),
+    // backgroundColor: "red"
+    transform: [{rotate: '45deg'}],
+  },
+  adds: {
+    flexDirection: 'collum',
+    // borderWidth: 3,
+    // borderColor: "blue",
+    height: windowHeight * 0.7
   },
   icons: {
-    alignSelf:'center',
-    width: RFValue(50),
-    height: RFValue(50),
-    // backgroundColor:"red"
-    
-  }
+    width: RFValue(40),
+    height: RFValue(40),
+    marginRight: 30
+  },
+  text: {
+    // fontWeight: 'bold',
+    fontSize: 25,
+  },
+  add: {
+    // borderWidth: 8
+    marginTop: RFValue(50),
+    marginLeft: 10,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
 });

@@ -27,6 +27,17 @@ export default class Schedule extends Component {
               />
             </TouchableOpacity>
 
+            <View style={styles.profile}>
+              <Text style={styles.calendar}>30.12 </Text>
+              <TouchableOpacity style={styles.userEmployee}>
+                <Image
+                  source={require('../assets/userProfile.png')}
+                  style={styles.userEmployee}
+                />
+              </TouchableOpacity>
+              <Text style={styles.name}>Pedro</Text>
+            </View>
+
             <View style={styles.iconSquareRight}>
               <TouchableOpacity
                 onPress={() => this.navigation.navigate(Historic)}
@@ -36,7 +47,6 @@ export default class Schedule extends Component {
                   style={styles.historic}
                 />
               </TouchableOpacity>
-
               <TouchableOpacity style={styles.search}>
                 <Image
                   source={require('../assets/search-interface-symbol.png')}
@@ -44,19 +54,10 @@ export default class Schedule extends Component {
                 />
               </TouchableOpacity>
             </View>
+
           </View>
 
-          <View style={styles.boxEmployee}>
-            <View style={styles.profile}>
-              <TouchableOpacity style={styles.userEmployee}>
-                <Image
-                  source={require('../assets/userProfile.png')}
-                  style={styles.userEmployee}
-                />
-              </TouchableOpacity>
-              <Text style={styles.text}>Pedro</Text>
-            </View>
-          </View>
+
 
           <View style={styles.bgHours}>
             <Text style={styles.hours}>7h</Text>
@@ -102,25 +103,22 @@ const styles = StyleSheet.create({
       Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
   },
   square: {
-    flex: 0.25,
+    flex: 0.3,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'start',
-    borderWidth: 4,
-    borderRadius: 10,
+    borderWidth: RFValue(4),
+    borderRadius: RFValue(10),
     borderColor: 'black',
     // backgroundColor: 'red',
     width: '100%',
-    height: RFValue(250),
+    height: RFValue(100),
   },
   iconSquareRight: {
     // backgroundColor:"green",
     flexDirection: 'row',
-    margin: 15,
-    justifyContent: 'space-between',
-    width: RFValue(90),
-    height: RFValue(50),
-    alignItems: 'center',
+    justifyContent: 'space-around',
+    margin:RFValue(17),
   },
   equalizer: {
     width: RFValue(32),
@@ -131,41 +129,42 @@ const styles = StyleSheet.create({
   historic: {
     width: RFValue(32),
     height: RFValue(32),
-    // marginRight:10,
   },
   search: {
     width: RFValue(32),
     height: RFValue(32),
-  },
-
-  boxEmployee: {
-    flex: 0.2,
-    borderWidth: 4,
-    borderRadius: 10,
-    borderColor: 'black',
-    width: '100%',
-    alignItems: 'center',
-  },
-  profile: {
-    // backgroundColor:"blue",
+    marginLeft: RFValue(5),
   },
   userEmployee: {
-    width: RFValue(32),
-    height: RFValue(32),
-    //  backgroundColor: 'pink',
+    width: RFValue(37),
+    height: RFValue(37),
+    // backgroundColor: 'pink',
   },
-  text: {
-    fontWeight: 'bold',
+  name: {
+    // fontWeight: 'bold',
   },
+  profile: {
+    // backgroundColor: "blue",
+    alignItems: "center",
+    left:RFValue(30),
+    marginTop:RFValue(7),
+  },
+  calendar:{
+    margin:5,
+    // fontWeight:"bold",
+    fontSize:20,
+  },
+
   hours: {
     // backgroundColor: 'red',
-    justifyContent:"flex-start",
-    margin:15,
-    width: RFValue(30),
+    justifyContent: "flex-start",
+    margin: 15,
+    width: RFValue(35),
+    fontWeight: 'bold',
   },
   bgHours: {
     backgroundColor: '#bdbdbd',
-    justifyContent:"flex-start",
+    justifyContent: "flex-start",
     width: RFValue(50),
   },
 });

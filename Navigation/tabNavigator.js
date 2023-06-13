@@ -68,8 +68,9 @@ export default class TabNavigator extends Component {
 
 const styles = StyleSheet.create({
   bottomTabStyle: {
-    backgroundColor: "#7dff8c",
+    // backgroundColor: "#white",
     height: "10%",
+    borderWidth: 1.5,
     // borderTopLeftRadius: RFValue(50),
     // borderTopRightRadius: RFValue(30),
     overflow: "hidden",
@@ -78,6 +79,6 @@ const styles = StyleSheet.create({
   icons: {
     width: RFValue(30),
     height: RFValue(30),
-    backgroundColor:"#7dff8c",   
+    // backgroundColor:"#7dff8c",   
   }
 });
