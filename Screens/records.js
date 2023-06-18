@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Image, Modal, View, Button, Text, StyleSheet, Dimensions, TouchableOpacity, } from 'react-native'
 // import AddEmployee from "./AddEmployee";
-import AddService from "./addService";
+import AddService from "./registerService";
 import AddClients from "./addClients";
 
 const windowHeight = Dimensions.get('window').height;

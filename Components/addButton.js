@@ -31,9 +31,10 @@ export default class AddButton extends React.Component {
     this.setState({ isBottomSheetOpen: false });
   };
 
-  // useEffect(() => {
-  //   handleOpenBottomSheet();
-  // });
+  // componentDidMount(){
+  //   this.handleOpenBottomSheet()
+  // }
+
   render() {
     return (
       <TouchableOpacity
@@ -53,11 +54,11 @@ export default class AddButton extends React.Component {
                 <Image source={require("../assets/botao-adicionar.png")} style={styles.close} />
               </TouchableOpacity>
               <View style={styles.adds}>
-                <TouchableOpacity style={styles.add} onPress={() => this.handleCloseBottomSheet()}>
+                <TouchableOpacity style={styles.add} onPress={() => {this.handleCloseBottomSheet(),this.props.navigation.navigate("Scheduling")}}>
                   <Image source={require("../assets/add.png")} style={styles.icons} />
-                  <Text style={styles.text}>Adicionar Serviço</Text>
+                  <Text style={styles.text}>Agendar Serviço</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.add} onPress={() => this.handleCloseBottomSheet()}>
+                <TouchableOpacity style={styles.add} onPress={() => {this.handleCloseBottomSheet(),this.props.navigation.navigate("RegisterService")}}>
                   <Image source={require("../assets/customer-support.png")} style={{
                     width: RFValue(35),
                     height: RFValue(35),
@@ -65,11 +66,11 @@ export default class AddButton extends React.Component {
                   }} />
                   <Text style={styles.text}>Cadastrar Serviço</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.add} onPress={() => this.navigation.replace("Schedule")}>
+                <TouchableOpacity style={styles.add} onPress={() => {this.handleCloseBottomSheet(),this.props.navigation.navigate("AddEmployee")}}>
                   <Image source={require("../assets/employee.png")} style={styles.icons} />
                   <Text style={styles.text}>Cadastrar Funcionário</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.add} onPress={() => this.handleCloseBottomSheet()}>
+                <TouchableOpacity style={styles.add} onPress={() => {this.handleCloseBottomSheet(),this.props.navigation.navigate("AddClients")}}>
                   <Image source={require("../assets/client.png")} style={styles.icons} />
                   <Text style={styles.text}>Cadastrar Cliente</Text>
                 </TouchableOpacity>
@@ -112,11 +113,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: 1.5,
     bottom: 0,
-    // alignItems:'flex-start',
   },
   modal: {
     width: '100%',
-    // borderWidth: 3,
     // backgroundColor: "pink",
     justifyContent: 'center'
   },
@@ -133,7 +132,6 @@ const styles = StyleSheet.create({
   },
   adds: {
     flexDirection: 'collum',
-    // borderWidth: 3,
     // borderColor: "blue",
     height: windowHeight * 0.7
   },
@@ -147,7 +145,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
   add: {
-    // borderWidth: 8
     marginTop: RFValue(50),
     marginLeft: 10,
     flexDirection: 'row',

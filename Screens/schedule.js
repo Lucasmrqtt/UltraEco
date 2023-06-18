@@ -17,7 +17,7 @@ export default class Schedule extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {/* <SafeAreaView style={styles.droidSafeArea} /> */}
+        <SafeAreaView style={styles.droidSafeArea} />
         <ScrollView>
           <View style={styles.square}>
             <TouchableOpacity style={styles.equalizer}>
@@ -154,7 +154,6 @@ const styles = StyleSheet.create({
     // fontWeight:"bold",
     fontSize:20,
   },
-
   hours: {
     // backgroundColor: 'red',
     justifyContent: "flex-start",

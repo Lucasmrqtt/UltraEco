@@ -1,12 +1,12 @@
 import React, {Component} from "react";
 import { Text, View, StyleSheet } from "react-native";
 
-export default class AddService extends Component{
+export default class Scheduling extends Component{
   render(){
     return(
       <View style={styles.container}>
         <Text style={styles.text}>
-          RegisterServices
+          Scheduling
         </Text>
       </View>
     )
