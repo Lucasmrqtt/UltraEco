@@ -157,13 +157,14 @@ const styles = StyleSheet.create({
   hours: {
     // backgroundColor: 'red',
     justifyContent: "flex-start",
-    margin: 15,
+    margin: 5.7,
     width: RFValue(35),
     fontWeight: 'bold',
   },
   bgHours: {
     backgroundColor: '#bdbdbd',
     justifyContent: "flex-start",
+    // alignItems:'stretch',
     width: RFValue(50),
   },
 });

@@ -38,7 +38,7 @@ const StackNav = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <AddButton navigation={this.props.navigation}/>
+      {/* <AddButton navigation={this.props.navigation}/> */}
       <StackNav/>
     </NavigationContainer>   
   );

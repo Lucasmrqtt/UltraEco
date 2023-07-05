@@ -52,7 +52,8 @@ export default class TabNavigator extends Component {
             return <Ionicons name={iconName} size={iconSize} color={iconColor} style={styles.icons} />;
           },
         })}
-        initialRouteName="Schedule"
+        initialRouteName="Dashboard" 
+        // initialRouteName="Schedule"
         activeColor={"black"}
         inactiveColor={"gray"}
 
