@@ -53,7 +53,7 @@ export default class TabNavigator extends Component {
           },
         })}
         initialRouteName="Dashboard" 
-        // initialRouteName="Schedule"
+        //  initialRouteName="Schedule"
         activeColor={"black"}
         inactiveColor={"gray"}
 
