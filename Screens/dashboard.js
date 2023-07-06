@@ -84,6 +84,15 @@ export default class Historic extends Component {
                 </View>
               </View>
 
+              <View style={styles.moneyFilter}>
+                <Text style={styles.filterText}> Filtro </Text>
+                <View style={styles.textInputName}>
+                  <TouchableOpacity style={styles.moneyFilterButton}>
+                    <Text style={styles.moneyText}> Din/Pix/Déb/Céd</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
               <View style={styles.dateFilter}>
                 <View style={styles.from}>
                   <Text style={styles.filterText}> De </Text>
@@ -103,19 +112,70 @@ export default class Historic extends Component {
                 <View style={styles.OpenCloseFilter}>
                   <Text style={styles.filterText}>Filtro</Text>
                   <TouchableOpacity style={styles.OpenCloseFilterButon}>
-                    <Text style={styles.filterText}> A/F </Text>
+                    <Text style={styles.moneyText}> A/F </Text>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.OpenCloseFilterSearch}>
                   <TouchableOpacity style={styles.OpenCloseFilterSearchButton}>
-                    <Text style={styles.filterText}> Buscar </Text>
+                    <Text style={styles.OpenCloseFilterSearchText}> Buscar </Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
           </View>
 
+          <View style={styles.fotter}>
 
+            <View style={styles.fotterTexts}>
+              <View>
+                <Text style={styles.fotterText}>Código</Text>
+              </View>
+              <View>
+                <Text style={styles.fotterText}>Data</Text>
+              </View>
+              <View>
+                <Text style={styles.fotterText}>Cliente</Text>
+              </View>
+              <View>
+                <Text style={styles.fotterText}>Profi.</Text>
+              </View>
+              <View>
+                <Text style={styles.fotterText}>Valor</Text>
+              </View>
+              <View>
+                <Text style={styles.fotterText}>Desc.</Text>
+              </View>
+              <View>
+                <Text style={styles.fotterText}>Pagamento</Text>
+              </View>
+            </View>
+
+            <View style={styles.fotterValuesContainer}>
+              <View style={styles.fotterValues}>
+                <View>
+                  <Text style={styles.fotterTextValue}>100</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterTextValue}>10/04</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterTextValue}>Lucas M.</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterTextValue}>Leo</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterTextValue}>150,00</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterTextValue}>10%</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterTextValue}>135,00 Pix</Text>
+                </View>
+              </View>
+            </View>
+          </View>
         </ScrollView>
       </View>
     )
@@ -170,11 +230,11 @@ const styles = StyleSheet.create({
   },
   //BODY------------------------------------------------
   body: {
-    flex: 0.3,
+    flex: 0.4,
     marginTop: RFValue(10),
-    backgroundColor: "green",
+    // backgroundColor: "green",
     width: "100%",
-    height: RFValue(300)
+    height: RFValue(305)
   },
   invoicingAndCash: {
     // backgroundColor: "gray",
@@ -275,7 +335,7 @@ const styles = StyleSheet.create({
     // backgroundColor:"yellow",
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: RFValue(10)
+    marginBottom: RFValue(15)
   },
   filterTextInput: {
     borderWidth: RFValue(1.5),
@@ -283,6 +343,25 @@ const styles = StyleSheet.create({
     marginLeft: RFValue(10),
     padding: RFValue(7),
     height: RFValue(30)
+  },
+  moneyFilter: {
+    // backgroundColor: "red",
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: RFValue(14),
+    marginLeft: RFValue(10)
+  },
+  moneyFilterButton: {
+    // backgroundColor: "yellow",
+    borderWidth: RFValue(2),
+    borderRadius: RFValue(4),
+    padding: RFValue(4),
+    marginLeft: RFValue(2)
+  },
+  moneyText: {
+    //  backgroundColor:"purple"
+    // fontWeight: 'bold'
+    padding:RFValue(2)
   },
   dateFilter: {
     // backgroundColor:"purple",
@@ -306,38 +385,86 @@ const styles = StyleSheet.create({
   date: {
     borderWidth: RFValue(1.5),
     borderRadius: RFValue(4),
-    fontWeight: 'bold',
-    fontSize: RFValue(15)
+    // fontWeight: 'bold',
+    fontSize: RFValue(13),
+    padding: RFValue(4)
   },
   OpenCloseFilterAndSearch: {
-    backgroundColor: "yellow",
+    // backgroundColor: "yellow",
     // height:100
     flexDirection: 'row',
     // justifyContent: 'space-evenly',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginTop: RFValue(4)
   },
   OpenCloseFilter: {
-    backgroundColor: "purple",
+    // // backgroundColor: "purple",
     flexDirection: 'row',
+    alignItems: 'center',
+    bottom:RFValue(6)
   },
   OpenCloseFilterButon: {
-    backgroundColor: "blue",
-    borderWidth: RFValue(2)
+    // backgroundColor: "blue",
+    borderWidth: RFValue(2),
+    borderRadius: RFValue(4),
+    marginLeft: RFValue(10),
+    width: RFValue(50),
+    alignItems: 'center'
   },
   OpenCloseFilterSearch: {
-    backgroundColor: "red"
+    // backgroundColor: "red",
+    // top: RFValue(10),
+    // right: RFValue(30)
+    bottom:RFValue(30)
   },
-  OpenCloseFilterSearchButton:{
-
+  OpenCloseFilterSearchButton: {
+    borderWidth: RFValue(3),
+    borderRadius: RFValue(8),
+    // borderColor: "green"
+    backgroundColor: "green",
+    // backgroundColor: "pink"
+    padding:RFValue(4)
   },
-
+  OpenCloseFilterSearchText: {
+    fontWeight: 'bold',
+    fontSize: RFValue(20)
+  },
   filterText: {
     fontWeight: 'bold',
     fontSize: RFValue(14)
   },
   // FOTTER----------------------------------------------------
   fotter: {
-
+    flex: 0.4,
+    marginTop: RFValue(1),
+    // backgroundColor: "orange",
+    width: "100%",
+    height: RFValue(320),
+    borderTopWidth: RFValue(1),
   },
-
+  fotterTexts: {
+    // backgroundColor: "pink",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  fotterText: {
+    fontWeight: 'bold',
+    fontSize: RFValue(13)
+  },
+  fotterValuesContainer: {
+    // backgroundColor: "brown",
+    width: "100%",
+    height: "100%"
+  },
+  fotterValues:{
+    // backgroundColor:"purple",
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'space-around',
+    padding:RFValue(3)
+  },
+  fotterTextValue:{
+    color:"red"
+  },
 })
