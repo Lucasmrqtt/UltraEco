@@ -28,10 +28,8 @@ export default class Historic extends Component {
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
 
-
   render() {
     const { searchText } = this.state;
-
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
@@ -88,7 +86,7 @@ export default class Historic extends Component {
                 <Text style={styles.filterText}> Filtro </Text>
                 <View style={styles.textInputName}>
                   <TouchableOpacity style={styles.moneyFilterButton}>
-                    <Text style={styles.moneyText}> Din/Pix/Déb/Céd</Text>
+                    <Text style={styles.moneyText}> Din/Nub/Sic/Déb/Céd</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -140,6 +138,9 @@ export default class Historic extends Component {
                 <Text style={styles.fotterText}>Profi.</Text>
               </View>
               <View>
+                <Text style={styles.fotterText}>Serviço</Text>
+              </View>
+              <View>
                 <Text style={styles.fotterText}>Valor</Text>
               </View>
               <View>
@@ -156,13 +157,16 @@ export default class Historic extends Component {
                   <Text style={styles.fotterTextValue}>100</Text>
                 </View>
                 <View>
-                  <Text style={styles.fotterTextValue}>10/04</Text>
+                  <Text style={styles.fotterTextValue}>10/04/22</Text>
                 </View>
                 <View>
                   <Text style={styles.fotterTextValue}>Lucas M.</Text>
                 </View>
                 <View>
                   <Text style={styles.fotterTextValue}>Leo</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterTextValue}>Lavagem</Text>
                 </View>
                 <View>
                   <Text style={styles.fotterTextValue}>150,00</Text>
@@ -176,6 +180,7 @@ export default class Historic extends Component {
               </View>
             </View>
           </View>
+          <View style={styles.space}></View>
         </ScrollView>
       </View>
     )
@@ -440,7 +445,7 @@ const styles = StyleSheet.create({
     marginTop: RFValue(1),
     // backgroundColor: "orange",
     width: "100%",
-    height: RFValue(320),
+    height: RFValue(700),
     borderTopWidth: RFValue(1),
   },
   fotterTexts: {
@@ -450,7 +455,7 @@ const styles = StyleSheet.create({
   },
   fotterText: {
     fontWeight: 'bold',
-    fontSize: RFValue(13)
+    fontSize: RFValue(12)
   },
   fotterValuesContainer: {
     // backgroundColor: "brown",
@@ -466,5 +471,10 @@ const styles = StyleSheet.create({
   },
   fotterTextValue:{
     color:"red"
+  },
+  space:{
+    width: "100%",
+    // backgroundColor: "pink",
+    height: RFValue(80)
   },
 })

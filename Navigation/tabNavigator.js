@@ -9,6 +9,7 @@ import Dashboard from "../Screens/dashboard";
 import Settings from "../Screens/settings";
 import Records from "../Screens/records";
 import DrawerNavigator from "./drawerNavigator";
+import CashFlow from "../Screens/cashFlow";
 
 
 const Tab = createMaterialBottomTabNavigator()
@@ -26,7 +27,7 @@ export default class TabNavigator extends Component {
             let iconName;
             let iconSize = RFValue(20);
             let iconColor = color
-            
+
 
             if (route.name === 'Clients') {
               iconName = focused
@@ -52,14 +53,14 @@ export default class TabNavigator extends Component {
             return <Ionicons name={iconName} size={iconSize} color={iconColor} style={styles.icons} />;
           },
         })}
-        initialRouteName="Dashboard" 
-        //  initialRouteName="Schedule"
+        // initialRouteName="Dashboard" 
+        initialRouteName="Schedule"
         activeColor={"black"}
         inactiveColor={"gray"}
 
       >
-        <Tab.Screen name="Schedule" component={Schedule} />
-        <Tab.Screen name="Dashboard" component={Dashboard} />
+        <Tab.Screen name="Schedule" component={Schedule} />        
+        <Tab.Screen name="Dashboard" component={Dashboard} />   
         <Tab.Screen name="Clients" component={Clients} />
         <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator >
