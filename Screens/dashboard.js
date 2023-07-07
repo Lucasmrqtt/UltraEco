@@ -13,15 +13,48 @@ import {
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import DatePicker from 'react-native-datepicker';
-
+import DropDownPicker from 'react-native-dropdown-picker';
 
 export default class Historic extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchText: ''
+      searchText: '',
+      dropDownHeight1: 40,
+      dropDownHeight2: 40,
+      selectedValue1: null,
+      selectedValue2: null,
+      payment: "Din",
+      choseDate: "",
     };
   }
+
+  handleValueChange1 = (itemValue) => {
+    this.setState({ selectedValue1: itemValue });
+  };
+  
+  handleValueChange2 = (itemValue) => {
+    this.setState({ selectedValue2: itemValue });
+  };
+  
+  renderPlaceholder1 = () => {
+    const { selectedValue1 } = this.state;
+    if (selectedValue1) {
+      return selectedValue1;
+    } else {
+      return 'Din / Nub / Sic / Déb / Créd';
+    }
+  };
+  
+  renderPlaceholder2 = () => {
+    const { selectedValue2 } = this.state;
+    if (selectedValue2) {
+      return selectedValue2;
+    } else {
+      return 'A/F';
+    }
+  };
+  
 
   handleSearchTextChange = text => {
     this.setState({ searchText: text });
@@ -30,6 +63,7 @@ export default class Historic extends Component {
 
   render() {
     const { searchText } = this.state;
+
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
@@ -72,7 +106,7 @@ export default class Historic extends Component {
             <View style={styles.filter}>
               <View style={styles.clientFilter}>
                 <Text style={styles.filterText}> Filtro Cliente</Text>
-                <View style={styles.textInputName}>
+                <View>
                   <TextInput
                     placeholder="Digite aqui para pesquisar"
                     onChangeText={this.handleSearchTextChange}
@@ -84,10 +118,45 @@ export default class Historic extends Component {
 
               <View style={styles.moneyFilter}>
                 <Text style={styles.filterText}> Filtro </Text>
-                <View style={styles.textInputName}>
-                  <TouchableOpacity style={styles.moneyFilterButton}>
-                    <Text style={styles.moneyText}> Din/Nub/Sic/Déb/Céd</Text>
-                  </TouchableOpacity>
+                <View>
+                  <DropDownPicker
+                    items={[
+                      { label: "Dinheiro", value: "Din" },
+                      { label: "Nubank", value: "Nub" },
+                      { label: "Sicrédi", value: "Sic" },
+                      { label: "Débito", value: "Déb" },
+                      { label: "Crédito", value: "Créd" },
+                    ]}
+                    placeholder={this.renderPlaceholder1()}
+                    placeholderStyle={{
+                      alignSelf: 'center',
+                      textAlign: 'center'
+                    }}
+                    defaultValue={this.state.payment}
+                    open={this.state.dropDownHeight1 == 170}
+                    onOpen={() => this.setState({ dropDownHeight1: 170 })}
+                    onClose={() => this.setState({ dropDownHeight1: 40 })}
+                    style={{
+                      backgroundColor: "white",
+                      borderWidth: RFValue(2),
+                      borderColor: "black",
+                      width: RFValue(250),
+                    }}
+                    textStyle={{
+                      color: "black",
+                      fontWeight:'bold'
+                      // backgroundColor: "red",
+                    }}
+                    onSelectItem={(item) => {
+                      this.setState({ payment: item.value })
+                    }}
+                    dropDownContainerStyle={{
+                      // backgroundColor: "pink",
+                      width: RFValue(250),
+                    }}
+                    // zIndexInverse={1000}
+                    // zIndex={1000}
+                  />
                 </View>
               </View>
 
@@ -108,10 +177,49 @@ export default class Historic extends Component {
 
               <View style={styles.OpenCloseFilterAndSearch}>
                 <View style={styles.OpenCloseFilter}>
-                  <Text style={styles.filterText}>Filtro</Text>
-                  <TouchableOpacity style={styles.OpenCloseFilterButon}>
-                    <Text style={styles.moneyText}> A/F </Text>
-                  </TouchableOpacity>
+                  <Text style={{
+                    fontWeight: 'bold',
+                    fontSize: RFValue(14),
+                    marginRight: RFValue(8)
+                  }}>Filtro</Text>
+                  <DropDownPicker
+                    items={[
+                      { label: "Aberto", value: "Open" },
+                      { label: "Fechado", value: "Close" },
+                    ]}
+                    placeholder={this.renderPlaceholder2()}
+                    defaultValue={this.state.payment}
+                    open={this.state.dropDownHeight2 == 170}
+                    onOpen={() => this.setState({ dropDownHeight2: 170 })}
+                    onClose={() => this.setState({ dropDownHeight2: 40 })}
+                    style={{
+                      // backgroundColor: "green",
+                      borderWidth: RFValue(2),
+                      borderColor: "black",
+                      width: RFValue(150),
+                      // marginRight:RFValue()
+                      // height:RFValue(10)
+                    }}
+                    placeholderStyle={{
+                      alignSelf: 'center',
+                      textAlign: 'center'
+                    }}
+                    textStyle={{
+                      color: "black",
+                      fontWeight: 'bold' 
+                      // backgroundColor: "red",
+                    }}
+                    onSelectItem={(item) => {
+                      this.setState({ payment: item.value })
+                    }}
+                    dropDownContainerStyle={{
+                      // backgroundColor: "pink",
+                      width: RFValue(150),
+                      // alignItems:'center'
+                      // height:RFValue(10)
+                    }}
+                  // zIndexInverse={3000}
+                  />
                 </View>
                 <View style={styles.OpenCloseFilterSearch}>
                   <TouchableOpacity style={styles.OpenCloseFilterSearchButton}>
@@ -239,7 +347,7 @@ const styles = StyleSheet.create({
     marginTop: RFValue(10),
     // backgroundColor: "green",
     width: "100%",
-    height: RFValue(305)
+    height: RFValue(350)
   },
   invoicingAndCash: {
     // backgroundColor: "gray",
@@ -366,7 +474,7 @@ const styles = StyleSheet.create({
   moneyText: {
     //  backgroundColor:"purple"
     // fontWeight: 'bold'
-    padding:RFValue(2)
+    padding: RFValue(2)
   },
   dateFilter: {
     // backgroundColor:"purple",
@@ -396,18 +504,17 @@ const styles = StyleSheet.create({
   },
   OpenCloseFilterAndSearch: {
     // backgroundColor: "yellow",
-    // height:100
     flexDirection: 'row',
-    // justifyContent: 'space-evenly',
-    justifyContent: 'space-around',
     alignItems: 'center',
     marginTop: RFValue(4)
   },
   OpenCloseFilter: {
-    // // backgroundColor: "purple",
+    // backgroundColor: "purple",
     flexDirection: 'row',
     alignItems: 'center',
-    bottom:RFValue(6)
+    width: RFValue(200),
+    marginRight: RFValue(20),
+    marginLeft: RFValue(9),
   },
   OpenCloseFilterButon: {
     // backgroundColor: "blue",
@@ -419,21 +526,22 @@ const styles = StyleSheet.create({
   },
   OpenCloseFilterSearch: {
     // backgroundColor: "red",
-    // top: RFValue(10),
-    // right: RFValue(30)
-    bottom:RFValue(30)
+    top: RFValue(10),
+    // right: RFValue(30),
+    // bottom: RFValue(30),
   },
   OpenCloseFilterSearchButton: {
     borderWidth: RFValue(3),
     borderRadius: RFValue(8),
     // borderColor: "green"
     backgroundColor: "green",
-    // backgroundColor: "pink"
-    padding:RFValue(4)
+    // backgroundColor: "pink",
+    padding: RFValue(4)
   },
   OpenCloseFilterSearchText: {
     fontWeight: 'bold',
-    fontSize: RFValue(20)
+    fontSize: RFValue(20),
+    // marginRight: RFValue(2)
   },
   filterText: {
     fontWeight: 'bold',
@@ -462,17 +570,17 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%"
   },
-  fotterValues:{
+  fotterValues: {
     // backgroundColor:"purple",
-    flexDirection:'row',
-    alignItems:'center',
-    justifyContent:'space-around',
-    padding:RFValue(3)
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    padding: RFValue(3)
   },
-  fotterTextValue:{
-    color:"red"
+  fotterTextValue: {
+    color: "red"
   },
-  space:{
+  space: {
     width: "100%",
     // backgroundColor: "pink",
     height: RFValue(80)

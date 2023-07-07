@@ -106,7 +106,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     // backgroundColor:"red"
   },
-
   bottomSheet: {
     position: 'absolute',
     width: "100%",

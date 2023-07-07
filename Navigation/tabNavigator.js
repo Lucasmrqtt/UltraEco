@@ -62,6 +62,7 @@ export default class TabNavigator extends Component {
         <Tab.Screen name="Schedule" component={Schedule} />        
         <Tab.Screen name="Dashboard" component={Dashboard} />   
         <Tab.Screen name="Clients" component={Clients} />
+        {/* <Tab.Screen name="Cashflow" component={CashFlow} />    */}
         <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator >
     )
