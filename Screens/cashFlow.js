@@ -14,7 +14,7 @@ import {
 import { RFValue } from 'react-native-responsive-fontsize';
 import DatePicker from 'react-native-datepicker';
 
-export default class expensesFlow extends Component {
+export default class CashFlow extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -101,46 +101,65 @@ export default class expensesFlow extends Component {
             </View>
           </View>
 
-          <View style={styles.fotter}>
+          <ScrollView horizontal={true} >
+            <View style={styles.fotter}>
+              <View style={styles.fotterTexts}>
+                <View>
+                  <Text style={styles.fotterText}>Valor</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterText}>Nome</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterText}>Data</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterText}>Pgmt</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterText}>Valor CX</Text>
+                </View>
+              </View>
 
-            <View style={styles.fotterTexts}>
-              <View>
-                <Text style={styles.fotterText}>Valor</Text>
-              </View>
-              <View>
-                <Text style={styles.fotterText}>Nome</Text>
-              </View>
-              <View>
-                <Text style={styles.fotterText}>Data</Text>
-              </View>
-              <View>
-                <Text style={styles.fotterText}>Pagmt</Text>
-              </View>
-              <View>
-                <Text style={styles.fotterText}>ValorCx</Text>
-              </View>
-            </View>
-
-            <View style={styles.fotterValuesContainer}>
+              <View style={styles.fotterValuesContainer}>
               <View style={styles.fotterValues}>
-                <View>
-                  <Text style={styles.fotterTextValue}>100</Text>
+                  <View>
+                    <Text style={styles.fotterTextValue}>-30</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>Produto</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>11/04/2023</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>Crédito</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>105</Text>
+                  </View>
                 </View>
-                <View>
-                  <Text style={styles.fotterTextValue}>Lucas M.</Text>
-                </View>
-                <View>
-                  <Text style={styles.fotterTextValue}>10/04/22</Text>
-                </View>
-                <View>
-                  <Text style={styles.fotterTextValue}>Nub</Text>
-                </View>
-                <View>
-                  <Text style={styles.fotterTextValue}>250</Text>
+                <View style={styles.fotterValues}>
+                  <View>
+                    <Text style={styles.fotterTextValue}>135</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>Lucas Marquetti</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>10/04/2023</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>Nubank</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>135</Text>
+                  </View>
                 </View>
               </View>
+              
             </View>
-          </View>
+          </ScrollView>
 
         </ScrollView>
       </View>
@@ -285,16 +304,21 @@ const styles = StyleSheet.create({
   fotter: {
     flex: 0.4,
     marginTop: RFValue(1),
-    paddingTop:RFValue(4),
     // backgroundColor: "orange",
     width: "100%",
-    height: RFValue(700),
+    justifyContent:'flex-start',
+     flexDirection: 'column',
+    height: RFValue(1800),
     borderTopWidth: RFValue(1),
   },
   fotterTexts: {
     // backgroundColor: "pink",
+    height: RFValue(20),
+    width: RFValue(1000),
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-around',
+    // marginTop:RFValue(4),
   },
   fotterText: {
     fontWeight: 'bold',
@@ -302,22 +326,25 @@ const styles = StyleSheet.create({
   },
   fotterValuesContainer: {
     // backgroundColor: "brown",
+    flexDirection: 'column',
+    height: "100%",
     width: "100%",
-    height: "100%"
   },
-  fotterValues:{
-    // backgroundColor:"purple",
-    flexDirection:'row',
-    alignItems:'center',
-    justifyContent:'space-around',
-    padding:RFValue(3)
-  },
-  fotterTextValue:{
-    color:"red"
-  },
-  space:{
+  fotterValues: {
+    // backgroundColor: "purple",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    height: RFValue(20),
     width: "100%",
-    // backgroundColor: "pink",
+    padding: RFValue(3)
+  },
+  fotterTextValue: {
+    // color: "red"
+  },
+  space: {
+    width: "100%",
+    backgroundColor: "pink",
     height: RFValue(80)
   },
 

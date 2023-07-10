@@ -7,15 +7,25 @@ import Clients from "../Screens/clients";
 import Schedule from "../Screens/schedule";
 import Dashboard from "../Screens/dashboard";
 import Settings from "../Screens/settings";
-import Records from "../Screens/records";
 import DrawerNavigator from "./drawerNavigator";
 import CashFlow from "../Screens/cashFlow";
+import AddClients1 from "../Screens/addClients1";
 
 
 const Tab = createMaterialBottomTabNavigator()
+const isTabBarVisible = (route) => {
+  const routeName = route.state
+      ? route.state.routes[route.state.index]?.name
+      :(route.params ? route.params.screens : 'HOME');
 
+  return ![
+    // Telas que ao precionar, irá sair o TabNavigator. EX: "AddClients "
+  ]
+}
 
 export default class TabNavigator extends Component {
+  
+
   render() {
     return (
       <Tab.Navigator
@@ -23,6 +33,7 @@ export default class TabNavigator extends Component {
         barStyle={styles.bottomTabStyle}
         tabBarStyle={{ backgroundColor: 'transparent' }}
         screenOptions={({ route }) => ({
+          tabBarVisile: isTabBarVisible(route),
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
             let iconSize = RFValue(20);
@@ -61,8 +72,8 @@ export default class TabNavigator extends Component {
       >
         <Tab.Screen name="Schedule" component={Schedule} />        
         <Tab.Screen name="Dashboard" component={Dashboard} />   
-        <Tab.Screen name="Clients" component={Clients} />
-        {/* <Tab.Screen name="Cashflow" component={CashFlow} />    */}
+        {/* <Tab.Screen name="Clients" component={Clients} /> */}
+        <Tab.Screen name="Clients" component={AddClients1} />   
         <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator >
     )
@@ -71,7 +82,7 @@ export default class TabNavigator extends Component {
 
 const styles = StyleSheet.create({
   bottomTabStyle: {
-    // backgroundColor: "#white",
+    // backgroundColor: "white",
     height: "10%",
     borderWidth: 1.5,
     // borderTopLeftRadius: RFValue(50),

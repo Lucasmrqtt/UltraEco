@@ -14,8 +14,9 @@ import {
 import { RFValue } from 'react-native-responsive-fontsize';
 import DatePicker from 'react-native-datepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
+import CashFlow from './cashFlow';
 
-export default class Historic extends Component {
+export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,11 +33,11 @@ export default class Historic extends Component {
   handleValueChange1 = (itemValue) => {
     this.setState({ selectedValue1: itemValue });
   };
-  
+
   handleValueChange2 = (itemValue) => {
     this.setState({ selectedValue2: itemValue });
   };
-  
+
   renderPlaceholder1 = () => {
     const { selectedValue1 } = this.state;
     if (selectedValue1) {
@@ -45,7 +46,7 @@ export default class Historic extends Component {
       return 'Din / Nub / Sic / Déb / Créd';
     }
   };
-  
+
   renderPlaceholder2 = () => {
     const { selectedValue2 } = this.state;
     if (selectedValue2) {
@@ -54,7 +55,7 @@ export default class Historic extends Component {
       return 'A/F';
     }
   };
-  
+
 
   handleSearchTextChange = text => {
     this.setState({ searchText: text });
@@ -73,7 +74,7 @@ export default class Historic extends Component {
               <Text style={styles.textTitle}> Dashboard </Text>
               <Text style={styles.textMonth}> Fevereiro  </Text>
             </View>
-            <TouchableOpacity style={styles.cashFlow}>
+            <TouchableOpacity style={styles.cashFlow} onPress={() => navigation.navigate('CashFlow')}>
               <Text style={styles.cashFlowText}> Acessar fluxo de caixa </Text>
             </TouchableOpacity>
           </View>
@@ -144,7 +145,7 @@ export default class Historic extends Component {
                     }}
                     textStyle={{
                       color: "black",
-                      fontWeight:'bold'
+                      fontWeight: 'bold'
                       // backgroundColor: "red",
                     }}
                     onSelectItem={(item) => {
@@ -154,8 +155,8 @@ export default class Historic extends Component {
                       // backgroundColor: "pink",
                       width: RFValue(250),
                     }}
-                    // zIndexInverse={1000}
-                    // zIndex={1000}
+                  // zIndexInverse={1000}
+                  // zIndex={1000}
                   />
                 </View>
               </View>
@@ -206,7 +207,7 @@ export default class Historic extends Component {
                     }}
                     textStyle={{
                       color: "black",
-                      fontWeight: 'bold' 
+                      fontWeight: 'bold'
                       // backgroundColor: "red",
                     }}
                     onSelectItem={(item) => {
@@ -230,64 +231,94 @@ export default class Historic extends Component {
             </View>
           </View>
 
-          <View style={styles.fotter}>
+          <ScrollView horizontal={true} >
+            <View style={styles.fotter}>
+              <View style={styles.fotterTexts}>
+                <View>
+                  <Text style={styles.fotterText}>Código</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterText}>Data</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterText}>Cliente</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterText}>Profissional</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterText}>Serviço</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterText}>Valor</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterText}>Desc.</Text>
+                </View>
+                <View>
+                  <Text style={styles.fotterText}>Pagamento</Text>
+                </View>
+              </View>
 
-            <View style={styles.fotterTexts}>
-              <View>
-                <Text style={styles.fotterText}>Código</Text>
+              <View style={styles.fotterValuesContainer}>
+                <View style={styles.fotterValues}>
+                  <View>
+                    <Text style={styles.fotterTextValue}>002</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>10/04/2023</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>Gloria Marquetti</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>Pedro</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>Polimento</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>150,00</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>10%</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>135,00 Din</Text>
+                  </View>
+                </View>
+                <View style={styles.fotterValues}>
+                  <View>
+                    <Text style={styles.fotterTextValue}>001</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>10/04/2023</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>Lucas Marquetti</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>Leonardo</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>Lavagem</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>150,00</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>10%</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.fotterTextValue}>135,00 Nub</Text>
+                  </View>
+                </View>
               </View>
-              <View>
-                <Text style={styles.fotterText}>Data</Text>
-              </View>
-              <View>
-                <Text style={styles.fotterText}>Cliente</Text>
-              </View>
-              <View>
-                <Text style={styles.fotterText}>Profi.</Text>
-              </View>
-              <View>
-                <Text style={styles.fotterText}>Serviço</Text>
-              </View>
-              <View>
-                <Text style={styles.fotterText}>Valor</Text>
-              </View>
-              <View>
-                <Text style={styles.fotterText}>Desc.</Text>
-              </View>
-              <View>
-                <Text style={styles.fotterText}>Pagamento</Text>
-              </View>
-            </View>
 
-            <View style={styles.fotterValuesContainer}>
-              <View style={styles.fotterValues}>
-                <View>
-                  <Text style={styles.fotterTextValue}>100</Text>
-                </View>
-                <View>
-                  <Text style={styles.fotterTextValue}>10/04/22</Text>
-                </View>
-                <View>
-                  <Text style={styles.fotterTextValue}>Lucas M.</Text>
-                </View>
-                <View>
-                  <Text style={styles.fotterTextValue}>Leo</Text>
-                </View>
-                <View>
-                  <Text style={styles.fotterTextValue}>Lavagem</Text>
-                </View>
-                <View>
-                  <Text style={styles.fotterTextValue}>150,00</Text>
-                </View>
-                <View>
-                  <Text style={styles.fotterTextValue}>10%</Text>
-                </View>
-                <View>
-                  <Text style={styles.fotterTextValue}>135,00 Pix</Text>
-                </View>
-              </View>
+
             </View>
-          </View>
+          </ScrollView>
+
           <View style={styles.space}></View>
         </ScrollView>
       </View>
@@ -553,13 +584,19 @@ const styles = StyleSheet.create({
     marginTop: RFValue(1),
     // backgroundColor: "orange",
     width: "100%",
-    height: RFValue(700),
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    height: RFValue(1800),
     borderTopWidth: RFValue(1),
   },
   fotterTexts: {
     // backgroundColor: "pink",
+    height: RFValue(20),
+    width: RFValue(1000),
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-around',
+    // marginTop:RFValue(4),
   },
   fotterText: {
     fontWeight: 'bold',
@@ -567,22 +604,25 @@ const styles = StyleSheet.create({
   },
   fotterValuesContainer: {
     // backgroundColor: "brown",
+    flexDirection: 'column',
+    height: "100%",
     width: "100%",
-    height: "100%"
   },
   fotterValues: {
-    // backgroundColor:"purple",
+    // backgroundColor: "purple",
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
+    height: RFValue(20),
+    width: "100%",
     padding: RFValue(3)
   },
   fotterTextValue: {
-    color: "red"
+    // color: "red"
   },
   space: {
     width: "100%",
-    // backgroundColor: "pink",
+    backgroundColor: "pink",
     height: RFValue(80)
   },
 })

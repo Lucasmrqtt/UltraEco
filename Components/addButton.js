@@ -11,6 +11,9 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { RFValue } from 'react-native-responsive-fontsize';
+import AddClients1 from '../Screens/addClients1';
+import Scheduling from '../Screens/scheduling';
+import AddEmployee from '../Screens/addEmployee';
 
 const windowHeight = Dimensions.get('window').height;
 

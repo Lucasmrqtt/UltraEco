@@ -7,8 +7,9 @@ import TabNavigator from './Navigation/tabNavigator';
 import Scheduling from './Screens/scheduling';
 import AddEmployee from './Screens/addEmployee';
 import RegisterServices from './Screens/registerService';
-import AddClients from './Screens/addClients';
+import AddClients from './Screens/addClients1';
 import Historic from './Screens/historic';
+import CashFlow from './Screens/cashFlow';
 import { createStackNavigator } from '@react-navigation/stack';
 // import firebase from 'firebase';
 // import { firebaseConfig } from './config';
@@ -31,6 +32,7 @@ const StackNav = () => {
         <Stack.Screen name="RegisterService" component={RegisterServices}/>
         <Stack.Screen name="AddClients" component={AddClients}/>
         <Stack.Screen name="Historic" component={Historic}/>
+        <Stack.Screen name="CashFlow" component={CashFlow}/>
     </Stack.Navigator>
   )
 }

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import { Text, View, StyleSheet } from "react-native";
 
-export default class AddClients extends Component{
+export default class AddClients2 extends Component{
   render(){
     return(
       <View style={styles.container}>
