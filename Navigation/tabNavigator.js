@@ -58,20 +58,21 @@ export default class TabNavigator extends Component {
               iconName = focused ? 'search' : 'search-outline';
             } else if (route.name === 'ScheduleChange') {
               iconName = focused ? 'options' : 'options-outline';
-            }
+            } 
 
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={iconSize} color={iconColor} style={styles.icons} />;
           },
         })}
-        initialRouteName="AddClient2" 
+        initialRouteName="AddClient1" 
         // initialRouteName="Schedule"
         activeColor={"black"}
         inactiveColor={"gray"}
 
       >
         <Tab.Screen name="Schedule" component={Schedule} />        
-        <Tab.Screen name="Dashboard" component={Dashboard} />   
+        {/* <Tab.Screen name="Dashboard" component={Dashboard} />    */}
+        <Tab.Screen name="Addclients1" component={AddClients1} />   
         {/* <Tab.Screen name="Clients" component={Clients} /> */}
         <Tab.Screen name="AddClient2" component={AddClients2} />   
         <Tab.Screen name="Settings" component={Settings} />

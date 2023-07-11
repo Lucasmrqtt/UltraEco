@@ -31,25 +31,16 @@ export default class AddClients1 extends Component {
       searchText4: '',
       dropDownHeight: 40,
       selectedValue: null,
-      gender: 'Masc',
       choseDate: '',
       phoneInput: null,
       value: "",
       formattedValue: '',
+      date: null,
     }
   }
 
   handleValueChange = (itemValue) => {
     this.setState({ selectedValue: itemValue });
-  };
-
-  renderPlaceholder = () => {
-    const { selectedValue } = this.state;
-    if (selectedValue) {
-      return selectedValue;
-    } else {
-      return 'Selecione o gênero';
-    }
   };
 
   handleSearchTextChange1 = text => {
@@ -109,80 +100,54 @@ export default class AddClients1 extends Component {
           <View style={styles.margin}>
             <Text style={styles.bodyText}>Telefone</Text>
             <PhoneInput
-            ref={this.state.phoneInput}
-            defaultValue={this.state.value}
-            placeholder='Número de telefone'
-            placeholderStyle={{
-              justifyContent: "center"
-            }}
-            defaultCode="BR"
-            layout="first"
-            onChangeText={(text) => {
-              this.setState({ value: text });
-            }}
-            onChangeFormattedText={(text) => {
-              this.setState({ formattedValue: text });
-            }}
-            containerStyle={{
-              marginTop:RFValue(4),
-              borderWidth: RFValue(2),
-              borderRadius: RFValue(5)
-            }}
-            // disableArrowIcon={true}
-            
-            maxLength={14}
-            // withDarkTheme
-            withShadow
-            // autoFocus={true}
-          />
-          </View>
+              ref={this.state.phoneInput}
+              defaultValue={this.state.value}
+              placeholder='Número de telefone'
+              placeholderStyle={{
+                justifyContent: "center"
+              }}
+              defaultCode="BR"
+              layout="first"
+              onChangeText={(text) => {
+                this.setState({ value: text });
+              }}
+              onChangeFormattedText={(text) => {
+                this.setState({ formattedValue: text });
+              }}
+              containerStyle={{
+                marginTop: RFValue(4),
+                borderWidth: RFValue(2),
+                borderRadius: RFValue(5)
+              }}
+              // disableArrowIcon={true}
 
-          <View style={styles.margin}>
-            <Text style={styles.bodyText}>Data de Nascimento</Text>
-            <TextInput
-              placeholder="01/01/2000"
-              onChangeText={this.handleSearchTextChange3}
-              value={searchText3}
-              style={styles.textInputBirth}
+              maxLength={14}
+              // withDarkTheme
+              withShadow
+            // autoFocus={true}
             />
           </View>
 
           <View style={styles.margin}>
-            <Text style={styles.bodyText}>Gênero</Text>
-            <DropDownPicker
-              items={[
-                { label: "Masculino", value: "Masc" },
-                { label: "Feminino", value: "Fem" },
-              ]}
-              placeholder={this.renderPlaceholder()}
-              placeholderStyle={{
-                alignSelf: 'center',
-                textAlign: 'center'
-              }}
-              defaultValue={this.state.gender}
-              open={this.state.dropDownHeight == 170}
-              onOpen={() => this.setState({ dropDownHeight: 170 })}
-              onClose={() => this.setState({ dropDownHeight: 40 })}
-              style={{
-                backgroundColor: "white",
-                borderWidth: RFValue(2),
-                borderColor: "black",
-                width: RFValue(250),
-              }}
-              textStyle={{
-                color: "black",
-                fontWeight: 'bold'
-                // backgroundColor: "red",
-              }}
-              onSelectItem={(item) => {
-                this.setState({ gender: item.value })
-              }}
-              dropDownContainerStyle={{
-                // backgroundColor: "pink",
-                width: RFValue(250),
-              }}
-            // zIndexInverse={1000}
-            // zIndex={1000}
+            <Text style={styles.bodyText}>Data de Nascimento</Text>
+            <DatePicker
+              style={{ width: 200 }}
+              date={this.state.date}
+              mode="date"
+              placeholder="select date"
+              format="DD-MM-YYYY"
+              minDate="01-01-1950"
+              maxDate="01-01-2000"
+              confirmBtnText="Confirmar"
+              cancelBtnText="Cancelar"
+              showIcon={false}
+              onDateChange={(date) => { this.setState({ date: date }) }}
+              customStyles={
+                dateInput = {
+
+                }
+                
+              }
             />
           </View>
 
@@ -207,7 +172,7 @@ export default class AddClients1 extends Component {
           </TouchableOpacity>
         </View>
 
-        
+
       </View>
     )
   }
@@ -247,7 +212,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: RFValue(20),
     paddingRight: RFValue(65),
-    marginTop:RFValue(3),
+    marginTop: RFValue(3),
   },
   textInputName: {
     borderWidth: RFValue(1.5),
@@ -255,7 +220,7 @@ const styles = StyleSheet.create({
     padding: RFValue(10),
     height: RFValue(40),
     width: RFValue(290),
-    marginTop:RFValue(3),
+    marginTop: RFValue(3),
     backgroundColor: "white",
     // width: 10
   },
@@ -265,7 +230,7 @@ const styles = StyleSheet.create({
     padding: RFValue(10),
     height: RFValue(40),
     width: RFValue(150),
-    marginTop:RFValue(3),
+    marginTop: RFValue(3),
     // width: 10
   },
   textInputBirth: {
@@ -275,7 +240,7 @@ const styles = StyleSheet.create({
     height: RFValue(40),
     width: RFValue(290),
     backgroundColor: "white",
-    marginTop:RFValue(3),
+    marginTop: RFValue(3),
     // width: 10
   },
   textInputDescription: {
@@ -286,7 +251,7 @@ const styles = StyleSheet.create({
     width: RFValue(290),
     // width: 10,
     backgroundColor: "white",
-    marginTop:RFValue(3),
+    marginTop: RFValue(3),
   },
 
   body: {
@@ -309,40 +274,41 @@ const styles = StyleSheet.create({
   space: {
     width: "100%",
     // backgroundColor: "pink",
-    height: RFValue(84)
+    height: RFValue(176)
   },
-  fotter:{
+  fotter: {
     // backgroundColor:"gray",
-    justifyContent:'space-between',
-    flexDirection:'row',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    // alignSelf: 'flex-end'
   },
-  fotterTouchableOpacityLeft:{
-    width:"48%",
-    alignItems:'center',
-    justifyContent:'center',
-    borderWidth:RFValue(3),
-    borderRadius:RFValue(10),
-    padding:RFValue(6),
-    backgroundColor:"#990000"
+  fotterTouchableOpacityLeft: {
+    width: "48%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: RFValue(3),
+    borderRadius: RFValue(10),
+    padding: RFValue(6),
+    backgroundColor: "#990000"
   },
-  fotterTouchableOpacityRight:{
-    width:"48%",
-    alignItems:'center',
-    justifyContent:'center',
-    borderWidth:RFValue(3),
-    borderRadius:RFValue(10),
-    padding:RFValue(6),
+  fotterTouchableOpacityRight: {
+    width: "48%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: RFValue(3),
+    borderRadius: RFValue(10),
+    padding: RFValue(6),
     backgroundColor: "rgb(0,128,0)"
   },
-  fotterTextCancel:{
+  fotterTextCancel: {
     // fontWeight:'bold',
-    fontSize:RFValue(30),
-    color:"white"
+    fontSize: RFValue(30),
+    color: "white"
 
   },
-  fotterTextAdvance:{
+  fotterTextAdvance: {
     // fontWeight:'bold',
-    fontSize:RFValue(30),
-    color:"white"
+    fontSize: RFValue(30),
+    color: "white"
   },
 })
