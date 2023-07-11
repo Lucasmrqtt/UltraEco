@@ -13,14 +13,43 @@ import {
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import DatePicker from 'react-native-datepicker';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 export default class CashFlow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchText: ''
+      searchText: '',
+      selectedValue1: null,
+      selectedValue2: null,
     };
   }
+
+  handleValueChange1 = (itemValue) => {
+    this.setState({ selectedValue1: itemValue });
+  };
+
+  handleValueChange2 = (itemValue) => {
+    this.setState({ selectedValue2: itemValue });
+  };
+
+  renderPlaceholder1 = () => {
+    const { selectedValue1 } = this.state;
+    if (selectedValue1) {
+      return selectedValue1;
+    } else {
+      return 'Din / Nub / Sic / Déb / Créd';
+    }
+  };
+
+  renderPlaceholder2 = () => {
+    const { selectedValue2 } = this.state;
+    if (selectedValue2) {
+      return selectedValue2;
+    } else {
+      return 'Receita/Despesa';
+    }
+  };
 
   handleSearchTextChange = text => {
     this.setState({ searchText: text });
@@ -72,18 +101,85 @@ export default class CashFlow extends Component {
               <View style={styles.moneyFilter}>
                 <Text style={styles.filterText}> Filtro Pgmt </Text>
                 <View style={styles.textInputName}>
-                  <TouchableOpacity style={styles.moneyFilterButton}>
-                    <Text style={styles.moneyText}> Din / Nub / Sic / Déb / Céd</Text>
-                  </TouchableOpacity>
+                  <DropDownPicker
+                    items={[
+                      { label: "Dinheiro", value: "Din" },
+                      { label: "Nubank", value: "Nub" },
+                      { label: "Sicrédi", value: "Sic" },
+                      { label: "Débito", value: "Déb" },
+                      { label: "Crédito", value: "Créd" },
+                    ]}
+                    placeholder={this.renderPlaceholder1()}
+                    placeholderStyle={{
+                      alignSelf: 'center',
+                      textAlign: 'center'
+                    }}
+                    defaultValue={this.state.payment}
+                    open={this.state.dropDownHeight1 == 170}
+                    onOpen={() => this.setState({ dropDownHeight1: 170 })}
+                    onClose={() => this.setState({ dropDownHeight1: 40 })}
+                    style={{
+                      backgroundColor: "white",
+                      borderWidth: RFValue(2),
+                      borderColor: "black",
+                      width: RFValue(250),
+                    }}
+                    textStyle={{
+                      color: "black",
+                      fontWeight: 'bold'
+                      // backgroundColor: "red",
+                    }}
+                    onSelectItem={(item) => {
+                      this.setState({ payment: item.value })
+                    }}
+                    dropDownContainerStyle={{
+                      // backgroundColor: "pink",
+                      width: RFValue(250),
+                    }}
+                  // zIndexInverse={1000}
+                  // zIndex={1000}
+                  />
                 </View>
               </View>
 
               <View style={styles.moneyFilter}>
                 <Text style={styles.filterText}> Filtro Pgmt </Text>
                 <View style={styles.textInputName}>
-                  <TouchableOpacity style={styles.moneyFilterButton}>
-                    <Text style={styles.moneyText}> Receita / Despesas</Text>
-                  </TouchableOpacity>
+                  <DropDownPicker
+                    items={[
+                      { label: "Receita", value: "Rec" },
+                      { label: "Despesa", value: "Desp" },
+                    ]}
+                    placeholder={this.renderPlaceholder2()}
+                    placeholderStyle={{
+                      alignSelf: 'center',
+                      textAlign: 'center'
+                    }}
+                    defaultValue={this.state.payment}
+                    open={this.state.dropDownHeight2 == 170}
+                    onOpen={() => this.setState({ dropDownHeight2: 170 })}
+                    onClose={() => this.setState({ dropDownHeight2: 40 })}
+                    style={{
+                      backgroundColor: "white",
+                      borderWidth: RFValue(2),
+                      borderColor: "black",
+                      width: RFValue(150),
+                    }}
+                    textStyle={{
+                      color: "black",
+                      fontWeight: 'bold'
+                      // backgroundColor: "red",
+                    }}
+                    onSelectItem={(item) => {
+                      this.setState({ payment: item.value })
+                    }}
+                    dropDownContainerStyle={{
+                      // backgroundColor: "pink",
+                      width: RFValue(150),
+                    }}
+                  // zIndexInverse={1000}
+                  // zIndex={1000}
+                  />
                 </View>
               </View>
 
@@ -122,7 +218,7 @@ export default class CashFlow extends Component {
               </View>
 
               <View style={styles.fotterValuesContainer}>
-              <View style={styles.fotterValues}>
+                <View style={styles.fotterValues}>
                   <View>
                     <Text style={styles.fotterTextValue}>-30</Text>
                   </View>
@@ -157,7 +253,7 @@ export default class CashFlow extends Component {
                   </View>
                 </View>
               </View>
-              
+
             </View>
           </ScrollView>
 
@@ -196,7 +292,7 @@ const styles = StyleSheet.create({
     marginTop: RFValue(13),
     // backgroundColor: "green",
     width: "100%",
-    height: RFValue(305)
+    height: RFValue(340)
   },
   bodyTitles: {
     flexDirection: 'row',
@@ -306,8 +402,8 @@ const styles = StyleSheet.create({
     marginTop: RFValue(1),
     // backgroundColor: "orange",
     width: "100%",
-    justifyContent:'flex-start',
-     flexDirection: 'column',
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
     height: RFValue(1800),
     borderTopWidth: RFValue(1),
   },

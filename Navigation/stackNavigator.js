@@ -17,7 +17,7 @@ export default class StackNavigator extends Component{
       <Stack.Navigator>
         <Stack.Screen name="Home" component={TabNavigator}/>
         <Stack.Screen name="AddButton" component={AddButton}/>
-        <Stack.Screen name="Scheduling" component={Scheduling}/>
+        <Stack.Screen name="Scheduling" component={Scheduling} />
         {/* <Stack.Screen name="AddEmployee" component={AddEmployee}/> */}
         <Stack.Screen name="RegisterService" component={RegisterServices}/>
         <Stack.Screen name="AddClients" component={AddClients1}/>

@@ -27,15 +27,18 @@ export default class AddClients1 extends Component {
       speakerIcon: "chevron-back-outline",
       searchText1: '',
       searchText2: '',
-      searchText3: '',
-      searchText4: '',
       dropDownHeight: 40,
-      selectedValue: null,
+      selectedDate: null,
+      minDate: new Date(1, 1, 1), // Definindo a data mínima como a data atual
+      maxDate: new Date(31, 12, 2023),
       choseDate: '',
       phoneInput: null,
       value: "",
       formattedValue: '',
       date: null,
+      mode: "date",
+      show: false,
+      
     }
   }
 
@@ -51,20 +54,20 @@ export default class AddClients1 extends Component {
     this.setState({ searchText2: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-  handleSearchTextChange3 = text => {
-    this.setState({ searchText3: text });
-    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
+
+  onChange = (events, selectedDate) => {
+    const currentDate = selectedDate || date
+    this.state.show = Platform.OS == 'ios'
+    this.state.date = currentDate
+
+    let tempDate = new Date(currentDate)
+    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear()
   }
-  handleSearchTextChange4 = text => {
-    this.setState({ searchText4: text });
-    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
-  }
+
 
   render() {
     const { searchText1 } = this.state;
     const { searchText2 } = this.state;
-    const { searchText3 } = this.state;
-    const { searchText4 } = this.state;
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
@@ -86,7 +89,7 @@ export default class AddClients1 extends Component {
           <View style={styles.margin}>
             <Text style={styles.bodyText}>Nome</Text>
             <TextInput
-              placeholder="Digite o nome do seu cliente aqui (Max 40 caracteres)"
+              placeholder="Digite o nome do seu cliente aqui"
               placeholderStyle={{
                 justifyContent: "center"
               }}
@@ -131,23 +134,27 @@ export default class AddClients1 extends Component {
           <View style={styles.margin}>
             <Text style={styles.bodyText}>Data de Nascimento</Text>
             <DatePicker
-              style={{ width: 200 }}
+              testID='dateTimePicker'
+              value={this.state.date}
+              mode={this.state.mode}
+              onChange={this.onChange}
+              style={{ 
+                width: 200, 
+                borderWidth: RFValue(2),
+                borderRadius: RFValue(6),
+              }}
               date={this.state.date}
-              mode="date"
+              // mode="date"
+              // value={this.state.date}
               placeholder="select date"
               format="DD-MM-YYYY"
-              minDate="01-01-1950"
-              maxDate="01-01-2000"
+              minDate="1,1,2000"
+              maxDate="1,1,2000"
               confirmBtnText="Confirmar"
               cancelBtnText="Cancelar"
               showIcon={false}
               onDateChange={(date) => { this.setState({ date: date }) }}
-              customStyles={
-                dateInput = {
-
-                }
-                
-              }
+              // onDateChange={this.state.date}
             />
           </View>
 
@@ -155,8 +162,8 @@ export default class AddClients1 extends Component {
             <Text style={styles.bodyText}>Descrição</Text>
             <TextInput
               placeholder="Descrição do cliente"
-              onChangeText={this.handleSearchTextChange4}
-              value={searchText4}
+              onChangeText={this.handleSearchTextChange2}
+              value={searchText2}
               style={styles.textInputDescription}
             />
           </View>

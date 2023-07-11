@@ -13,27 +13,30 @@ import AddClients1 from "../Screens/addClients1";
 import AddClients2 from "../Screens/addClients2";
 
 const Tab = createMaterialBottomTabNavigator()
-const isTabBarVisible = (route) => {
-  const routeName = route.state
-      ? route.state.routes[route.state.index]?.name
-      :(route.params ? route.params.screens : 'HOME');
 
-  return ![
-    // Telas que ao precionar, irá sair o TabNavigator. EX: "AddClients "
-  ]
-}
 
 export default class TabNavigator extends Component {
+
   
+  isTabBarVisible = (route) => {
+    const routeName = route.state
+      ? route.state.routes[route.state.index]?.name
+      : (route.params ? route.params.screens : 'HOME');
+
+    return ![
+      // Telas que ao precionar, irá sair o TabNavigator. EX: "AddClients "
+      "AddClients1",
+      "AddClients2"  ].includes(routeName)
+  }
 
   render() {
     return (
       <Tab.Navigator
-        labeled={true}
+        // labeled={true}
         barStyle={styles.bottomTabStyle}
-        tabBarStyle={{ backgroundColor: 'transparent' }}
+        // tabBarStyle={{ backgroundColor: 'transparent' }}
         screenOptions={({ route }) => ({
-          tabBarVisile: isTabBarVisible(route),
+          tabBarVisile: this.isTabBarVisible(route),
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
             let iconSize = RFValue(20);
@@ -58,23 +61,23 @@ export default class TabNavigator extends Component {
               iconName = focused ? 'search' : 'search-outline';
             } else if (route.name === 'ScheduleChange') {
               iconName = focused ? 'options' : 'options-outline';
-            } 
+            }
 
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={iconSize} color={iconColor} style={styles.icons} />;
           },
         })}
-        initialRouteName="AddClient1" 
-        // initialRouteName="Schedule"
+        // initialRouteName="AddClients1" 
+        initialRouteName="Schedule"
         activeColor={"black"}
         inactiveColor={"gray"}
-
       >
-        <Tab.Screen name="Schedule" component={Schedule} />        
-        {/* <Tab.Screen name="Dashboard" component={Dashboard} />    */}
-        <Tab.Screen name="Addclients1" component={AddClients1} />   
-        {/* <Tab.Screen name="Clients" component={Clients} /> */}
-        <Tab.Screen name="AddClient2" component={AddClients2} />   
+        <Tab.Screen name="Schedule" component={Schedule} />
+        <Tab.Screen name="Dashboard" component={Dashboard} />   
+        {/* <Tab.Screen name="Addclients1" component={AddClients1} /> */}
+        <Tab.Screen name="Clients" component={Clients} />
+        {/* <Tab.Screen name="AddClients2" component={AddClients2} /> */}
+        {/* <Tab.Screen name="CashFlow" component={CashFlow} /> */}
         <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator >
     )
@@ -83,7 +86,7 @@ export default class TabNavigator extends Component {
 
 const styles = StyleSheet.create({
   bottomTabStyle: {
-    // backgroundColor: "white",
+    backgroundColor: "white",
     height: "10%",
     borderWidth: 1.5,
     // borderTopLeftRadius: RFValue(50),
@@ -94,6 +97,6 @@ const styles = StyleSheet.create({
   icons: {
     width: RFValue(30),
     height: RFValue(30),
-    // backgroundColor:"#7dff8c",   
+    backgroundColor:"white",
   }
 });

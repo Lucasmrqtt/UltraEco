@@ -29,27 +29,24 @@ export default class AddClients1 extends Component {
       searchText2: '',
       searchText3: '',
       searchText4: '',
+      searchText5: '',
       dropDownHeight: 40,
-      selectedValue: null,
-      gender: 'Masc',
+      selectedDate: null,
+      minDate: new Date(1, 1, 1), // Definindo a data mínima como a data atual
+      maxDate: new Date(31, 12, 2023),
       choseDate: '',
       phoneInput: null,
       value: "",
       formattedValue: '',
+      date: null,
+      mode: "date",
+      show: false,
+
     }
   }
 
   handleValueChange = (itemValue) => {
     this.setState({ selectedValue: itemValue });
-  };
-
-  renderPlaceholder = () => {
-    const { selectedValue } = this.state;
-    if (selectedValue) {
-      return selectedValue;
-    } else {
-      return 'Selecione o gênero';
-    }
   };
 
   handleSearchTextChange1 = text => {
@@ -68,12 +65,27 @@ export default class AddClients1 extends Component {
     this.setState({ searchText4: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
+  handleSearchTextChange5 = text => {
+    this.setState({ searchText5: text });
+    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
+  }
+
+  onChange = (events, selectedDate) => {
+    const currentDate = selectedDate || date
+    this.state.show = Platform.OS == 'ios'
+    this.state.date = currentDate
+
+    let tempDate = new Date(currentDate)
+    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear()
+  }
+
 
   render() {
     const { searchText1 } = this.state;
     const { searchText2 } = this.state;
     const { searchText3 } = this.state;
     const { searchText4 } = this.state;
+    const { searchText5 } = this.state;
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
@@ -92,10 +104,19 @@ export default class AddClients1 extends Component {
 
         <View style={styles.body}>
 
-          <View style={styles.margin}>
-            <Text style={styles.bodyText}>Nome</Text>
+          {/* Carro */}
+          <View style={{
+            marginTop: RFValue(10),
+            marginBottom: RFValue(15),
+            paddingLeft: RFValue(15)
+          }}>
+            <Text style={{
+              fontWeight: 'bold',
+              fontSize: RFValue(15),
+              // paddingBottom:RFValue(10)
+            }}>Carro</Text>
             <TextInput
-              placeholder="Digite o nome do seu cliente aqui (Max 40 caracteres)"
+              placeholder="Digite o nome do carro"
               placeholderStyle={{
                 justifyContent: "center"
               }}
@@ -105,109 +126,94 @@ export default class AddClients1 extends Component {
               maxLength={40}
             />
           </View>
+          
+          {/* Trabalho */}
+          <View style={styles.work}>
+            <View style={{ paddingLeft: RFValue(7), paddingTop: (7) }}>
+              <Text style={styles.txt}>Trabalho</Text>
+            </View>
+            {/* Endereço Trab */}
+            <View style={styles.margin}>
+              <Text style={styles.bodyText}>Endereço do trabalho</Text>
+              <TextInput
+                placeholder="Rua Tal, 100"
+                placeholderStyle={{
+                  justifyContent: "center"
+                }}
+                onChangeText={this.handleSearchTextChange2}
+                value={searchText2}
+                style={styles.textInputName}
+                maxLength={40}
+              />
+            </View>
 
-          <View style={styles.margin}>
-            <Text style={styles.bodyText}>Telefone</Text>
-            <PhoneInput
-            ref={this.state.phoneInput}
-            defaultValue={this.state.value}
-            placeholder='Número de telefone'
-            placeholderStyle={{
-              justifyContent: "center"
-            }}
-            defaultCode="BR"
-            layout="first"
-            onChangeText={(text) => {
-              this.setState({ value: text });
-            }}
-            onChangeFormattedText={(text) => {
-              this.setState({ formattedValue: text });
-            }}
-            containerStyle={{
-              marginTop:RFValue(4),
-              borderWidth: RFValue(2),
-              borderRadius: RFValue(5)
-            }}
-            // disableArrowIcon={true}
-            
-            maxLength={14}
-            // withDarkTheme
-            withShadow
-            // autoFocus={true}
-          />
+            {/*Bairro Trab */}
+            <View style={styles.margin}>
+              <Text style={styles.bodyText}>Bairro do Trabalho</Text>
+              <TextInput
+                placeholder="Rua tal, 100"
+                placeholderStyle={{
+                  justifyContent: "center"
+                }}
+                onChangeText={this.handleSearchTextChange3}
+                value={searchText3}
+                style={styles.textInputName}
+                maxLength={40}
+              />
+            </View>
           </View>
+          
+          <View style={{ height: RFValue(20) }}></View>
 
-          <View style={styles.margin}>
-            <Text style={styles.bodyText}>Data de Nascimento</Text>
-            <TextInput
-              placeholder="01/01/2000"
-              onChangeText={this.handleSearchTextChange3}
-              value={searchText3}
-              style={styles.textInputBirth}
-            />
-          </View>
+          {/* Casa */}
+          <View style={styles.house}>
+            <View style={{ paddingLeft: RFValue(7), paddingTop: (7) }}>
+              <Text style={styles.txt}>Casa</Text>
+            </View>
+            {/* Endereço Casa */}
+            <View style={styles.margin}>
+              <Text style={styles.bodyText}>Endereço Da casa</Text>
+              <TextInput
+                placeholder="Rua Tal, 100"
+                placeholderStyle={{
+                  justifyContent: "center"
+                }}
+                onChangeText={this.handleSearchTextChange4}
+                value={searchText4}
+                style={styles.textInputName}
+                maxLength={40}
+              />
+            </View>
 
-          <View style={styles.margin}>
-            <Text style={styles.bodyText}>Gênero</Text>
-            <DropDownPicker
-              items={[
-                { label: "Masculino", value: "Masc" },
-                { label: "Feminino", value: "Fem" },
-              ]}
-              placeholder={this.renderPlaceholder()}
-              placeholderStyle={{
-                alignSelf: 'center',
-                textAlign: 'center'
-              }}
-              defaultValue={this.state.gender}
-              open={this.state.dropDownHeight == 170}
-              onOpen={() => this.setState({ dropDownHeight: 170 })}
-              onClose={() => this.setState({ dropDownHeight: 40 })}
-              style={{
-                backgroundColor: "white",
-                borderWidth: RFValue(2),
-                borderColor: "black",
-                width: RFValue(250),
-              }}
-              textStyle={{
-                color: "black",
-                fontWeight: 'bold'
-                // backgroundColor: "red",
-              }}
-              onSelectItem={(item) => {
-                this.setState({ gender: item.value })
-              }}
-              dropDownContainerStyle={{
-                // backgroundColor: "pink",
-                width: RFValue(250),
-              }}
-            // zIndexInverse={1000}
-            // zIndex={1000}
-            />
-          </View>
-
-          <View style={styles.margin}>
-            <Text style={styles.bodyText}>Descrição</Text>
-            <TextInput
-              placeholder="Descrição do cliente"
-              onChangeText={this.handleSearchTextChange4}
-              value={searchText4}
-              style={styles.textInputDescription}
-            />
+            {/* Bairo Casa */}
+            <View style={styles.margin}>
+              <Text style={styles.bodyText}>Bairro da casa</Text>
+              <TextInput
+                placeholder="Centro"
+                placeholderStyle={{
+                  justifyContent: "center"
+                }}
+                onChangeText={this.handleSearchTextChange5}
+                value={searchText5}
+                style={styles.textInputName}
+                maxLength={40}
+              />
+            </View>
           </View>
         </View>
 
         <View style={styles.space}></View>
+
         <View style={styles.fotter}>
           <TouchableOpacity style={styles.fotterTouchableOpacityLeft}>
             <Text style={styles.fotterTextCancel}>Cancelar</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.fotterTouchableOpacityRight}>
-            <Text style={styles.fotterTextAdvance}>Avancar</Text>
+            <Text style={styles.fotterTextAdvance}>Concluir</Text>
           </TouchableOpacity>
         </View>
 
-        
+
       </View>
     )
   }
@@ -247,7 +253,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: RFValue(20),
     paddingRight: RFValue(65),
-    marginTop:RFValue(3),
+    marginTop: RFValue(3),
   },
   textInputName: {
     borderWidth: RFValue(1.5),
@@ -255,7 +261,7 @@ const styles = StyleSheet.create({
     padding: RFValue(10),
     height: RFValue(40),
     width: RFValue(290),
-    marginTop:RFValue(3),
+    marginTop: RFValue(3),
     backgroundColor: "white",
     // width: 10
   },
@@ -265,7 +271,7 @@ const styles = StyleSheet.create({
     padding: RFValue(10),
     height: RFValue(40),
     width: RFValue(150),
-    marginTop:RFValue(3),
+    marginTop: RFValue(3),
     // width: 10
   },
   textInputBirth: {
@@ -275,7 +281,7 @@ const styles = StyleSheet.create({
     height: RFValue(40),
     width: RFValue(290),
     backgroundColor: "white",
-    marginTop:RFValue(3),
+    marginTop: RFValue(3),
     // width: 10
   },
   textInputDescription: {
@@ -286,63 +292,82 @@ const styles = StyleSheet.create({
     width: RFValue(290),
     // width: 10,
     backgroundColor: "white",
-    marginTop:RFValue(3),
+    marginTop: RFValue(3),
   },
 
   body: {
     // backgroundColor: "green",
     justifyContent: 'flex-start',
-    paddingLeft: RFValue(15),
+    // paddingLeft: RFValue(15),
     marginTop: RFValue(10),
     alignContent: 'space-around'
   },
   margin: {
     // backgroundColor: "brown",
     marginTop: RFValue(10),
-    marginBottom: RFValue(10)
+    marginBottom: RFValue(10),
+    paddingLeft: RFValue(15)
+  },
+  work: {
+    // backgroundColor: "pink",
+    borderWidth: RFValue(3),
+    borderRadius: RFValue(8),
+    paddingBottom: RFValue(10)
+  },
+  house: {
+    // backgroundColor: "blue",
+    borderWidth: RFValue(3),
+    borderRadius: RFValue(8),
+    paddingBottom: RFValue(10)
   },
   bodyText: {
+    // fontWeight: 'bold',
+    fontSize: RFValue(15)
+  },
+  txt: {
+    paddingRight: RFValue(2),
     fontWeight: 'bold',
-    fontSize: RFValue(20)
+    fontSize: RFValue(17)
   },
 
   space: {
     width: "100%",
     // backgroundColor: "pink",
-    height: RFValue(84)
+    height: RFValue(24)
   },
-  fotter:{
+  fotter: {
     // backgroundColor:"gray",
-    justifyContent:'space-between',
-    flexDirection:'row',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    // alignSelf: 'flex-end'
   },
-  fotterTouchableOpacityLeft:{
-    width:"48%",
-    alignItems:'center',
-    justifyContent:'center',
-    borderWidth:RFValue(3),
-    borderRadius:RFValue(10),
-    padding:RFValue(6),
-    backgroundColor:"#990000"
+  fotterTouchableOpacityLeft: {
+    width: "48%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: RFValue(3),
+    borderRadius: RFValue(10),
+    padding: RFValue(6),
+    backgroundColor: "#990000"
   },
-  fotterTouchableOpacityRight:{
-    width:"48%",
-    alignItems:'center',
-    justifyContent:'center',
-    borderWidth:RFValue(3),
-    borderRadius:RFValue(10),
-    padding:RFValue(6),
+  fotterTouchableOpacityRight: {
+    width: "48%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: RFValue(3),
+    borderRadius: RFValue(10),
+    padding: RFValue(6),
     backgroundColor: "rgb(0,128,0)"
   },
-  fotterTextCancel:{
+  fotterTextCancel: {
     // fontWeight:'bold',
-    fontSize:RFValue(30),
-    color:"white"
+    fontSize: RFValue(30),
+    color: "white"
 
   },
-  fotterTextAdvance:{
+  fotterTextAdvance: {
     // fontWeight:'bold',
-    fontSize:RFValue(30),
-    color:"white"
+    fontSize: RFValue(30),
+    color: "white"
   },
 })
