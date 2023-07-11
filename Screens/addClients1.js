@@ -10,46 +10,70 @@ import {
   Platform,
   SafeAreaView,
   TextInput,
+  KeyboardAvoidingView,
+  Alert
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-datepicker';
 import AddClients2 from './addClients2';
+import PhoneInput from 'react-native-phone-number-input';
 
 export default class AddClients1 extends Component {
   constructor(props) {
     super(props)
     this.state = {
       speakerIcon: "chevron-back-outline",
-      searchText: '',
+      searchText1: '',
+      searchText2: '',
+      searchText3: '',
+      searchText4: '',
       dropDownHeight: 40,
-      selectedValue1: null,
-      gender: "Masc",
-      choseDate: "",
+      selectedValue: null,
+      gender: 'Masc',
+      choseDate: '',
+      phoneInput: null,
+      value: "",
+      formattedValue: '',
     }
   }
 
   handleValueChange = (itemValue) => {
-    this.setState({ selectedValue1: itemValue });
+    this.setState({ selectedValue: itemValue });
   };
 
   renderPlaceholder = () => {
-    const { selectedValue1 } = this.state;
-    if (selectedValue1) {
-      return selectedValue1;
+    const { selectedValue } = this.state;
+    if (selectedValue) {
+      return selectedValue;
     } else {
       return 'Selecione o gênero';
     }
   };
 
-  handleSearchTextChange = text => {
-    this.setState({ searchText: text });
+  handleSearchTextChange1 = text => {
+    this.setState({ searchText1: text });
+    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
+  }
+  handleSearchTextChange2 = text => {
+    this.setState({ searchText2: text });
+    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
+  }
+  handleSearchTextChange3 = text => {
+    this.setState({ searchText3: text });
+    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
+  }
+  handleSearchTextChange4 = text => {
+    this.setState({ searchText4: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
 
   render() {
-    const { searchText } = this.state;
+    const { searchText1 } = this.state;
+    const { searchText2 } = this.state;
+    const { searchText3 } = this.state;
+    const { searchText4 } = this.state;
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
@@ -65,42 +89,66 @@ export default class AddClients1 extends Component {
             <Text style={styles.titleText}>1 de 2</Text>
           </View>
         </View>
-      
+
         <View style={styles.body}>
 
-          <View style={styles.containerName}>
+          <View style={styles.margin}>
             <Text style={styles.bodyText}>Nome</Text>
             <TextInput
-              placeholder="Digite o nome do seu cliente aqui"
-              onChangeText={this.handleSearchTextChange}
-              value={searchText}
-              style={styles.textInput}
+              placeholder="Digite o nome do seu cliente aqui (Max 40 caracteres)"
+              placeholderStyle={{
+                justifyContent: "center"
+              }}
+              onChangeText={this.handleSearchTextChange1}
+              value={searchText1}
+              style={styles.textInputName}
               maxLength={40}
             />
           </View>
 
-          {/* <View style={styles.containerTel}>
-            <Text>Telefone</Text>
+          <View style={styles.margin}>
+            <Text style={styles.bodyText}>Telefone</Text>
+            <PhoneInput
+            ref={this.state.phoneInput}
+            defaultValue={this.state.value}
+            placeholder='Número de telefone'
+            placeholderStyle={{
+              justifyContent: "center"
+            }}
+            defaultCode="BR"
+            layout="first"
+            onChangeText={(text) => {
+              this.setState({ value: text });
+            }}
+            onChangeFormattedText={(text) => {
+              this.setState({ formattedValue: text });
+            }}
+            containerStyle={{
+              marginTop:RFValue(4),
+              borderWidth: RFValue(2),
+              borderRadius: RFValue(5)
+            }}
+            // disableArrowIcon={true}
+            
+            maxLength={14}
+            // withDarkTheme
+            withShadow
+            // autoFocus={true}
+          />
+          </View>
+
+          <View style={styles.margin}>
+            <Text style={styles.bodyText}>Data de Nascimento</Text>
             <TextInput
               placeholder="01/01/2000"
-              onChangeText={this.handleSearchTextChange}
-              value={searchText}
-              style={styles.textInput}
+              onChangeText={this.handleSearchTextChange3}
+              value={searchText3}
+              style={styles.textInputBirth}
             />
           </View>
 
-          <View style={styles.containerBirth}>
-            <Text>Data de Nascimento</Text>
-            <TextInput
-              placeholder="Digite aqui para pesquisar"
-              onChangeText={this.handleSearchTextChange}
-              value={searchText}
-              style={styles.textInput}
-            />
-          </View>
-
-          <View style={styles.containerGender}>
-            <Text>Gênero</Text>
+          <View style={styles.margin}>
+            <Text style={styles.bodyText}>Gênero</Text>
             <DropDownPicker
               items={[
                 { label: "Masculino", value: "Masc" },
@@ -138,27 +186,28 @@ export default class AddClients1 extends Component {
             />
           </View>
 
-          <View style={styles.containerDescription}>
-            <Text>Descrição</Text>
+          <View style={styles.margin}>
+            <Text style={styles.bodyText}>Descrição</Text>
             <TextInput
-              placeholder=""
-              onChangeText={this.handleSearchTextChange}
-              value={searchText}
-              style={styles.textInput}
+              placeholder="Descrição do cliente"
+              onChangeText={this.handleSearchTextChange4}
+              value={searchText4}
+              style={styles.textInputDescription}
             />
-          </View> */}
+          </View>
         </View>
 
-        {/* <View style={styles.fotter}>
-          <TouchableOpacity>
-            <Text>Cancelar</Text>
+        <View style={styles.space}></View>
+        <View style={styles.fotter}>
+          <TouchableOpacity style={styles.fotterTouchableOpacityLeft}>
+            <Text style={styles.fotterTextCancel}>Cancelar</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Text>Avancar</Text>
+          <TouchableOpacity style={styles.fotterTouchableOpacityRight}>
+            <Text style={styles.fotterTextAdvance}>Avancar</Text>
           </TouchableOpacity>
-        </View> */}
+        </View>
 
-        {/* <View style={styles.space}></View> */}
+        
       </View>
     )
   }
@@ -167,6 +216,7 @@ export default class AddClients1 extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
     // justifyContent: "center",
     // alignItems:"center",
   },
@@ -175,7 +225,7 @@ const styles = StyleSheet.create({
       Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
   },
   header: {
-    backgroundColor: "pink",
+    // backgroundColor: "pink",
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -188,39 +238,111 @@ const styles = StyleSheet.create({
   title: {
     // backgroundColor: "blue",
     justifyContent: 'center',
-    alignItems:'center',
+    alignItems: 'center',
     flex: 1,
     marginLeft: RFValue(20),
   },
   titleText: {
     // backgroundColor: "purple",
-    fontWeight:'bold',
-    fontSize:RFValue(20),
-    paddingRight:RFValue(65)
+    fontWeight: 'bold',
+    fontSize: RFValue(20),
+    paddingRight: RFValue(65),
+    marginTop:RFValue(3),
   },
-  textInput: {
+  textInputName: {
     borderWidth: RFValue(1.5),
     borderRadius: RFValue(4),
     padding: RFValue(10),
     height: RFValue(40),
-    width: RFValue(260)
+    width: RFValue(290),
+    marginTop:RFValue(3),
+    backgroundColor: "white",
     // width: 10
   },
+  textInputTel: {
+    borderWidth: RFValue(1.5),
+    borderRadius: RFValue(4),
+    padding: RFValue(10),
+    height: RFValue(40),
+    width: RFValue(150),
+    marginTop:RFValue(3),
+    // width: 10
+  },
+  textInputBirth: {
+    borderWidth: RFValue(1.5),
+    borderRadius: RFValue(4),
+    padding: RFValue(10),
+    height: RFValue(40),
+    width: RFValue(290),
+    backgroundColor: "white",
+    marginTop:RFValue(3),
+    // width: 10
+  },
+  textInputDescription: {
+    borderWidth: RFValue(1.5),
+    borderRadius: RFValue(4),
+    padding: RFValue(10),
+    height: RFValue(53),
+    width: RFValue(290),
+    // width: 10,
+    backgroundColor: "white",
+    marginTop:RFValue(3),
+  },
 
-  body:{
-    backgroundColor: "green",
-    justifyContent:'flex-start',
-    paddingLeft:RFValue(10),
-    marginTop:RFValue(10),
-    alignContent:'space-around'
+  body: {
+    // backgroundColor: "green",
+    justifyContent: 'flex-start',
+    paddingLeft: RFValue(15),
+    marginTop: RFValue(10),
+    alignContent: 'space-around'
   },
-  containerName:{
-    backgroundColor: "brown",
-    marginTop:RFValue(10),
-    marginBottom:RFValue(10)
+  margin: {
+    // backgroundColor: "brown",
+    marginTop: RFValue(10),
+    marginBottom: RFValue(10)
   },
-  bodyText:{
-    fontWeight:'bold',
-    fontSize:RFValue(20)
+  bodyText: {
+    fontWeight: 'bold',
+    fontSize: RFValue(20)
+  },
+
+  space: {
+    width: "100%",
+    // backgroundColor: "pink",
+    height: RFValue(84)
+  },
+  fotter:{
+    // backgroundColor:"gray",
+    justifyContent:'space-between',
+    flexDirection:'row',
+  },
+  fotterTouchableOpacityLeft:{
+    width:"48%",
+    alignItems:'center',
+    justifyContent:'center',
+    borderWidth:RFValue(3),
+    borderRadius:RFValue(10),
+    padding:RFValue(6),
+    backgroundColor:"#990000"
+  },
+  fotterTouchableOpacityRight:{
+    width:"48%",
+    alignItems:'center',
+    justifyContent:'center',
+    borderWidth:RFValue(3),
+    borderRadius:RFValue(10),
+    padding:RFValue(6),
+    backgroundColor: "rgb(0,128,0)"
+  },
+  fotterTextCancel:{
+    // fontWeight:'bold',
+    fontSize:RFValue(30),
+    color:"white"
+
+  },
+  fotterTextAdvance:{
+    // fontWeight:'bold',
+    fontSize:RFValue(30),
+    color:"white"
   },
 })

@@ -10,7 +10,7 @@ import Settings from "../Screens/settings";
 import DrawerNavigator from "./drawerNavigator";
 import CashFlow from "../Screens/cashFlow";
 import AddClients1 from "../Screens/addClients1";
-
+import AddClients2 from "../Screens/addClients2";
 
 const Tab = createMaterialBottomTabNavigator()
 const isTabBarVisible = (route) => {
@@ -64,8 +64,8 @@ export default class TabNavigator extends Component {
             return <Ionicons name={iconName} size={iconSize} color={iconColor} style={styles.icons} />;
           },
         })}
-        // initialRouteName="Dashboard" 
-        initialRouteName="Schedule"
+        initialRouteName="AddClient2" 
+        // initialRouteName="Schedule"
         activeColor={"black"}
         inactiveColor={"gray"}
 
@@ -73,7 +73,7 @@ export default class TabNavigator extends Component {
         <Tab.Screen name="Schedule" component={Schedule} />        
         <Tab.Screen name="Dashboard" component={Dashboard} />   
         {/* <Tab.Screen name="Clients" component={Clients} /> */}
-        <Tab.Screen name="Clients" component={AddClients1} />   
+        <Tab.Screen name="AddClient2" component={AddClients2} />   
         <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator >
     )
