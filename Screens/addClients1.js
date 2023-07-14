@@ -29,8 +29,8 @@ export default class AddClients1 extends Component {
       searchText2: '',
       dropDownHeight: 40,
       selectedDate: null,
-      minDate: new Date(1, 1, 1), // Definindo a data mínima como a data atual
-      maxDate: new Date(31, 12, 2023),
+      minDate: "1-1-1920", // Definindo a data mínima como a data atual
+      maxDate: new Date(Date.now()).toLocaleString().split(","),
       choseDate: '',
       phoneInput: null,
       value: "",
@@ -56,7 +56,7 @@ export default class AddClients1 extends Component {
   }
 
   onChange = (events, selectedDate) => {
-    const currentDate = selectedDate || date
+    const currentDate = selectedDate || this.state.date
     this.state.show = Platform.OS == 'ios'
     this.state.date = currentDate
 
@@ -122,12 +122,12 @@ export default class AddClients1 extends Component {
                 borderWidth: RFValue(2),
                 borderRadius: RFValue(5)
               }}
+              // confirmBtnText
               // disableArrowIcon={true}
-
-              maxLength={14}
+              // confirmBtnText="Confirmar"
               // withDarkTheme
               withShadow
-            // autoFocus={true}
+              // autoFocus={true}
             />
           </View>
 
@@ -148,8 +148,8 @@ export default class AddClients1 extends Component {
               // value={this.state.date}
               placeholder="select date"
               format="DD-MM-YYYY"
-              minDate="1,1,2000"
-              maxDate="1,1,2000"
+              minDate="1/2000"
+              maxDate="1/1/2000"
               confirmBtnText="Confirmar"
               cancelBtnText="Cancelar"
               showIcon={false}

@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   Image,
@@ -41,7 +41,6 @@ export default class AddClients1 extends Component {
       date: null,
       mode: "date",
       show: false,
-
     }
   }
 
@@ -170,6 +169,7 @@ export default class AddClients1 extends Component {
             <View style={{ paddingLeft: RFValue(7), paddingTop: (7) }}>
               <Text style={styles.txt}>Casa</Text>
             </View>
+            
             {/* Endereço Casa */}
             <View style={styles.margin}>
               <Text style={styles.bodyText}>Endereço Da casa</Text>

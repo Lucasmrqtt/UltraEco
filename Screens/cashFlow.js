@@ -200,55 +200,55 @@ export default class CashFlow extends Component {
           <ScrollView horizontal={true} >
             <View style={styles.fotter}>
               <View style={styles.fotterTexts}>
-                <View>
+                <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Valor</Text>
                 </View>
-                <View>
+                <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Nome</Text>
                 </View>
-                <View>
+                <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Data</Text>
                 </View>
-                <View>
+                <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Pgmt</Text>
                 </View>
-                <View>
+                <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Valor CX</Text>
                 </View>
               </View>
 
               <View style={styles.fotterValuesContainer}>
                 <View style={styles.fotterValues}>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>-30</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>Produto</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>11/04/2023</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>Crédito</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>105</Text>
                   </View>
                 </View>
                 <View style={styles.fotterValues}>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>135</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>Lucas Marquetti</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>10/04/2023</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>Nubank</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>135</Text>
                   </View>
                 </View>
@@ -406,6 +406,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     height: RFValue(1800),
     borderTopWidth: RFValue(1),
+  },
+  containerFotterValues:{
+    width:RFValue(100),
+    alignItems:'center',
+    // backgroundColor:"pink"
+    // height: this.state.teste + 10
   },
   fotterTexts: {
     // backgroundColor: "pink",

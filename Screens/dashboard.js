@@ -27,6 +27,7 @@ export default class Dashboard extends Component {
       selectedValue2: null,
       payment: "Din",
       choseDate: "",
+      teste:"",
     };
   }
 
@@ -234,82 +235,82 @@ export default class Dashboard extends Component {
           <ScrollView horizontal={true} >
             <View style={styles.fotter}>
               <View style={styles.fotterTexts}>
-                <View>
+                <View value={this.state.teste} style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Código</Text>
-                </View>
-                <View>
+                </View >
+                <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Data</Text>
                 </View>
-                <View>
+                <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Cliente</Text>
                 </View>
-                <View>
+                <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Profissional</Text>
                 </View>
-                <View>
+                <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Serviço</Text>
                 </View>
-                <View>
+                <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Valor</Text>
                 </View>
-                <View>
+                <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Desc.</Text>
                 </View>
-                <View>
+                <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Pagamento</Text>
                 </View>
               </View>
 
               <View style={styles.fotterValuesContainer}>
                 <View style={styles.fotterValues}>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>002</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>10/04/2023</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>Gloria Marquetti</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>Pedro</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>Polimento</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>150,00</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>10%</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>135,00 Din</Text>
                   </View>
                 </View>
                 <View style={styles.fotterValues}>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>001</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>10/04/2023</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>Lucas Marquetti</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>Leonardo</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>Lavagem</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>150,00</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>10%</Text>
                   </View>
-                  <View>
+                  <View style={styles.containerFotterValues}>
                     <Text style={styles.fotterTextValue}>135,00 Nub</Text>
                   </View>
                 </View>
@@ -329,6 +330,7 @@ export default class Dashboard extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#FFF"
     // justifyContent:"center",
     // alignItems:"center",
   },
@@ -595,12 +597,13 @@ const styles = StyleSheet.create({
     width: RFValue(1000),
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    // justifyContent: 'space-around',
     // marginTop:RFValue(4),
   },
   fotterText: {
     fontWeight: 'bold',
-    fontSize: RFValue(12)
+    fontSize: RFValue(12),
+    alignItems:'center'
   },
   fotterValuesContainer: {
     // backgroundColor: "brown",
@@ -612,17 +615,23 @@ const styles = StyleSheet.create({
     // backgroundColor: "purple",
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    // justifyContent: 'space-around',
     height: RFValue(20),
     width: "100%",
-    padding: RFValue(3)
+    // padding: RFValue(3)
   },
   fotterTextValue: {
     // color: "red"
   },
+  containerFotterValues:{
+    width:RFValue(100),
+    alignItems:'center',
+    // backgroundColor:"pink"
+    // height: this.state.teste + 10
+  },
   space: {
     width: "100%",
-    backgroundColor: "pink",
+    // backgroundColor: "pink",
     height: RFValue(80)
   },
 })
