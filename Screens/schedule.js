@@ -57,35 +57,86 @@ export default class Schedule extends Component {
 
           </View>
 
-
-
           <View style={styles.bgHours}>
-            <Text style={styles.hours}>7h</Text>
-            <Text style={styles.hours}>7:30</Text>
-            <Text style={styles.hours}>8h</Text>
-            <Text style={styles.hours}>8:30</Text>
-            <Text style={styles.hours}>9h</Text>
-            <Text style={styles.hours}>9:30</Text>
-            <Text style={styles.hours}>10h</Text>
-            <Text style={styles.hours}>10:30</Text>
-            <Text style={styles.hours}>11h</Text>
-            <Text style={styles.hours}>11:30</Text>
-            <Text style={styles.hours}>12h</Text>
-            <Text style={styles.hours}>12:30</Text>
-            <Text style={styles.hours}>13h</Text>
-            <Text style={styles.hours}>13:30</Text>
-            <Text style={styles.hours}>14h</Text>
-            <Text style={styles.hours}>14:30</Text>
-            <Text style={styles.hours}>15h</Text>
-            <Text style={styles.hours}>15:30</Text>
-            <Text style={styles.hours}>16h</Text>
-            <Text style={styles.hours}>16:30</Text>
-            <Text style={styles.hours}>17h</Text>
-            <Text style={styles.hours}>17:30</Text>
-            <Text style={styles.hours}>18h</Text>
-            <Text style={styles.hours}>18:30</Text>
-            <Text style={styles.hours}>19h</Text>
+
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>7h</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>7:30</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>8h</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>8:30</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>9h</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>9:30</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>10h</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>10:30</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>11h</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>11:30</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>12h</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>12:30</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>13h</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>13:30</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>14h</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>14:30</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>15h</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>15:30</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>16h</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>16:30</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>17h</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>17:30</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>18h</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>18:30</Text>
+            </View>
+            <View style={styles.hours}>
+              <Text style={styles.hoursTxt}>19h</Text>
+            </View>
+
           </View>
+          <View style={styles.space}></View>
         </ScrollView>
       </View>
     );
@@ -95,6 +146,7 @@ export default class Schedule extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff"
     // justifyContent: "center",
     // alignItems: "center",
   },
@@ -153,18 +205,25 @@ const styles = StyleSheet.create({
     margin:5,
     // fontWeight:"bold",
     fontSize:20,
+    // backgroundColor:"red"
   },
   hours: {
-    // backgroundColor: 'red',
-    justifyContent: "flex-start",
-    margin: 5.7,
-    width: RFValue(35),
-    fontWeight: 'bold',
+    alignItems:'center',
+    justifyContent:'center',
+    marginTop:RFValue(30)
+  },
+  hoursTxt:{
+    fontSize:RFValue(15)
   },
   bgHours: {
     backgroundColor: '#bdbdbd',
-    justifyContent: "flex-start",
-    // alignItems:'stretch',
     width: RFValue(50),
+    height:RFValue(1180),
+    alignItems:'center'
+  },
+  space: {
+    width: "100%",
+    // backgroundColor: "brown",
+    height: RFValue(75)
   },
 });

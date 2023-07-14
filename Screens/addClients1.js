@@ -64,7 +64,6 @@ export default class AddClients1 extends Component {
     let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear()
   }
 
-
   render() {
     const { searchText1 } = this.state;
     const { searchText2 } = this.state;

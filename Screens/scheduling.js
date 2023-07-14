@@ -5,9 +5,13 @@ export default class Scheduling extends Component{
   render(){
     return(
       <View style={styles.container}>
-        <Text style={styles.text}>
-          Scheduling
-        </Text>
+        {/* Escolha o cliente */}
+        {/* Escolha o serviço */}
+        {/* Escolha a Duração */}
+        {/* Escolha o Profissional */}
+        {/* Observação */}
+        {/* Repetir? Semanalmente, uma vez po dia, etc */}
+        {/* Botão de cancelar / Botao de Concluir */}
       </View>
     )
   }

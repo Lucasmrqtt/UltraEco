@@ -17,10 +17,9 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-datepicker';
-import AddClients2 from './addClients2';
 import PhoneInput from 'react-native-phone-number-input';
 
-export default class AddClients1 extends Component {
+export default class AddClients2 extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -52,18 +51,22 @@ export default class AddClients1 extends Component {
     this.setState({ searchText1: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
+
   handleSearchTextChange2 = text => {
     this.setState({ searchText2: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
+
   handleSearchTextChange3 = text => {
     this.setState({ searchText3: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
+
   handleSearchTextChange4 = text => {
     this.setState({ searchText4: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
+
   handleSearchTextChange5 = text => {
     this.setState({ searchText5: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
@@ -77,7 +80,6 @@ export default class AddClients1 extends Component {
     let tempDate = new Date(currentDate)
     let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear()
   }
-
 
   render() {
     const { searchText1 } = this.state;
@@ -294,7 +296,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: RFValue(3),
   },
-
   body: {
     // backgroundColor: "green",
     justifyContent: 'flex-start',

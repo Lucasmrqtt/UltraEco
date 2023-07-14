@@ -65,7 +65,6 @@ export default class Dashboard extends Component {
 
   render() {
     const { searchText } = this.state;
-
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
@@ -594,7 +593,7 @@ const styles = StyleSheet.create({
   fotterTexts: {
     // backgroundColor: "pink",
     height: RFValue(20),
-    width: RFValue(1000),
+    // width: RFValue(1000),
     flexDirection: 'row',
     alignItems: 'center',
     // justifyContent: 'space-around',
@@ -624,10 +623,11 @@ const styles = StyleSheet.create({
     // color: "red"
   },
   containerFotterValues:{
-    width:RFValue(100),
+    width:RFValue(120),
     alignItems:'center',
     // backgroundColor:"pink"
     // height: this.state.teste + 10
+    
   },
   space: {
     width: "100%",
