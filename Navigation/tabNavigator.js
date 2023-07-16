@@ -13,6 +13,8 @@ import AddClients1 from "../Screens/addClients1";
 import AddClients2 from "../Screens/addClients2";
 import AddEmployee from "../Screens/addEmployee";
 
+import Login from "../Screens/login";
+
 const Tab = createMaterialBottomTabNavigator()
 
 
@@ -66,19 +68,16 @@ export default class TabNavigator extends Component {
               // You can return any component that you like here!
               return <Ionicons name={iconName} size={iconSize} color={iconColor} style={styles.icons} />;
             },
-          })}
-          // initialRouteName="AddClients1" 
-          initialRouteName="Schedule"
+          })} 
+          // initialRouteName="Schedule"
           activeColor={"black"}
           inactiveColor={"gray"}
         >
-          <Tab.Screen name="Schedule" component={Schedule} />
-          <Tab.Screen name="Dashboard" component={Dashboard} />
-          {/* <Tab.Screen name="Addclients1" component={AddClients1} /> */}
+          {/* <Tab.Screen name="Schedule" component={Schedule} /> */}
+          <Tab.Screen name="AddClients1" component={AddClients1} />
+          <Tab.Screen name="AddClients2" component={AddClients2} />
+          {/* <Tab.Screen name="Dashboard" component={Dashboard} /> */}
           <Tab.Screen name="Clients" component={Clients} />
-          {/* <Tab.Screen name="AddClients2" component={AddClients2} /> */}
-          {/* <Tab.Screen name="CashFlow" component={CashFlow} /> */}
-          {/* <Tab.Screen name="AddEmployee" component={AddEmployee} /> */}
           <Tab.Screen name="Settings" component={Settings} />
         </Tab.Navigator >
     )

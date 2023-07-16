@@ -10,6 +10,7 @@ import {
   Platform,
   SafeAreaView,
   TextInput,
+  Keyboard,
   KeyboardAvoidingView,
   Alert
 } from 'react-native';
@@ -25,6 +26,7 @@ export default class AddClients1 extends Component {
     super(props)
     this.state = {
       speakerIcon: "chevron-back-outline",
+      Check: "checkmark-outline",
       searchText1: '',
       searchText2: '',
       dropDownHeight: 40,
@@ -38,7 +40,7 @@ export default class AddClients1 extends Component {
       date: null,
       mode: "date",
       show: false,
-      
+
     }
   }
 
@@ -68,7 +70,7 @@ export default class AddClients1 extends Component {
     const { searchText1 } = this.state;
     const { searchText2 } = this.state;
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.header}>
           <TouchableOpacity style={styles.back}>
@@ -126,7 +128,7 @@ export default class AddClients1 extends Component {
               // confirmBtnText="Confirmar"
               // withDarkTheme
               withShadow
-              // autoFocus={true}
+            // autoFocus={true}
             />
           </View>
 
@@ -137,8 +139,8 @@ export default class AddClients1 extends Component {
               value={this.state.date}
               mode={this.state.mode}
               onChange={this.onChange}
-              style={{ 
-                width: 200, 
+              style={{
+                width: 200,
                 borderWidth: RFValue(2),
                 borderRadius: RFValue(6),
               }}
@@ -153,18 +155,30 @@ export default class AddClients1 extends Component {
               cancelBtnText="Cancelar"
               showIcon={false}
               onDateChange={(date) => { this.setState({ date: date }) }}
-              // onDateChange={this.state.date}
+            // onDateChange={this.state.date}
             />
           </View>
 
           <View style={styles.margin}>
             <Text style={styles.bodyText}>Descrição</Text>
-            <TextInput
-              placeholder="Descrição do cliente"
-              onChangeText={this.handleSearchTextChange2}
-              value={searchText2}
-              style={styles.textInputDescription}
-            />
+            <View style={{
+              flexDirection:'row',
+              // backgroundColor:"pink"
+            }}>
+              <TextInput
+                placeholder="Descrição do cliente"
+                multiline={true}
+                onChangeText={this.handleSearchTextChange2}
+                value={searchText2}
+                style={styles.textInputDescription}
+              />
+              <TouchableOpacity onPress={Keyboard.dismiss}>
+                <Ionicons
+                  name={this.state.Check}
+                  size={RFValue(40)}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
 
@@ -179,7 +193,7 @@ export default class AddClients1 extends Component {
         </View>
 
 
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }
@@ -250,13 +264,16 @@ const styles = StyleSheet.create({
     // width: 10
   },
   textInputDescription: {
+    flex:1,
     borderWidth: RFValue(1.5),
     borderRadius: RFValue(4),
     padding: RFValue(10),
-    height: RFValue(53),
-    width: RFValue(290),
+    marginRight:RFValue(10),
+    height: RFValue(40),
+    width: RFValue(10),
+    // justifyContent:'center',
     // width: 10,
-    backgroundColor: "white",
+    // backgroundColor: "blue",
     marginTop: RFValue(3),
   },
 
@@ -269,6 +286,7 @@ const styles = StyleSheet.create({
   },
   margin: {
     // backgroundColor: "brown",
+    paddingEnd:40,
     marginTop: RFValue(10),
     marginBottom: RFValue(10)
   },
@@ -280,7 +298,7 @@ const styles = StyleSheet.create({
   space: {
     width: "100%",
     // backgroundColor: "pink",
-    height: RFValue(176)
+    height: RFValue(186)
   },
   fotter: {
     // backgroundColor:"gray",
@@ -317,4 +335,25 @@ const styles = StyleSheet.create({
     fontSize: RFValue(30),
     color: "white"
   },
+
+  sectionStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderWidth: 0.5,
+    borderColor: '#000',
+    height: 40,
+    borderRadius: 5,
+    margin: 10,
+    backgroundColor:"gray"
+  },
+  imageStyle: {
+    padding: 10,
+    margin: 5,
+    height: 25,
+    width: 25,
+    resizeMode: 'stretch',
+    alignItems: 'center',
+  }
 })
