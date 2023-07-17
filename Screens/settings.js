@@ -1,26 +1,54 @@
-import React, {Component} from "react";
-import { Text, View, StyleSheet } from "react-native";
+import React, { Component } from 'react';
+import {
+  Text,
+  Image,
+  View,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  StatusBar,
+  Platform,
+  SafeAreaView,
+  TextInput,
+  KeyboardAvoidingView,
+  Alert
+} from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize';
+import Ionicons from "react-native-vector-icons/Ionicons";
 
-export default class Settings extends Component{
-  render(){
-    return(
+export default class Settings extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      speakerIcon: "chevron-back-outline",
+    }
+  }
+  render() {
+    return (
       <View style={styles.container}>
         <Text style={styles.text}>
-          Settings
-        </Text>
+          Tela em manutenção (Configurações)
+        </Text> 
+        <TouchableOpacity style={{flexDirection:'row', alignItems:'center'}} onPress={() => this.props.navigation.navigate("Schedule")}>
+          <Ionicons
+            name={this.state.speakerIcon}
+            size={RFValue(40)}
+          />
+          <Text style={styles.text}> Voltar</Text>
+        </TouchableOpacity>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    justifyContent:"center",
-    alignItems:"center",
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  text:{
-    fontSize:20,
-    fontWeight:"bold",
+  text: {
+    fontSize: 20,
+    fontWeight: "bold",
   },
 })

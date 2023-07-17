@@ -1,7 +1,6 @@
 import React, { Component, useState } from 'react';
 import {
   Text,
-  Image,
   View,
   ScrollView,
   StyleSheet,
@@ -10,11 +9,13 @@ import {
   Platform,
   SafeAreaView,
   TextInput,
+  FlatList
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import DatePicker from 'react-native-datepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
-import CashFlow from './cashFlow';
+
+var clients = require("./Clients.json")
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -27,7 +28,7 @@ export default class Dashboard extends Component {
       selectedValue2: null,
       payment: "Din",
       choseDate: "",
-      teste:"",
+      teste: "",
     };
   }
 
@@ -57,6 +58,47 @@ export default class Dashboard extends Component {
     }
   };
 
+  renderItem = ({ item }) => {
+    // nome = item.nome
+    // if (nome.lenght > 15) {
+    //   nome = nome.nome.split('')
+
+    // }
+    return (
+      <View style={styles.fotterValuesContainer}>
+        <View style={styles.fotterValues}>
+          <View style={styles.containerFotterValues}>
+            <Text style={styles.fotterTextValue}>{item.codigo}</Text>
+          </View>
+          <View style={styles.containerFotterValues}>
+            <Text style={styles.fotterTextValue}>{item.data}</Text>
+          </View>
+          <View style={{
+            width: RFValue(255),
+            alignItems: 'center',
+            // backgroundColor:"purple"
+          }}>
+            <Text style={styles.fotterTextValue}>{item.nome}</Text>
+          </View>
+          <View style={styles.containerFotterValues}>
+            <Text style={styles.fotterTextValue}>{item.profissional}</Text>
+          </View>
+          <View style={styles.containerFotterValues}>
+            <Text style={styles.fotterTextValue}>{item.servico}</Text>
+          </View>
+          <View style={styles.containerFotterValues}>
+            <Text style={styles.fotterTextValue}>R${item.valor},00</Text>
+          </View>
+          <View style={styles.containerFotterValues}>
+            <Text style={styles.fotterTextValue}>{item.desconto * 100}%</Text>
+          </View>
+          <View style={styles.containerFotterValues}>
+            <Text style={styles.fotterTextValue}>R${item.valor - (item.valor * item.desconto)} {item.formaDePagamento}</Text>
+          </View>
+        </View>
+      </View>
+    )
+  }
 
   handleSearchTextChange = text => {
     this.setState({ searchText: text });
@@ -74,7 +116,8 @@ export default class Dashboard extends Component {
               <Text style={styles.textTitle}> Dashboard </Text>
               <Text style={styles.textMonth}> Fevereiro  </Text>
             </View>
-            <TouchableOpacity style={styles.cashFlow} onPress={() => navigation.navigate('CashFlow')}>
+            <TouchableOpacity style={styles.cashFlow} onPress={() => this.props.navigation.navigate("CashFlow")}
+            >
               <Text style={styles.cashFlowText}> Acessar fluxo de caixa </Text>
             </TouchableOpacity>
           </View>
@@ -234,13 +277,17 @@ export default class Dashboard extends Component {
           <ScrollView horizontal={true} >
             <View style={styles.fotter}>
               <View style={styles.fotterTexts}>
-                <View value={this.state.teste} style={styles.containerFotterValues}>
+                <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Código</Text>
                 </View >
                 <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Data</Text>
                 </View>
-                <View style={styles.containerFotterValues}>
+                <View style={{
+                  width: RFValue(255),
+                  alignItems: 'center',
+                  // backgroundColor:"purple"
+                }}>
                   <Text style={styles.fotterText}>Cliente</Text>
                 </View>
                 <View style={styles.containerFotterValues}>
@@ -260,62 +307,11 @@ export default class Dashboard extends Component {
                 </View>
               </View>
 
-              <View style={styles.fotterValuesContainer}>
-                <View style={styles.fotterValues}>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>002</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>10/04/2023</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>Gloria Marquetti</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>Pedro</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>Polimento</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>150,00</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>10%</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>135,00 Din</Text>
-                  </View>
-                </View>
-                <View style={styles.fotterValues}>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>001</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>10/04/2023</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>Lucas Marquetti</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>Leonardo</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>Lavagem</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>150,00</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>10%</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>135,00 Nub</Text>
-                  </View>
-                </View>
-              </View>
-
-
+              <FlatList
+                data={clients}
+                renderItem={this.renderItem}
+                keyExtractor={(item, index) => index.toString()}
+              />
             </View>
           </ScrollView>
 
@@ -375,11 +371,11 @@ const styles = StyleSheet.create({
   },
   //BODY------------------------------------------------
   body: {
-    flex: 0.4,
+    flex: RFValue(0.4),
     marginTop: RFValue(10),
     // backgroundColor: "green",
     width: "100%",
-    height: RFValue(350)
+    height: RFValue(430)
   },
   invoicingAndCash: {
     // backgroundColor: "gray",
@@ -597,12 +593,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     // justifyContent: 'space-around',
-    // marginTop:RFValue(4),
+    marginBottom: RFValue(4),
   },
   fotterText: {
     fontWeight: 'bold',
     fontSize: RFValue(12),
-    alignItems:'center'
+    alignItems: 'center'
   },
   fotterValuesContainer: {
     // backgroundColor: "brown",
@@ -622,12 +618,11 @@ const styles = StyleSheet.create({
   fotterTextValue: {
     // color: "red"
   },
-  containerFotterValues:{
-    width:RFValue(120),
-    alignItems:'center',
+  containerFotterValues: {
+    width: RFValue(120),
+    alignItems: 'center',
     // backgroundColor:"pink"
-    // height: this.state.teste + 10
-    
+
   },
   space: {
     width: "100%",

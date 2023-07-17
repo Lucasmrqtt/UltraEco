@@ -27,6 +27,7 @@ export default class StackNavigator extends Component{
         <Stack.Screen name="CashFlow" component={CashFlow}/>
         <Stack.Screen name="AddClients1" component={AddClients1}/>
         <Stack.Screen name="AddClients2" component={AddClients2}/>
+        <Stack.Screen name="ScheduleChange" component={ScheduleChange}/>
       </Stack.Navigator>
     )
   }

@@ -1,24 +1,16 @@
 import React, { Component, useState } from 'react';
 import {
   Text,
-  Image,
   View,
-  ScrollView,
   StyleSheet,
   TouchableOpacity,
   StatusBar,
   Platform,
   SafeAreaView,
   TextInput,
-  KeyboardAvoidingView,
-  Alert
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import DropDownPicker from 'react-native-dropdown-picker';
-import DatePicker from 'react-native-datepicker';
-import AddClients2 from './addClients2';
-import PhoneInput from 'react-native-phone-number-input';
 
 export default class AddEmployee extends Component {
   constructor(props) {

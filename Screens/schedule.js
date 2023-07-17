@@ -11,7 +11,6 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
-// import Historic from "./historic"
 
 export default class Schedule extends Component {
   render() {
@@ -20,7 +19,9 @@ export default class Schedule extends Component {
         <SafeAreaView style={styles.droidSafeArea} />
         <ScrollView>
           <View style={styles.square}>
-            <TouchableOpacity style={styles.equalizer}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("ScheduleChange")}
+              style={styles.equalizer} >
               <Image
                 source={require('../assets/equalizer.png')}
                 style={styles.equalizer}
@@ -38,22 +39,14 @@ export default class Schedule extends Component {
               <Text style={styles.name}>Pedro</Text>
             </View>
 
-            <View style={styles.iconSquareRight}>
-              <TouchableOpacity
-                onPress={() => this.navigation.navigate(Historic)}
-                style={styles.historic}>
-                <Image
-                  source={require('../assets/historic.png')}
-                  style={styles.historic}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.search}>
-                <Image
-                  source={require('../assets/search-interface-symbol.png')}
-                  style={styles.search}
-                />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("Historic")}
+              style={styles.historic}>
+              <Image
+                source={require('../assets/historic.png')}
+                style={styles.historic}
+              />
+            </TouchableOpacity>
 
           </View>
 
@@ -158,68 +151,64 @@ const styles = StyleSheet.create({
     flex: 0.3,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'start',
+    // alignItems: 'start',
     borderWidth: RFValue(4),
     borderRadius: RFValue(10),
     borderColor: 'black',
+    paddingTop:RFValue(15),
+    paddingStart:RFValue(15),
+    paddingEnd:RFValue(15),
     // backgroundColor: 'red',
     width: '100%',
-    height: RFValue(100),
-  },
-  iconSquareRight: {
-    // backgroundColor:"green",
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    margin:RFValue(17),
+    height: RFValue(120),
   },
   equalizer: {
     width: RFValue(32),
     height: RFValue(32),
-    // backgroundColor:"pink",
-    margin: 10,
+    // backgroundColor: "pink",
+    // margin: 10,
   },
-  historic: {
-    width: RFValue(32),
-    height: RFValue(32),
+  profile: {
+    // backgroundColor: "blue",
+    bottom:RFValue(10),
+    alignItems: "center",
+    flexDirection:'column'
+    // left: RFValue(30),
+    // marginTop: RFValue(7),
   },
-  search: {
-    width: RFValue(32),
-    height: RFValue(32),
-    marginLeft: RFValue(5),
+  calendar: {
+    margin: 5,
+    // fontWeight:"bold",
+    fontSize: 20,
+    // backgroundColor:"red"
+  },
+  name: {
+    // fontWeight: 'bold',
   },
   userEmployee: {
     width: RFValue(37),
     height: RFValue(37),
     // backgroundColor: 'pink',
   },
-  name: {
-    // fontWeight: 'bold',
+  historic: {
+    width: RFValue(32),
+    height: RFValue(32),
+    // backgroundColor: "brown",
   },
-  profile: {
-    // backgroundColor: "blue",
-    alignItems: "center",
-    left:RFValue(30),
-    marginTop:RFValue(7),
-  },
-  calendar:{
-    margin:5,
-    // fontWeight:"bold",
-    fontSize:20,
-    // backgroundColor:"red"
-  },
+
   hours: {
-    alignItems:'center',
-    justifyContent:'center',
-    marginTop:RFValue(30)
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: RFValue(30)
   },
-  hoursTxt:{
-    fontSize:RFValue(15)
+  hoursTxt: {
+    fontSize: RFValue(15)
   },
   bgHours: {
     backgroundColor: '#bdbdbd',
     width: RFValue(50),
-    height:RFValue(1180),
-    alignItems:'center'
+    height: RFValue(1180),
+    alignItems: 'center'
   },
   space: {
     width: "100%",

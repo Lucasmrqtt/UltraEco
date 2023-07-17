@@ -1,7 +1,6 @@
 import React, { Component, useState } from 'react';
 import {
   Text,
-  Image,
   View,
   ScrollView,
   StyleSheet,
@@ -12,13 +11,14 @@ import {
   TextInput,
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
-import DatePicker from 'react-native-datepicker';
+import Ionicons from "react-native-vector-icons/Ionicons";
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export default class CashFlow extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      speakerIcon: "chevron-back-outline",
       searchText: '',
       selectedValue1: null,
       selectedValue2: null,
@@ -63,8 +63,15 @@ export default class CashFlow extends Component {
         <SafeAreaView style={styles.droidSafeArea} />
         <ScrollView>
           <View style={styles.header}>
-            <View>
-              <Text style={styles.textTitle}> Fluxo de caixa </Text>
+            <TouchableOpacity>
+              <Ionicons
+                name={this.state.speakerIcon}
+                size={RFValue(40)}
+                onPress={() => this.props.navigation.navigate("Dashboard")}
+              />
+            </TouchableOpacity>
+            <View style={styles.title}>
+              <Text style={styles.titleText}>Fluxo de caixa</Text>
             </View>
           </View>
 
@@ -266,6 +273,7 @@ export default class CashFlow extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff"
     // justifyContent:"center",
     // alignItems:"center",
   },
@@ -274,25 +282,33 @@ const styles = StyleSheet.create({
       Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
   },
   header: {
-    flex: 0.1,
     // backgroundColor: "pink",
-    // flexDirection: 'row',
-    // alignItems: 'center',
-    justifyContent: 'center',
-    width: "100%",
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom:RFValue(10),
+    justifyContent: 'space-between',
+    paddingHorizontal: RFValue(10),
   },
-  textTitle: {
+  title: {
+    // backgroundColor: "blue",
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    marginLeft: RFValue(20),
+  },
+  titleText: {
+    // backgroundColor: "purple",
+    fontWeight: 'bold',
     fontSize: RFValue(30),
-    fontWeight: "bold",
-    alignSelf: 'center',
-    // backgroundColor: "orange",
+    paddingRight: RFValue(65),
+    marginTop: RFValue(3),
   },
   body: {
     flex: 0.4,
     marginTop: RFValue(13),
     // backgroundColor: "green",
     width: "100%",
-    height: RFValue(340)
+    height: RFValue(400)
   },
   bodyTitles: {
     flexDirection: 'row',
@@ -407,9 +423,9 @@ const styles = StyleSheet.create({
     height: RFValue(1800),
     borderTopWidth: RFValue(1),
   },
-  containerFotterValues:{
-    width:RFValue(100),
-    alignItems:'center',
+  containerFotterValues: {
+    width: RFValue(100),
+    alignItems: 'center',
     // backgroundColor:"pink"
     // height: this.state.teste + 10
   },
@@ -437,7 +453,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    height: RFValue(20),
+    height: RFValue(30),
     width: "100%",
     padding: RFValue(3)
   },

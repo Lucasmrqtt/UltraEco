@@ -1,9 +1,7 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import {
   Text,
-  Image,
   View,
-  ScrollView,
   StyleSheet,
   TouchableOpacity,
   StatusBar,
@@ -12,13 +10,10 @@ import {
   TextInput,
   Keyboard,
   KeyboardAvoidingView,
-  Alert
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-datepicker';
-import AddClients2 from './addClients2';
 import PhoneInput from 'react-native-phone-number-input';
 
 export default class AddClients1 extends Component {
@@ -32,7 +27,8 @@ export default class AddClients1 extends Component {
       dropDownHeight: 40,
       selectedDate: null,
       minDate: "1-1-1920", // Definindo a data mínima como a data atual
-      maxDate: new Date(Date.now()).toLocaleString().split(","),
+      maxDate: "1-1-1920", // Definindo a data Maxima como a data atual
+      // maxDate: new Date(Date.now()).toLocaleString().split(","),
       choseDate: '',
       phoneInput: null,
       value: "",
@@ -47,7 +43,6 @@ export default class AddClients1 extends Component {
   handleValueChange = (itemValue) => {
     this.setState({ selectedValue: itemValue });
   };
-
   handleSearchTextChange1 = text => {
     this.setState({ searchText1: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
@@ -56,28 +51,32 @@ export default class AddClients1 extends Component {
     this.setState({ searchText2: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
+  // onChange = (events, selectedDate) => {
+  //   const currentDate = selectedDate || this.state.date
+  //   this.state.show = Platform.OS == 'ios'
+  //   this.state.date = currentDate
 
-  onChange = (events, selectedDate) => {
-    const currentDate = selectedDate || this.state.date
-    this.state.show = Platform.OS == 'ios'
-    this.state.date = currentDate
-
-    let tempDate = new Date(currentDate)
-    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear()
+  //   let tempDate = new Date(currentDate)
+  //   let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear()
+  // }
+  onChange = (date) => {
+    this.setState({date: date})
   }
 
   render() {
     const { searchText1 } = this.state;
     const { searchText2 } = this.state;
     return (
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.header}>
           <TouchableOpacity style={styles.back}>
             <Ionicons
               name={this.state.speakerIcon}
               size={RFValue(40)}
+              onPress={() => this.props.navigation.navigate("Schedule")}
             />
+            {/* onPress={() => this.props.navigation.navigate("Schedule")} */}
           </TouchableOpacity>
           <View style={styles.title}>
             <Text style={styles.titleText}>Novo Cliente</Text>
@@ -135,26 +134,26 @@ export default class AddClients1 extends Component {
           <View style={styles.margin}>
             <Text style={styles.bodyText}>Data de Nascimento</Text>
             <DatePicker
-              testID='dateTimePicker'
-              value={this.state.date}
-              mode={this.state.mode}
-              onChange={this.onChange}
               style={{
                 width: 200,
                 borderWidth: RFValue(2),
                 borderRadius: RFValue(6),
               }}
+              mode="date"
+              value={this.state.date}
               date={this.state.date}
-              // mode="date"
-              // value={this.state.date}
-              placeholder="select date"
               format="DD-MM-YYYY"
-              minDate="1/2000"
-              maxDate="1/1/2000"
+              maxDate="30-09-2019"
+              minDate="10-07-2019"
+              onDateChange={(date) => { this.setState({ date: date }) }}
+              onChange={this.onChange}
+
+              // mode={this.state.mode}
+            
+              placeholder={this.state.date}
               confirmBtnText="Confirmar"
               cancelBtnText="Cancelar"
               showIcon={false}
-              onDateChange={(date) => { this.setState({ date: date }) }}
             // onDateChange={this.state.date}
             />
           </View>
@@ -184,16 +183,16 @@ export default class AddClients1 extends Component {
 
         <View style={styles.space}></View>
         <View style={styles.fotter}>
-          <TouchableOpacity style={styles.fotterTouchableOpacityLeft}>
+          <TouchableOpacity style={styles.fotterTouchableOpacityLeft} onPress={() => this.props.navigation.navigate("Schedule")}>
             <Text style={styles.fotterTextCancel}>Cancelar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.fotterTouchableOpacityRight}>
+          <TouchableOpacity style={styles.fotterTouchableOpacityRight} onPress={() => this.props.navigation.navigate("AddClients2")}>
             <Text style={styles.fotterTextAdvance}>Avancar</Text>
           </TouchableOpacity>
         </View>
 
 
-      </KeyboardAvoidingView>
+      </View>
     )
   }
 }

@@ -11,9 +11,11 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { RFValue } from 'react-native-responsive-fontsize';
-import AddClients1 from '../Screens/addClients1';
+
 import Scheduling from '../Screens/scheduling';
+import RegisterServices from '../Screens/registerService';
 import AddEmployee from '../Screens/addEmployee';
+import AddClients1 from '../Screens/addClients1';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -61,7 +63,7 @@ export default class AddButton extends React.Component {
                   <Image source={require("../assets/add.png")} style={styles.icons} />
                   <Text style={styles.text}>Agendar Serviço</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.add} onPress={() => {this.handleCloseBottomSheet(),this.props.navigation.navigate("RegisterService")}}>
+                <TouchableOpacity style={styles.add} onPress={() => {this.handleCloseBottomSheet(),this.props.navigation.navigate("RegisterServices")}}>
                   <Image source={require("../assets/customer-support.png")} style={{
                     width: RFValue(35),
                     height: RFValue(35),
@@ -73,7 +75,7 @@ export default class AddButton extends React.Component {
                   <Image source={require("../assets/employee.png")} style={styles.icons} />
                   <Text style={styles.text}>Cadastrar Funcionário</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.add} onPress={() => {this.handleCloseBottomSheet(),this.props.navigation.navigate("AddClients")}}>
+                <TouchableOpacity style={styles.add} onPress={() => {this.handleCloseBottomSheet(),this.props.navigation.navigate("AddClients1")}}>
                   <Image source={require("../assets/client.png")} style={styles.icons} />
                   <Text style={styles.text}>Cadastrar Cliente</Text>
                 </TouchableOpacity>

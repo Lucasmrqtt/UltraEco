@@ -1,23 +1,16 @@
 import React, { Component } from 'react';
 import {
   Text,
-  Image,
   View,
-  ScrollView,
   StyleSheet,
   TouchableOpacity,
   StatusBar,
   Platform,
   SafeAreaView,
   TextInput,
-  KeyboardAvoidingView,
-  Alert
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import DropDownPicker from 'react-native-dropdown-picker';
-import DatePicker from 'react-native-datepicker';
-import PhoneInput from 'react-native-phone-number-input';
 
 export default class AddClients2 extends Component {
   constructor(props) {
@@ -91,10 +84,11 @@ export default class AddClients2 extends Component {
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.header}>
-          <TouchableOpacity style={styles.back}>
+          <TouchableOpacity>
             <Ionicons
               name={this.state.speakerIcon}
               size={RFValue(40)}
+              onPress={() => this.props.navigation.navigate("AddClients1")}
             />
           </TouchableOpacity>
           <View style={styles.title}>
@@ -207,7 +201,7 @@ export default class AddClients2 extends Component {
         <View style={styles.space}></View>
 
         <View style={styles.fotter}>
-          <TouchableOpacity style={styles.fotterTouchableOpacityLeft}>
+          <TouchableOpacity style={styles.fotterTouchableOpacityLeft} onPress={() => this.props.navigation.navigate("Schedule")}>
             <Text style={styles.fotterTextCancel}>Cancelar</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.fotterTouchableOpacityRight}>
