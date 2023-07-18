@@ -1,198 +1,106 @@
-import React, { Component } from "react";
-import { Text, Image, View, StyleSheet, FlatList, TextInput, TouchableOpacity } from "react-native";
-import { ListItem, Avatar, Icon } from "react-native-elements";
-import { RFValue } from "react-native-responsive-fontsize";
+import React, { Component } from 'react';
+import {
+  Text,
+  View,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+  SafeAreaView,
+  TextInput,
+  FlatList
+} from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize';
+import Ionicons from "react-native-vector-icons/Ionicons";
 
-
+var clients = require("./Clients.json")
 
 export default class Search extends Component {
-  constructor(){
-    super()
+  constructor(props) {
+    super(props);
     this.state = {
-      allClients: [],
-      lastVisibleTransaction: null,
-      searchText: ""
+      speakerIcon: "text-outline",
+      searchText: '',
+      list: clients,
+    };
+  }
+
+  componentDidMount() {
+    this.handleFilterList();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.searchText !== this.state.searchText) {
+      this.handleFilterList();
     }
-  };
+  }
 
-  // componentDidMount = async() => {
-  //   await this.getTransactions()
-  // };
+  handleFilterList() {
+    const { searchText } = this.state;
 
-  // getTransactions = () => {
-  //   db.collection("transactions")
-  //     .limit(10)
-  //     .get()
-  //     .then(snapshot => {
-  //       snapshot.docs.map(doc => {
-  //         this.setState({
-  //           allTransactions: [...this.state.allTransactions, doc.data()],
-  //           lastVisibleTransaction: doc
-  //         });
-  //       });
-  //     });
-  // };
+    if (searchText === '') {
+      this.setState({ list: clients });
+    } else {
+      const filteredList = clients.filter(
+        (item) =>
+          item.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+      );
+      this.setState({ list: filteredList });
+    }
+  }
 
-  // handleSearch = async text => {
-  //   var enteredText = text.toUpperCase().split("");
-  //   text = text.toLowerCase();
-  //   this.setState({
-  //     allTransactions: []
-  //   });
-  //   if (!text) {
-  //     this.getTransactions();
-  //   }
+  handleOrderClick = () => {
+    const newList = [...clients];
 
-  //   if (enteredText[0] === "B") {
-  //     db.collection("transactions")
-  //       .where("book_id", "==", text)
-  //       .get()
-  //       .then(snapshot => {
-  //         snapshot.docs.map(doc => {
-  //           this.setState({
-  //             allTransactions: [...this.state.allTransactions, doc.data()],
-  //             lastVisibleTransaction: doc
-  //           });
-  //         });
-  //       });
-  //   } else if (enteredText[0] === "S") {
-  //     db.collection("transactions")
-  //       .where("student_id", "==", text)
-  //       .get()
-  //       .then(snapshot => {
-  //         snapshot.docs.map(doc => {
-  //           this.setState({
-  //             allTransactions: [...this.state.allTransactions, doc.data()],
-  //             lastVisibleTransaction: doc
-  //           });
-  //         });
-  //       });
-  //   }
-  // };
+    newList.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
 
-  // fetchMoreTransactions = async text => {
-  //   var enteredText = text.toUpperCase().split("");
-  //   text = text.toLowerCase();
+    this.setState({ list: newList });
+  }
 
-  //   const { lastVisibleTransaction, allTransactions } = this.state;
-  //   if (enteredText[0] === "B") {
-  //     const query = await db
-  //       .collection("transactions")
-  //       .where("bookId", "==", text)
-  //       .startAfter(lastVisibleTransaction)
-  //       .limit(10)
-  //       .get();
-  //     query.docs.map(doc => {
-  //       this.setState({
-  //         allTransactions: [...this.state.allTransactions, doc.data()],
-  //         lastVisibleTransaction: doc
-  //       });
-  //     });
-  //   } else if (enteredText[0] === "S") {
-  //     const query = await db
-  //       .collection("transactions")
-  //       .where("bookId", "==", text)
-  //       .startAfter(this.state.lastVisibleTransaction)
-  //       .limit(10)
-  //       .get();
-  //     query.docs.map(doc => {
-  //       this.setState({
-  //         allTransactions: [...this.state.allTransactions, doc.data()],
-  //         lastVisibleTransaction: doc
-  //       });
-  //     });
-  //   }
-  // };
+  renderItem = ({ item }) => {
+    return (
+      <TouchableOpacity style={styles.item}>
+        {/* <Image source={item.avatar} style={styles.itemPhoto} /> */}
+        <View style={styles.itemInfo}>
+          <Text style={styles.itemP1}>{item.name}</Text>
+          <Text style={styles.itemP2}>{item.email}</Text>
+        </View>
+      </TouchableOpacity>
+    )
+  }
 
-  // renderItem = ({ item, i }) => {
-  //   console.log(item.date.toDate().toString().split(" ").splice(0, 4).join(" "))
-  //   var item = item
-  //   let date = item.date.toDate().toString().split(" ").splice(0, 4).join(" ")
-
-  //   var transactionType =
-  //     item.transaction_type === "issue" ? "issued" : "returned";
-  //   return (
-  //     <View style={{ borderWidth: 1 }}>
-  //       <ListItem key={i} bottomDivider>
-  //         <Icon type={"antdesign"} name={"book"} size={40} />
-  //         <ListItem.Content>
-  //           <ListItem.Title style={styles.title}>
-  //             {`${item.book_name} ( ${item.book_id} )`}
-  //           </ListItem.Title>
-  //           <ListItem.Subtitle style={styles.subtitle}>
-  //             {`This book ${transactionType} by ${item.student_name}`}
-  //           </ListItem.Subtitle>
-  //           <View style={styles.lowerLeftContaiiner}>
-  //             <View style={styles.transactionContainer}>
-  //               <Text
-  //                 style={[
-  //                   styles.transactionText,
-  //                   {
-  //                     color:
-  //                       item.transaction_type === "issue"
-  //                         ? "#78D304"
-  //                         : "#0364F4"
-  //                   }
-  //                 ]}
-  //               >
-  //                 {item.transaction_type.charAt(0).toUpperCase() +
-  //                   item.transaction_type.slice(1)}
-  //               </Text>
-  //               <Icon
-  //                 type={"ionicon"}
-  //                 name={
-  //                   item.transaction_type === "issue"
-  //                     ? "checkmark-circle-outline"
-  //                     : "arrow-redo-circle-outline"
-  //                 }
-  //                 color={
-  //                   item.transaction_type === "issue" ? "#78D304" : "#0364F4"
-  //                 }
-  //               />
-  //             </View>
-  //             {/* <Text style={styles.date}>{date}</Text> */}
-  //           </View>
-  //         </ListItem.Content>
-  //       </ListItem>
-  //     </View>
-  //   );
-  // };
-  
   render() {
     const { searchText, allTransactions } = this.state;
     return (
       <View style={styles.container}>
-        <View style={styles.upperContainer}>
-          <Text style={{
-            fontSize:RFValue(25),
-            fontWeight:"bold",
-            marginBottom:RFValue(5)
-          }}>Clients</Text>
-          <View style={styles.textinputContainer}>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={text => this.setState({ searchText: text })}
-              placeholder={"Escreva aqui"}
-              placeholderTextColor={"#000"}
-            />
-            <TouchableOpacity
-              style={styles.scanbutton}
-              // onPress={() => this.handleSearch(searchText)}
-            >
-              <Text style={styles.scanbuttonText}>Pesquisa</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.lowerContainer}>
-          <FlatList
-            data={allTransactions}
-            renderItem={this.renderItem}
-            // keyExtractor={(item, index) => index.toString()}
-            // onEndReached={() => this.fetchMoreTransactions(searchText)}
-            // onEndReachedThreshold={0.7}
+        <SafeAreaView style={styles.droidSafeArea} />
+        <View style={styles.searchArea}>
+          <TextInput
+            style={styles.input}
+            placeholder="Pesquise um cliente"
+            placeholderTextColor="#888"
+            value={searchText}
+            onChangeText={(t) => this.setState({ searchText: t })}
           />
+          <TouchableOpacity
+            onPress={this.handleOrderClick}
+            style={styles.orderButton}
+          >
+            <Ionicons
+              name={this.state.speakerIcon}
+              size={RFValue(20)}
+              color="#888"
+            />
+          </TouchableOpacity>
         </View>
-      </View>
+
+        <FlatList
+          data={this.state.list}
+          renderItem={this.renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          style={styles.list}
+        />
+      </View >
     );
   };
 
@@ -201,71 +109,59 @@ export default class Search extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF"
+    backgroundColor: '#FFF',
   },
-  upperContainer: {
-    flex: 0.2,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  textinputContainer: {
+  input: {
+    flex: 1,
+    height: 50,
+    backgroundColor: '#f1f1f1',
+    margin: 30,
     borderWidth: 2,
-    borderRadius: 10,
-    flexDirection: "row",
-    // backgroundColor: "#9DFD24",
-    // color:"#000",
-    borderColor: "#000"
+    borderRadius: 5,
+    fontSize: 19,
+    paddingLeft: 15,
+    paddingRight: 15,
+    color: '#000',
   },
-  textinput: {
-    width: "57%",
+  searchArea: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  orderButton: {
+    width: 32,
+    marginRight: 30,
+  },
+  list: {
+    flex: 1,
+  },
+  item: {
+    flexDirection: 'row',
+    marginLeft: 30,
+    marginRight: 30,
+    borderBottomWidth: 1,
+    borderBottomColor: '#FFF',
+    paddingTop: 15,
+    paddingBottom: 15,
+  },
+  itemPhoto: {
+    width: 50,
     height: 50,
-    padding: 10,
-    borderColor: "#000",
-    borderRadius: 8,
-    borderWidth: 3,
+    borderRadius: 30,
+  },
+  itemInfo: {
+    marginLeft: 20,
+  },
+  itemP1: {
+    fontSize: 22,
+    color: '#000',
+    marginBottom: 5,
+  },
+  itemP2: {
     fontSize: 18,
-    // backgroundColor: "#5653D4",
-    color: "#000"
+    color: '#fff',
   },
-  scanbutton: {
-    width: 100,
-    height: 50,
-    // color:"#000",
-    // backgroundColor: "#9DFD24",
-    borderTopRightRadius: 10,
-    borderBottomRightRadius: 10,
-    justifyContent: "center",
-    alignItems: "center"
+  droidSafeArea: {
+    marginTop:
+      Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
   },
-  scanbuttonText: {
-    fontSize: 24,
-    color: "#000",
-  },
-  lowerContainer: {
-    flex: 0.8,
-    backgroundColor: "#f4f4f4"
-  },
-  title: {
-    fontSize: 20,
-  },
-  subtitle: {
-    fontSize: 16,
-  },
-  lowerLeftContaiiner: {
-    alignSelf: "flex-end",
-    marginTop: -40
-  },
-  transactionContainer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center"
-  },
-  transactionText: {
-    fontSize: 20,
-
-  },
-  date: {
-    fontSize: 12,
-    paddingTop: 5
-  }
 });

@@ -74,10 +74,12 @@ export default class TabNavigator extends Component {
           activeColor={"black"}
           inactiveColor={"gray"}
         >
-          {/* <Tab.Screen name="Schedule" component={Schedule} /> */}
-          <Tab.Screen name="Welcome" component={Welcome}/>
-          {/* <Tab.Screen name="Dashboard" component={Dashboard} /> */}
-          <Tab.Screen name="Login" component={Login} />
+          <Tab.Screen name="Schedule" component={Schedule} />
+          {/* <Tab.Screen name="Tela1" component={AddEmployee} /> */}
+          {/* <Tab.Screen name="Tela2" component={AddClients2} /> */}
+          {/* <Tab.Screen name="Welcome" component={Welcome}/> */}
+          <Tab.Screen name="Dashboard" component={Dashboard} />
+          {/* <Tab.Screen name="Login" component={Login} /> */}
           <Tab.Screen name="Clients" component={Clients} />
           <Tab.Screen name="Settings" component={Settings} />
         </Tab.Navigator >

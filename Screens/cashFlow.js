@@ -95,7 +95,7 @@ export default class CashFlow extends Component {
       </View>
     )
   }
-  render = ({ item }) => {
+  render () {
     const { searchText } = this.state;
     return (
       <View style={styles.container}>
@@ -122,7 +122,7 @@ export default class CashFlow extends Component {
 
             <View style={styles.revenuesAndExpenses}>
               <View style={styles.revenuesContainer}>
-                <Text style={styles.revenuesAndExpensesPrice}>R${item.valorCx} </Text>
+                <Text style={styles.revenuesAndExpensesPrice}>R$***** </Text>
                 <View style={styles.addRevenues}>
                   <TouchableOpacity style={styles.addRevenuesButton}>
                     <Text style={styles.revenuesAndExpensesButtonTxt}> Adc. Receitas</Text>
