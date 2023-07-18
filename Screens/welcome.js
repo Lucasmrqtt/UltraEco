@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     paddingVertical: RFValue(8),
     width:"60%",
     alignSelf:"center",
-    bottom:"40%",
+    bottom:"15%",
     alignItems:"center",
     justifyContent:"center"
   },

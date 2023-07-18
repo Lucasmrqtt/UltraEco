@@ -70,13 +70,14 @@ export default class TabNavigator extends Component {
               return <Ionicons name={iconName} size={iconSize} color={iconColor} style={styles.icons} />;
             },
           })} 
-          // initialRouteName="Schedule"
+          initialRouteName="Schedule"
+          // initialRouteName="Tela2"
           activeColor={"black"}
           inactiveColor={"gray"}
         >
           <Tab.Screen name="Schedule" component={Schedule} />
           {/* <Tab.Screen name="Tela1" component={AddEmployee} /> */}
-          {/* <Tab.Screen name="Tela2" component={AddClients2} /> */}
+          {/* <Tab.Screen name="Tela2" component={AddClients1} /> */}
           {/* <Tab.Screen name="Welcome" component={Welcome}/> */}
           <Tab.Screen name="Dashboard" component={Dashboard} />
           {/* <Tab.Screen name="Login" component={Login} /> */}

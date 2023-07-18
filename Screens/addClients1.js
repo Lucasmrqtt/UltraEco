@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Text,
   View,
+  Image,
   StyleSheet,
   TouchableOpacity,
   StatusBar,
@@ -9,11 +10,9 @@ import {
   SafeAreaView,
   TextInput,
   Keyboard,
-  KeyboardAvoidingView,
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import DatePicker from 'react-native-datepicker';
 import PhoneInput from 'react-native-phone-number-input';
 
 export default class AddClients1 extends Component {
@@ -24,20 +23,21 @@ export default class AddClients1 extends Component {
       Check: "checkmark-outline",
       searchText1: '',
       searchText2: '',
+      searchText3: '',
+      searchText4: '',
+      searchText5: '',
+      dayValue1: '',
+      dayValue2: '',
+      dayValue3: '',
+      yearValue: '',
       dropDownHeight: 40,
-      selectedDate: null,
-      minDate: "1-1-1920", // Definindo a data mínima como a data atual
-      maxDate: "1-1-1920", // Definindo a data Maxima como a data atual
-      // maxDate: new Date(Date.now()).toLocaleString().split(","),
-      choseDate: '',
       phoneInput: null,
       value: "",
       formattedValue: '',
-      date: null,
-      mode: "date",
-      show: false,
-
     }
+    this.textInputBirth = null
+    this.textInputMonth = null
+    this.textInputYear = null
   }
 
   handleValueChange = (itemValue) => {
@@ -47,25 +47,58 @@ export default class AddClients1 extends Component {
     this.setState({ searchText1: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-  handleSearchTextChange2 = text => {
+  handleSearchTextChange2 = (text) => {
     this.setState({ searchText2: text });
+
+    const parsedValue = parseInt(text, 10); // Parse the input to an integer
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 31) {
+      this.setState({ dayValue1: String(parsedValue) });
+    } else {
+      this.setState({ dayValue1: '' }); // Limpa o valor se não for válido
+    }
+
+    if (text.length >= 2 && parsedValue <= 31) {
+      this.textInputMonth.focus(); // Move to the month TextInput
+    }
+  };
+  handleSearchTextChange3 = (text) => {
+    this.setState({ searchText3: text });
+
+    const parsedValue = parseInt(text, 10); // Parse the input to an integer
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 12) {
+      this.setState({ dayValue2: String(parsedValue) });
+    } else {
+      this.setState({ dayValue2: '' }); // Limpa o valor se não for válido
+    }
+
+    if (text.length >= 2 && parsedValue <= 12) {
+      this.textInputYear.focus(); // Move to the year TextInput
+    }
+  };
+  handleSearchTextChange4 = (text) => {
+    this.setState({ searchText4: text });
+  
+    const parsedValue = parseInt(text, 10); // Parse the input to an integer
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 2030) {
+      this.setState({ yearValue: String(parsedValue) });
+    } else {
+      this.setState({ yearValue: '' }); // Limpa o valor se não for válido
+    }
+
+    if (text.length >= 4 && parsedValue <= 2030) {
+      Keyboard.dismiss()
+    }
+  };
+  handleSearchTextChange5 = text => {
+    this.setState({ searchText5: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-  // onChange = (events, selectedDate) => {
-  //   const currentDate = selectedDate || this.state.date
-  //   this.state.show = Platform.OS == 'ios'
-  //   this.state.date = currentDate
 
-  //   let tempDate = new Date(currentDate)
-  //   let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear()
-  // }
-  onChange = (date) => {
-    this.setState({date: date})
-  }
 
   render() {
     const { searchText1 } = this.state;
-    const { searchText2 } = this.state;
+    const { searchText5 } = this.state;
+
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
@@ -122,54 +155,74 @@ export default class AddClients1 extends Component {
                 borderWidth: RFValue(2),
                 borderRadius: RFValue(5)
               }}
-              // confirmBtnText
-              // disableArrowIcon={true}
-              // confirmBtnText="Confirmar"
-              // withDarkTheme
               withShadow
-            // autoFocus={true}
             />
           </View>
 
           <View style={styles.margin}>
             <Text style={styles.bodyText}>Data de Nascimento</Text>
-            <DatePicker
-              style={{
-                width: 200,
-                borderWidth: RFValue(2),
-                borderRadius: RFValue(6),
-              }}
-              mode="date"
-              value={this.state.date}
-              date={this.state.date}
-              format="DD-MM-YYYY"
-              maxDate="30-09-2019"
-              minDate="10-07-2019"
-              onDateChange={(date) => { this.setState({ date: date }) }}
-              onChange={this.onChange}
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+              <Text style={{fontSize:RFValue(16)}}>Dia</Text>
+              <Text style={{fontSize:RFValue(16)}}>Mês</Text>
+              <Text style={{fontSize:RFValue(16)}}>Ano</Text>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+              <TextInput
+                placeholder="Dia"
+                placeholderStyle={{
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+                onChangeText={this.handleSearchTextChange2}
+                value={this.state.dayValue1}
+                keyboardType='numeric'
+                style={styles.textInputBirth}
+                maxLength={2}
+                ref={(input) => (this.textInputDay = input)}
+              />
 
-              // mode={this.state.mode}
-            
-              placeholder={this.state.date}
-              confirmBtnText="Confirmar"
-              cancelBtnText="Cancelar"
-              showIcon={false}
-            // onDateChange={this.state.date}
-            />
+              <TextInput
+                placeholder="Mês"
+                placeholderStyle={{
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+                onChangeText={this.handleSearchTextChange3}
+                value={this.state.dayValue2}
+                keyboardType='numeric'
+                style={styles.textInputBirth}
+                maxLength={2}
+                ref={(input) => (this.textInputMonth = input)}
+              />
+
+              <TextInput
+                placeholder="Ano"
+                placeholderStyle={{
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+                onChangeText={this.handleSearchTextChange4}
+                value={this.state.yearValue}
+                keyboardType='numeric'
+                style={[styles.textInputBirth, { width: RFValue(60) }]}
+                maxLength={4}
+                ref={(input) => (this.textInputYear = input)}
+              />
+            </View>
           </View>
 
           <View style={styles.margin}>
             <Text style={styles.bodyText}>Descrição</Text>
             <View style={{
-              flexDirection:'row',
+              flexDirection: 'row',
               // backgroundColor:"pink"
             }}>
               <TextInput
                 placeholder="Descrição do cliente"
                 multiline={true}
-                onChangeText={this.handleSearchTextChange2}
-                value={searchText2}
-                style={styles.textInputDescription}
+                onChangeText={this.handleSearchTextChange5}
+                value={searchText5}
+                style={[styles.textInputDescription, { height: RFValue(55) }]}
               />
               <TouchableOpacity onPress={Keyboard.dismiss}>
                 <Ionicons
@@ -255,19 +308,23 @@ const styles = StyleSheet.create({
   textInputBirth: {
     borderWidth: RFValue(1.5),
     borderRadius: RFValue(4),
-    padding: RFValue(10),
+    paddingLeft: RFValue(10),
     height: RFValue(40),
-    width: RFValue(290),
+    width: RFValue(50),
     backgroundColor: "white",
     marginTop: RFValue(3),
+    // fontWeight:'bold',
+    fontSize: RFValue(16),
+    justifyContent: 'center',
+    alignItems: 'center'
     // width: 10
   },
   textInputDescription: {
-    flex:1,
+    flex: 1,
     borderWidth: RFValue(1.5),
     borderRadius: RFValue(4),
     padding: RFValue(10),
-    marginRight:RFValue(10),
+    marginRight: RFValue(10),
     height: RFValue(40),
     width: RFValue(10),
     // justifyContent:'center',
@@ -275,7 +332,6 @@ const styles = StyleSheet.create({
     // backgroundColor: "blue",
     marginTop: RFValue(3),
   },
-
   body: {
     // backgroundColor: "green",
     justifyContent: 'flex-start',
@@ -285,7 +341,7 @@ const styles = StyleSheet.create({
   },
   margin: {
     // backgroundColor: "brown",
-    paddingEnd:40,
+    paddingEnd: 40,
     marginTop: RFValue(10),
     marginBottom: RFValue(10)
   },
@@ -293,11 +349,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: RFValue(20)
   },
-
   space: {
     width: "100%",
     // backgroundColor: "pink",
-    height: RFValue(186)
+    height: RFValue(148)
   },
   fotter: {
     // backgroundColor:"gray",
@@ -334,7 +389,6 @@ const styles = StyleSheet.create({
     fontSize: RFValue(30),
     color: "white"
   },
-
   sectionStyle: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -345,7 +399,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 5,
     margin: 10,
-    backgroundColor:"gray"
+    backgroundColor: "gray"
   },
   imageStyle: {
     padding: 10,

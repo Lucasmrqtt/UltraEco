@@ -5,8 +5,8 @@
     "nome": "Maria da Gloria Karan Marquetti",
     "profissional": "Pedro",
     "servico": "Lavagem",
-    "valor": 200.00,
-    "desconto": 0.1,
+    "valor": 70.00,
+    "desconto": 5,
     "total": 135 ,
     "formaDePagamento": "Dinheiro"
   },
@@ -17,7 +17,7 @@
     "profissional": "Leonardo",
     "servico": "Polimento",
     "valor": 150.00,
-    "desconto": 0.1,
+    "desconto": 10,
     "total": 135 ,
     "formaDePagamento": "Crédito"
   }

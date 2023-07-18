@@ -8,7 +8,8 @@ import {
   Platform,
   SafeAreaView,
   TextInput,
-  FlatList
+  FlatList,
+  StatusBar
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -20,6 +21,7 @@ export default class Search extends Component {
     super(props);
     this.state = {
       speakerIcon: "text-outline",
+      photo: "person-circle-outline",
       searchText: '',
       list: clients,
     };
@@ -60,7 +62,12 @@ export default class Search extends Component {
   renderItem = ({ item }) => {
     return (
       <TouchableOpacity style={styles.item}>
-        {/* <Image source={item.avatar} style={styles.itemPhoto} /> */}
+        <Ionicons
+          name={this.state.photo}
+          size={RFValue(50)}
+          color="#555"
+          style={styles.itemPhoto}
+        />
         <View style={styles.itemInfo}>
           <Text style={styles.itemP1}>{item.name}</Text>
           <Text style={styles.itemP2}>{item.email}</Text>
@@ -73,6 +80,7 @@ export default class Search extends Component {
     const { searchText, allTransactions } = this.state;
     return (
       <View style={styles.container}>
+
         <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.searchArea}>
           <TextInput
@@ -111,57 +119,61 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFF',
   },
+  droidSafeArea: {
+    height: Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
+    backgroundColor: '#f5f5f5',
+  },
   input: {
     flex: 1,
-    height: 50,
+    height: RFValue(50),
     backgroundColor: '#f1f1f1',
-    margin: 30,
-    borderWidth: 2,
-    borderRadius: 5,
-    fontSize: 19,
-    paddingLeft: 15,
-    paddingRight: 15,
+    margin: RFValue(30), // 
+    borderWidth: RFValue(2), // Updated to RfValue
+    borderRadius: RFValue(5), // Updated to RfValue
+    fontSize: RFValue(19), // Updated to RfValue
+    paddingLeft: RFValue(15), // Updated to RfValue
+    paddingRight: RFValue(15), // Updated to RfValue
     color: '#000',
   },
   searchArea: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#f5f5f5',
   },
   orderButton: {
-    width: 32,
-    marginRight: 30,
+    width: RFValue(32),
+    marginRight: RFValue(30), // Updated to RfValue
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   list: {
     flex: 1,
   },
   item: {
     flexDirection: 'row',
-    marginLeft: 30,
-    marginRight: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: '#FFF',
-    paddingTop: 15,
-    paddingBottom: 15,
+    width: "100%",
+    borderBottomWidth: RFValue(1), // Updated to RfValue
+    borderBottomColor: '#000',
+    paddingTop: RFValue(15), // Updated to RfValue
+    paddingBottom: RFValue(15), // Updated to RfValue
   },
   itemPhoto: {
-    width: 50,
-    height: 50,
-    borderRadius: 30,
+    // width: RFValue(50), // Updated to RfValue
+    // height: RFValue(50), // Updated to RfValue
+    borderRadius: RFValue(30), // Updated to RfValue
+    // backgroundColor: '#ababab',
+    paddingStart:"5%"
   },
   itemInfo: {
-    marginLeft: 20,
+    marginLeft: RFValue(20), // Updated to RfValue
   },
   itemP1: {
-    fontSize: 22,
+    fontSize: RFValue(19),
     color: '#000',
-    marginBottom: 5,
+    marginBottom: RFValue(5), // Updated to RfValue
   },
   itemP2: {
-    fontSize: 18,
-    color: '#fff',
-  },
-  droidSafeArea: {
-    marginTop:
-      Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
+    fontSize: RFValue(16), // Updated to RfValue
+    color: '#ababab',
   },
 });
