@@ -49,7 +49,7 @@ export default class AddButton extends React.Component {
         <Modal
           animationType="slide"
           transparent={true}
-
+          onPress={() => this.state.isBottomSheetOpen(true)}
           visible={this.state.isBottomSheetOpen}
 
           onRequestClose={() => this.handleCloseBottomSheet()}>

@@ -15,7 +15,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import DatePicker from 'react-native-datepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-var clients = require("./Clients.json")
+var clients = require("./Dashboard.json")
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: RFValue(77),
-    height: RFValue(30),
+    height: Platform.OS === 'ios' ? RFValue(40) :55,
   },
   cashFlowText: {
     justifyContent: 'center'
@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
     marginTop: RFValue(10),
     // backgroundColor: "green",
     width: "100%",
-    height: RFValue(430)
+    height: Platform.OS === 'ios' ? RFValue(350) : RFValue(430),
   },
   invoicingAndCash: {
     // backgroundColor: "gray",

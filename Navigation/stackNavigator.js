@@ -10,6 +10,7 @@ import Historic from "../Screens/historic";
 import RegisterServices from "../Screens/registerService";
 import ScheduleChange from "../Screens/ScheduleChange";
 import Scheduling from "../Screens/scheduling";
+import Login from "../Screens/login";
 
 const Stack = createStackNavigator()
 
@@ -28,6 +29,7 @@ export default class StackNavigator extends Component{
         <Stack.Screen name="AddClients1" component={AddClients1}/>
         <Stack.Screen name="AddClients2" component={AddClients2}/>
         <Stack.Screen name="ScheduleChange" component={ScheduleChange}/>
+        <Stack.Screen name="Login" component={Login}/>
       </Stack.Navigator>
     )
   }

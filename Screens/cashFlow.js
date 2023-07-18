@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -9,10 +9,13 @@ import {
   Platform,
   SafeAreaView,
   TextInput,
+  FlatList,
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DropDownPicker from 'react-native-dropdown-picker';
+
+var cashFlow = require("./Cashflow.json")
 
 export default class CashFlow extends Component {
   constructor(props) {
@@ -56,7 +59,43 @@ export default class CashFlow extends Component {
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
 
-  render() {
+  renderItem = ({ item }) => {
+    // nome = item.nome
+    // if (nome.lenght > 15) {
+    //   nome = nome.nome.split('')
+
+    // }
+    return (
+      <View style={styles.fotterValuesContainer}>
+        <View style={styles.fotterValues}>
+          <View style={styles.containerFotterValues}>
+            <Text style={styles.fotterTextValue}>R${item.valor}</Text>
+          </View>
+          <View style={{
+            width: RFValue(255),
+            alignItems: 'center',
+            // backgroundColor:"purple"
+          }}>
+            <Text style={styles.fotterTextValue}>{item.nome}</Text>
+          </View>
+          <View style={styles.containerFotterValues}>
+            <Text style={styles.fotterTextValue}>{item.data}</Text>
+          </View>
+          <View style={styles.containerFotterValues}>
+            <Text style={styles.fotterTextValue}>{item.formaDePagamento}</Text>
+          </View>
+          <View style={{
+            width: RFValue(255),
+            alignItems: 'center',
+            // backgroundColor:"purple"
+          }}>
+            <Text style={styles.fotterTextValue}>item.valor do antigo + o de agora</Text>
+          </View>
+        </View>
+      </View>
+    )
+  }
+  render = ({ item }) => {
     const { searchText } = this.state;
     return (
       <View style={styles.container}>
@@ -83,7 +122,7 @@ export default class CashFlow extends Component {
 
             <View style={styles.revenuesAndExpenses}>
               <View style={styles.revenuesContainer}>
-                <Text style={styles.revenuesAndExpensesPrice}> R$ ******** </Text>
+                <Text style={styles.revenuesAndExpensesPrice}>R${item.valorCx} </Text>
                 <View style={styles.addRevenues}>
                   <TouchableOpacity style={styles.addRevenuesButton}>
                     <Text style={styles.revenuesAndExpensesButtonTxt}> Adc. Receitas</Text>
@@ -210,7 +249,11 @@ export default class CashFlow extends Component {
                 <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Valor</Text>
                 </View>
-                <View style={styles.containerFotterValues}>
+                <View style={{
+                  width: RFValue(255),
+                  alignItems: 'center',
+                  // backgroundColor:"purple"
+                }}>
                   <Text style={styles.fotterText}>Nome</Text>
                 </View>
                 <View style={styles.containerFotterValues}>
@@ -219,47 +262,20 @@ export default class CashFlow extends Component {
                 <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Pgmt</Text>
                 </View>
-                <View style={styles.containerFotterValues}>
+                <View style={{
+                  width: RFValue(255),
+                  alignItems: 'center',
+                  // backgroundColor:"purple"
+                }}>
                   <Text style={styles.fotterText}>Valor CX</Text>
                 </View>
               </View>
 
-              <View style={styles.fotterValuesContainer}>
-                <View style={styles.fotterValues}>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>-30</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>Produto</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>11/04/2023</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>Crédito</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>105</Text>
-                  </View>
-                </View>
-                <View style={styles.fotterValues}>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>135</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>Lucas Marquetti</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>10/04/2023</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>Nubank</Text>
-                  </View>
-                  <View style={styles.containerFotterValues}>
-                    <Text style={styles.fotterTextValue}>135</Text>
-                  </View>
-                </View>
-              </View>
+              <FlatList
+                data={cashFlow}
+                renderItem={this.renderItem}
+                keyExtractor={(item, index) => index.toString()}
+              />
 
             </View>
           </ScrollView>
@@ -285,7 +301,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "pink",
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom:RFValue(10),
+    marginBottom: RFValue(10),
     justifyContent: 'space-between',
     paddingHorizontal: RFValue(10),
   },
@@ -423,24 +439,19 @@ const styles = StyleSheet.create({
     height: RFValue(1800),
     borderTopWidth: RFValue(1),
   },
-  containerFotterValues: {
-    width: RFValue(100),
-    alignItems: 'center',
-    // backgroundColor:"pink"
-    // height: this.state.teste + 10
-  },
   fotterTexts: {
     // backgroundColor: "pink",
     height: RFValue(20),
-    width: RFValue(1000),
+    // width: RFValue(1000),
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
-    // marginTop:RFValue(4),
+    // justifyContent: 'space-around',
+    marginBottom: RFValue(4),
   },
   fotterText: {
     fontWeight: 'bold',
-    fontSize: RFValue(12)
+    fontSize: RFValue(12),
+    alignItems: 'center'
   },
   fotterValuesContainer: {
     // backgroundColor: "brown",
@@ -452,13 +463,19 @@ const styles = StyleSheet.create({
     // backgroundColor: "purple",
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
-    height: RFValue(30),
+    // justifyContent: 'space-around',
+    height: RFValue(20),
     width: "100%",
-    padding: RFValue(3)
+    // padding: RFValue(3)
   },
   fotterTextValue: {
     // color: "red"
+  },
+  containerFotterValues: {
+    width: RFValue(120),
+    alignItems: 'center',
+    // backgroundColor:"pink"
+    // height: this.state.teste + 10
   },
   space: {
     width: "100%",

@@ -30,7 +30,8 @@ export default class Schedule extends Component {
 
             <View style={styles.profile}>
               <Text style={styles.calendar}>30.12 </Text>
-              <TouchableOpacity style={styles.userEmployee}>
+              <TouchableOpacity
+                style={styles.userEmployee}>
                 <Image
                   source={require('../assets/userProfile.png')}
                   style={styles.userEmployee}
@@ -155,9 +156,9 @@ const styles = StyleSheet.create({
     borderWidth: RFValue(4),
     borderRadius: RFValue(10),
     borderColor: 'black',
-    paddingTop:RFValue(15),
-    paddingStart:RFValue(15),
-    paddingEnd:RFValue(15),
+    paddingTop: RFValue(15),
+    paddingStart: RFValue(15),
+    paddingEnd: RFValue(15),
     // backgroundColor: 'red',
     width: '100%',
     height: RFValue(120),
@@ -170,9 +171,9 @@ const styles = StyleSheet.create({
   },
   profile: {
     // backgroundColor: "blue",
-    bottom:RFValue(10),
+    bottom: RFValue(10),
     alignItems: "center",
-    flexDirection:'column'
+    flexDirection: 'column'
     // left: RFValue(30),
     // marginTop: RFValue(7),
   },
@@ -207,12 +208,12 @@ const styles = StyleSheet.create({
   bgHours: {
     backgroundColor: '#bdbdbd',
     width: RFValue(50),
-    height: RFValue(1180),
+    height: Platform.OS === 'ios' ? RFValue(1180) : RFValue(1300),
     alignItems: 'center'
   },
   space: {
     width: "100%",
     // backgroundColor: "brown",
-    height: RFValue(75)
+    height: RFValue(100)
   },
 });

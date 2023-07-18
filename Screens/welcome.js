@@ -5,7 +5,7 @@ import * as Animatable from "react-native-animatable"
 
 appIcon = require("../assets/UltraEco.png")
 
-export default class Login extends Component {
+export default class Welcome extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,27 +32,22 @@ export default class Login extends Component {
   render() {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <SafeAreaView style={styles.droidSafeArea} />
-        <Animatable.View animation="fadeInLeft" delay={500} style={styles.containerHeader}>
-          <Text style={styles.message}>Bem-vindo(a)</Text>
-        </Animatable.View>
-        <Animatable.View animation="fadeInUp" style={styles.containerForm}>
-          <Text style={styles.title}>Email</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={text => this.setState({ email: text })}
-            placeholder={"Digite o e-mail"}
+        <View style={styles.conatinerLogo}>
+          <Animatable.Image 
+          animation={"flipInY"}
+          source={appIcon} 
+          style={styles.logo}
           />
+        </View>
 
-          <Text style={styles.title}>Senha</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={text => this.setState({ password: text })}
-            placeholder={"Digite a senha"}
-            secureTextEntry
-          />
+        <Animatable.View delay={600} animation={"fadeInUp"} style={styles.containerForm}>
+          <Text style={styles.title}>Bem-vindo a UltraEco</Text>
+          <Text style={styles.text}>Faça login para começar</Text>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity 
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Login")}
+          >
             <Text style={styles.buttonText}>Acessar</Text>
           </TouchableOpacity>
         </Animatable.View>
@@ -69,50 +64,50 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // justifyContent: "center"
   },
-  droidSafeArea: {
-    marginTop:
-      Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
+  conatinerLogo:{
+    flex:2,
+    backgroundColor: "#2a1074",
+    justifyContent:"center",
+    alignItems:"center"
   },
-  containerHeader:{
-    marginTop:"14%",
-    marginBottom: "8%",
-    paddingStart: "5%"
-  },
-  message:{
-    fontSize:RFValue(28),
-    fontWeight:"bold",
-    color:"#FFF"
+  logo:{
+    width: RFValue(300), 
+    height: RFValue(300),
+    borderRadius:RFValue(30),
+    alignSelf:"center"
   },
   containerForm:{
-    backgroundColor:"#fff",
-    flex:1,
+    flex: 1,
+    backgroundColor:"#FFF",
     borderTopLeftRadius:RFValue(25),
     borderTopRightRadius:RFValue(25),
     paddingStart:"5%",
     paddingEnd:"5%",
   },
   title:{
-    fontSize:RFValue(20),
-    marginTop:RFValue(28)
-  },
-  input: {
-    borderBottomWidth: RFValue(1),
-    height:RFValue(40),
+    fontSize:RFValue(24),
+    fontWeight:"bold",
+    marginTop:RFValue(28),
     marginBottom:RFValue(12),
-    fontSize:RFValue(16)
+    textAlign:"center"
   },
-  button: {
+  text:{
+    color:"#a1a1a1"
+  },
+  button:{
+    position:"absolute",
     backgroundColor: "#2a1074",
-    width: "100%",
-    borderRadius: RFValue(5),
-    paddingVertical:RFValue(8),
-    marginTop:RFValue(14),
-    justifyContent:"center",
+    borderRadius:RFValue(50),
+    paddingVertical: RFValue(8),
+    width:"60%",
+    alignSelf:"center",
+    bottom:"40%",
     alignItems:"center",
+    justifyContent:"center"
   },
   buttonText:{
-    color:"#fff",
     fontSize:RFValue(18),
+    color: "#FFF",
     fontWeight:"bold"
   },
 });
