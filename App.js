@@ -26,7 +26,7 @@ const StackNav = () => {
   return (
     <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false, gestureEnabled: false }}>
         <Stack.Screen name="Home" component={TabNavigator}/>
-        <Stack.Screen name="AddButton" component={AddButton}/>
+        {/* <Stack.Screen name="AddButton" component={AddButton}/> */}
         <Stack.Screen name="Scheduling" component={Scheduling}/>
         {/* <Stack.Screen name="AddEmployee" component={AddEmployee}/> */}
         <Stack.Screen name="RegisterService" component={RegisterServices}/>
@@ -41,7 +41,7 @@ export default function App() {
   return (
     <NavigationContainer>
       {/* <AddButton navigation={this.props.navigation}/> */}
-      <AddButton/>
+      {/* <AddButton/> */}
       <StackNav/>
     </NavigationContainer>   
   );
