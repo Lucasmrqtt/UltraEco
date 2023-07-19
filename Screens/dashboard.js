@@ -21,6 +21,8 @@ export default class Dashboard extends Component {
     super(props);
     this.state = {
       searchText: '',
+      searchText: '',
+      searchText: '',
       dropDownHeight1: 40,
       dropDownHeight2: 40,
       selectedValue1: null,
@@ -151,6 +153,7 @@ export default class Dashboard extends Component {
                     onChangeText={this.handleSearchTextChange}
                     value={searchText}
                     style={styles.filterTextInput}
+                    maxLength={40}
                   />
                 </View>
               </View>
@@ -480,7 +483,8 @@ const styles = StyleSheet.create({
     borderRadius: RFValue(4),
     marginLeft: RFValue(10),
     padding: RFValue(7),
-    height: RFValue(30)
+    height: RFValue(30),
+    width: RFValue(200),
   },
   moneyFilter: {
     // backgroundColor: "red",

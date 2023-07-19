@@ -66,36 +66,35 @@ export default class CashFlow extends Component {
 
     // }
     return (
-      <View style={styles.fotterValuesContainer}>
-        <View style={styles.fotterValues}>
-          <View style={styles.containerFotterValues}>
-            <Text style={styles.fotterTextValue}>R${item.valor}</Text>
-          </View>
-          <View style={{
-            width: RFValue(255),
-            alignItems: 'center',
-            // backgroundColor:"purple"
-          }}>
-            <Text style={styles.fotterTextValue}>{item.nome}</Text>
-          </View>
-          <View style={styles.containerFotterValues}>
-            <Text style={styles.fotterTextValue}>{item.data}</Text>
-          </View>
-          <View style={styles.containerFotterValues}>
-            <Text style={styles.fotterTextValue}>{item.formaDePagamento}</Text>
-          </View>
-          <View style={{
-            width: RFValue(255),
-            alignItems: 'center',
-            // backgroundColor:"purple"
-          }}>
-            <Text style={styles.fotterTextValue}>item.valor do antigo + o de agora</Text>
-          </View>
+
+      <View style={styles.fotterValues}>
+        <View style={styles.containerFotterValues}>
+          <Text style={styles.fotterTextValue}>R${item.valor}</Text>
+        </View>
+        <View style={{
+          width: RFValue(255),
+          alignItems: 'center',
+          // backgroundColor:"purple"
+        }}>
+          <Text style={styles.fotterTextValue}>{item.nome}</Text>
+        </View>
+        <View style={styles.containerFotterValues}>
+          <Text style={styles.fotterTextValue}>{item.data}</Text>
+        </View>
+        <View style={styles.containerFotterValues}>
+          <Text style={styles.fotterTextValue}>{item.formaDePagamento}</Text>
+        </View>
+        <View style={{
+          width: RFValue(255),
+          alignItems: 'center',
+          // backgroundColor:"purple"
+        }}>
+          <Text style={styles.fotterTextValue}>item.valor do antigo + o de agora</Text>
         </View>
       </View>
     )
   }
-  render () {
+  render() {
     const { searchText } = this.state;
     return (
       <View style={styles.container}>
@@ -265,18 +264,18 @@ export default class CashFlow extends Component {
                 <View style={{
                   width: RFValue(255),
                   alignItems: 'center',
-                  // backgroundColor:"purple"
+                  // backgroundColor: "purple"
                 }}>
                   <Text style={styles.fotterText}>Valor CX</Text>
                 </View>
               </View>
-
-              <FlatList
-                data={cashFlow}
-                renderItem={this.renderItem}
-                keyExtractor={(item, index) => index.toString()}
-              />
-
+              <View style={styles.fotterValuesContainer}>
+                <FlatList
+                  data={cashFlow}
+                  renderItem={this.renderItem}
+                  keyExtractor={(item, index) => index.toString()}
+                />
+              </View>
             </View>
           </ScrollView>
 
@@ -434,10 +433,10 @@ const styles = StyleSheet.create({
     marginTop: RFValue(1),
     // backgroundColor: "orange",
     width: "100%",
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
+    // justifyContent: 'flex-start',
+    // flexDirection: 'column',
     height: RFValue(1800),
-    borderTopWidth: RFValue(1),
+    borderTopWidth: RFValue(2),
   },
   fotterTexts: {
     // backgroundColor: "pink",
@@ -445,13 +444,14 @@ const styles = StyleSheet.create({
     // width: RFValue(1000),
     flexDirection: 'row',
     alignItems: 'center',
-    // justifyContent: 'space-around',
+    justifyContent: 'center',
     marginBottom: RFValue(4),
+    borderBottomWidth:RFValue(2),
+    borderBottomColor:"#000",
   },
   fotterText: {
     fontWeight: 'bold',
     fontSize: RFValue(12),
-    alignItems: 'center'
   },
   fotterValuesContainer: {
     // backgroundColor: "brown",
@@ -463,9 +463,14 @@ const styles = StyleSheet.create({
     // backgroundColor: "purple",
     flexDirection: 'row',
     alignItems: 'center',
-    // justifyContent: 'space-around',
-    height: RFValue(20),
+    // justifyContent: 'center',
+    height: RFValue(30),
     width: "100%",
+    marginBottom:RFValue(1),
+    borderBottomWidth:RFValue(1),
+    borderBottomColor:"#000",
+    // marginTop: RFValue(4), // Updated to RfValue
+    // marginBottom: RFValue(3),
     // padding: RFValue(3)
   },
   fotterTextValue: {

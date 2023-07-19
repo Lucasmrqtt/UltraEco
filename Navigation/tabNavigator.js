@@ -90,7 +90,8 @@ export default class TabNavigator extends Component {
 
 const styles = StyleSheet.create({
   bottomTabStyle: {
-    backgroundColor: "#7dff8c",
+    backgroundColor: "rgba(125, 255, 140,0.5)",
+    borderTopColor:"transparent",
     height: "10%",
     borderWidth: 1.5,
     // backgroundColor: "white",
