@@ -25,6 +25,7 @@ export default class CashFlow extends Component {
       searchText: '',
       selectedValue1: null,
       selectedValue2: null,
+      valorAntigo: 0,
     };
   }
 
@@ -59,6 +60,7 @@ export default class CashFlow extends Component {
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
 
+
   renderItem = ({ item }) => {
     // nome = item.nome
     // if (nome.lenght > 15) {
@@ -66,7 +68,6 @@ export default class CashFlow extends Component {
 
     // }
     return (
-
       <View style={styles.fotterValues}>
         <View style={styles.containerFotterValues}>
           <Text style={styles.fotterTextValue}>R${item.valor}</Text>
@@ -89,11 +90,13 @@ export default class CashFlow extends Component {
           alignItems: 'center',
           // backgroundColor:"purple"
         }}>
-          <Text style={styles.fotterTextValue}>item.valor do antigo + o de agora</Text>
+          <Text style={styles.fotterTextValue}>{item.valorCx + this.state.valorAntigo}</Text>
         </View>
       </View>
     )
+    this.setState({valorAntigo:item.valorCx})
   }
+  
   render() {
     const { searchText } = this.state;
     return (

@@ -79,7 +79,7 @@ export default class AddClients1 extends Component {
     this.setState({ searchText4: text });
   
     const parsedValue = parseInt(text, 10); // Parse the input to an integer
-    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 2030) {
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 2100) {
       this.setState({ yearValue: String(parsedValue) });
     } else {
       this.setState({ yearValue: '' }); // Limpa o valor se não for válido

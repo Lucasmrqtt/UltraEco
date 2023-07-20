@@ -1,0 +1,26 @@
+[
+  {
+    "horario1":"13:30",
+    "horario2":"15:00",
+    "nome": "Débora Pedrini",
+    "servico": "Lavagem",
+    "tipoCarro":"(SUV)",
+    "status":"FINALIZADO"
+  },
+  {
+    "horario1":"8:00",
+    "horario2":"9:30",
+    "nome": "Marcelo Técnico",
+    "servico": "Lavagem",
+    "tipoCarro":"(SUV)",
+    "status":"FINALIZADO"
+  },
+  {
+    "horario1":"10:00",
+    "horario2":"11:30",
+    "nome": "Gloria Marquetti",
+    "servico": "Lavagem",
+    "tipoCarro":"(SUV)",
+    "status":"AGENDADO"
+  }
+]

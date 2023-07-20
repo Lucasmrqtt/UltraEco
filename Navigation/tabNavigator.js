@@ -3,28 +3,32 @@ import {
   Image,
   Modal,
   View,
-  Button,
   Text,
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { RFValue } from "react-native-responsive-fontsize";
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import Schedule from '../Screens/schedule';
+import Dashboard from '../Screens/dashboard';
 import Clients from "../Screens/clients";
-import Schedule from "../Screens/schedule";
-import Dashboard from "../Screens/dashboard";
 import Settings from "../Screens/settings";
-import DrawerNavigator from "./drawerNavigator";
-import CashFlow from "../Screens/cashFlow";
-import AddClients1 from "../Screens/addClients1";
-import AddClients2 from "../Screens/addClients2";
-import AddEmployee from "../Screens/addEmployee";
-import AddButton from "../Components/addButton";
-
+import Welcome from '../Screens/welcome';
+import AddButton from "../Components/addButton"; //Feito
+import AddClients1 from "../Screens/addClients1"; //Feito
+import AddClients2 from "../Screens/addClients2"; //Feito
+import AddEmployee from "../Screens/addEmployee"; //Feito
+import CashFlow from "../Screens/cashFlow"; //Feito
+import Historic from "../Screens/historic";
+import RegisterServices from "../Screens/registerService";
+import ScheduleChange from "../Screens/ScheduleChange";
+import Scheduling from "../Screens/scheduling";
 import Login from "../Screens/login";
-import Welcome from "../Screens/welcome";
+
+
 
 const Tab = createMaterialBottomTabNavigator()
 const windowHeight = Dimensions.get('window').height;
@@ -36,6 +40,7 @@ export default class TabNavigator extends Component {
       isBottomSheetOpen: false,
     };
   }
+
   handleOpenBottomSheet = () => {
     this.setState({ isBottomSheetOpen: true });
   };
@@ -75,20 +80,12 @@ export default class TabNavigator extends Component {
                 iconName = focused
                   ? 'people'
                   : 'people-outline';
-              } else if (route.name === 'Records') {
-                iconName = 'add-circle'
-                iconSize = RFValue(25)
-                iconColor = "#0047FF"
               } else if (route.name === 'Schedule') {
                 iconName = focused ? 'calendar' : 'calendar-outline';
               } else if (route.name === 'Dashboard') {
                 iconName = focused ? 'bar-chart' : 'bar-chart-outline';
               } else if (route.name === 'Settings') {
                 iconName = focused ? 'settings' : 'settings-outline';
-              } else if (route.name === 'Search') {
-                iconName = focused ? 'search' : 'search-outline';
-              } else if (route.name === 'ScheduleChange') {
-                iconName = focused ? 'options' : 'options-outline';
               }
 
               // You can return any component that you like here!
@@ -105,58 +102,63 @@ export default class TabNavigator extends Component {
           {/* <Tab.Screen name="Tela2" component={AddClients1} /> */}
           {/* <Tab.Screen name="Welcome" component={Welcome}/> */}
           <Tab.Screen name="Dashboard" component={Dashboard} />
-          <Tab.Screen name="Modal" component={this.handleOpenBottomSheet} />
+          {/* <Tab.Screen name="Modal" component={this.handleOpenBottomSheet} /> */}
           {/* <Tab.Screen name="Login" component={Login} /> */}
           <Tab.Screen name="Clients" component={Clients} />
           <Tab.Screen name="Settings" component={Settings} />
         </Tab.Navigator >
 
-        <TouchableOpacity
+         {/* <TouchableOpacity
           onPress={this.handleOpenBottomSheet}
           style={styles.button}
         >
-          {/* <Image
+           <Image
             source={require("../assets/botao-adicionar.png")}
             style={styles.icon}
-          /> */}
-        </TouchableOpacity>
+          /> 
+        </TouchableOpacity>  */}
 
-        <Modal
-          animationType="slide"
-          transparent={true}
-          onPress={() => this.state.isBottomSheetOpen(true)}
-          visible={this.state.isBottomSheetOpen}
-          onRequestClose={() => this.handleCloseBottomSheet()}>
-          <View style={[styles.bottomSheet, { height: windowHeight * 0.6 }]}>
-            <View style={styles.modal}>
-              <TouchableOpacity style={styles.closeButton} onPress={() => this.handleCloseBottomSheet()}>
-                <Image source={require("../assets/botao-adicionar.png")} style={styles.close} />
-              </TouchableOpacity>
-              <View style={styles.adds}>
-                <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("Scheduling") }}>
-                  <Image source={require("../assets/add.png")} style={styles.icons} />
-                  <Text style={styles.text}>Agendar Serviço</Text>
+        {/* if (Platform.OS === 'android') {
+          *Modal do android*
+        } else {
+          <Modal
+            animationType="slide"
+            transparent={true}
+            onPress={() => this.state.isBottomSheetOpen(true)}
+            visible={this.state.isBottomSheetOpen}
+            onRequestClose={() => this.handleCloseBottomSheet()}>
+            <View style={[styles.bottomSheet, { height: windowHeight * 0.6 }]}>
+              <View style={styles.modal}>
+                <TouchableOpacity style={styles.closeButton} onPress={() => this.handleCloseBottomSheet()}>
+                  <Image source={require("../assets/botao-adicionar.png")} style={styles.close} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("RegisterServices") }}>
-                  <Image source={require("../assets/customer-support.png")} style={{
-                    width: RFValue(35),
-                    height: RFValue(35),
-                    marginRight: 35,
-                  }} />
-                  <Text style={styles.text}>Cadastrar Serviço</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("AddEmployee") }}>
-                  <Image source={require("../assets/employee.png")} style={styles.icons} />
-                  <Text style={styles.text}>Cadastrar Funcionário</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("AddClients1") }}>
-                  <Image source={require("../assets/client.png")} style={styles.icons} />
-                  <Text style={styles.text}>Cadastrar Cliente</Text>
-                </TouchableOpacity>
+                <View style={styles.adds}>
+                  <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("Scheduling") }}>
+                    <Image source={require("../assets/add.png")} style={styles.iconsModal} />
+                    <Text style={styles.text}>Agendar Serviço</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("RegisterServices") }}>
+                    <Image source={require("../assets/customer-support.png")} style={{
+                      width: RFValue(35),
+                      height: RFValue(35),
+                      marginRight: 35,
+                    }} />
+                    <Text style={styles.text}>Cadastrar Serviço</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("AddEmployee") }}>
+                    <Image source={require("../assets/employee.png")} style={styles.iconsModal} />
+                    <Text style={styles.text}>Cadastrar Funcionário</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("AddClients1") }}>
+                    <Image source={require("../assets/client.png")} style={styles.iconsModal} />
+                    <Text style={styles.text}>Cadastrar Cliente</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
-          </View>
-        </Modal>
+          </Modal>
+        } */}
+
       </View>
     )
   }
@@ -184,7 +186,7 @@ const styles = StyleSheet.create({
   },
   button: {
     position: 'absolute',
-    backgroundColor:"red",
+    backgroundColor: "red",
     alignSelf: 'center',
     bottom: 50,
     width: 50,
@@ -211,11 +213,11 @@ const styles = StyleSheet.create({
     // backgroundColor: "pink",
     justifyContent: 'center'
   },
-  closeButton96: {
+  closeButton: {
     justifyContent: 'center',
     alignSelf: 'center',
-    backgroundColor:"gray",
-    width:RFValue(60)
+    backgroundColor: "gray",
+    width: RFValue(60)
   },
   close: {
     width: RFValue(60),
@@ -228,7 +230,7 @@ const styles = StyleSheet.create({
     // borderColor: "blue",
     height: windowHeight * 0.7
   },
-  icons: {
+  iconsModal: {
     width: RFValue(40),
     height: RFValue(40),
     marginRight: 30
