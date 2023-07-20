@@ -3,6 +3,7 @@ import {
   Image,
   Modal,
   View,
+  Button,
   Text,
   StyleSheet,
   Dimensions,
@@ -16,6 +17,7 @@ import Schedule from '../Screens/schedule';
 import Dashboard from '../Screens/dashboard';
 import Clients from "../Screens/clients";
 import Settings from "../Screens/settings";
+
 import Welcome from '../Screens/welcome';
 import AddButton from "../Components/addButton"; //Feito
 import AddClients1 from "../Screens/addClients1"; //Feito
@@ -26,6 +28,15 @@ import Historic from "../Screens/historic";
 import RegisterServices from "../Screens/registerService";
 import ScheduleChange from "../Screens/ScheduleChange";
 import Scheduling from "../Screens/scheduling";
+
+import DrawerNavigator from "./drawerNavigator";
+import CashFlow from "../Screens/cashFlow";
+import AddClients1 from "../Screens/addClients1";
+import AddClients2 from "../Screens/addClients2";
+import AddEmployee from "../Screens/addEmployee";
+import AddButton from "../Components/addButton";
+
+
 import Login from "../Screens/login";
 
 
@@ -40,7 +51,6 @@ export default class TabNavigator extends Component {
       isBottomSheetOpen: false,
     };
   }
-
   handleOpenBottomSheet = () => {
     this.setState({ isBottomSheetOpen: true });
   };
@@ -92,7 +102,11 @@ export default class TabNavigator extends Component {
               return <Ionicons name={iconName} size={iconSize} color={iconColor} style={styles.icons} />;
             },
           })}
+
           initialRouteName="Agenda"
+
+          initialRouteName="Schedule"
+
           // initialRouteName="Tela2"
           activeColor={"black"}
           inactiveColor={"gray"}
@@ -102,11 +116,16 @@ export default class TabNavigator extends Component {
           {/* <Tab.Screen name="Tela2" component={AddClients1} /> */}
           {/* <Tab.Screen name="Welcome" component={Welcome}/> */}
           <Tab.Screen name="Dashboard" component={Dashboard} />
+
           {/* <Tab.Screen name="Modal" component={this.handleOpenBottomSheet} /> */}
+
+          <Tab.Screen name="Modal" component={this.handleOpenBottomSheet} />
+
           {/* <Tab.Screen name="Login" component={Login} /> */}
           <Tab.Screen name="Clientes" component={Clients} />
           <Tab.Screen name="Config." component={Settings} />
         </Tab.Navigator >
+
 
          {/* <TouchableOpacity
           onPress={this.handleOpenBottomSheet}
@@ -159,6 +178,52 @@ export default class TabNavigator extends Component {
           </Modal>
         } */}
 
+        <TouchableOpacity
+          onPress={this.handleOpenBottomSheet}
+          style={styles.button}
+        >
+          {/* <Image
+            source={require("../assets/botao-adicionar.png")}
+            style={styles.icon}
+          /> */}
+        </TouchableOpacity>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          onPress={() => this.state.isBottomSheetOpen(true)}
+          visible={this.state.isBottomSheetOpen}
+          onRequestClose={() => this.handleCloseBottomSheet()}>
+          <View style={[styles.bottomSheet, { height: windowHeight * 0.6 }]}>
+            <View style={styles.modal}>
+              <TouchableOpacity style={styles.closeButton} onPress={() => this.handleCloseBottomSheet()}>
+                <Image source={require("../assets/botao-adicionar.png")} style={styles.close} />
+              </TouchableOpacity>
+              <View style={styles.adds}>
+                <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("Scheduling") }}>
+                  <Image source={require("../assets/add.png")} style={styles.icons} />
+                  <Text style={styles.text}>Agendar Serviço</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("RegisterServices") }}>
+                  <Image source={require("../assets/customer-support.png")} style={{
+                    width: RFValue(35),
+                    height: RFValue(35),
+                    marginRight: 35,
+                  }} />
+                  <Text style={styles.text}>Cadastrar Serviço</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("AddEmployee") }}>
+                  <Image source={require("../assets/employee.png")} style={styles.icons} />
+                  <Text style={styles.text}>Cadastrar Funcionário</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("AddClients1") }}>
+                  <Image source={require("../assets/client.png")} style={styles.icons} />
+                  <Text style={styles.text}>Cadastrar Cliente</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     )
   }
@@ -186,7 +251,11 @@ const styles = StyleSheet.create({
   },
   button: {
     position: 'absolute',
+
     backgroundColor: "red",
+
+    backgroundColor:"red",
+
     alignSelf: 'center',
     bottom: 50,
     width: 50,
@@ -213,11 +282,18 @@ const styles = StyleSheet.create({
     // backgroundColor: "pink",
     justifyContent: 'center'
   },
+
   closeButton: {
     justifyContent: 'center',
     alignSelf: 'center',
     backgroundColor: "gray",
     width: RFValue(60)
+
+  closeButton96: {
+    justifyContent: 'center',
+    alignSelf: 'center',
+    backgroundColor:"gray",
+    width:RFValue(60)
   },
   close: {
     width: RFValue(60),
@@ -231,6 +307,7 @@ const styles = StyleSheet.create({
     height: windowHeight * 0.7
   },
   iconsModal: {
+  icons: {
     width: RFValue(40),
     height: RFValue(40),
     marginRight: 30
