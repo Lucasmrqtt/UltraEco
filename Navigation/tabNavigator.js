@@ -76,15 +76,15 @@ export default class TabNavigator extends Component {
               let iconSize = RFValue(20);
               let iconColor = color
 
-              if (route.name === 'Clients') {
+              if (route.name === 'Clientes') {
                 iconName = focused
                   ? 'people'
                   : 'people-outline';
-              } else if (route.name === 'Schedule') {
+              } else if (route.name === 'Agenda') {
                 iconName = focused ? 'calendar' : 'calendar-outline';
               } else if (route.name === 'Dashboard') {
                 iconName = focused ? 'bar-chart' : 'bar-chart-outline';
-              } else if (route.name === 'Settings') {
+              } else if (route.name === 'Config.') {
                 iconName = focused ? 'settings' : 'settings-outline';
               }
 
@@ -92,20 +92,20 @@ export default class TabNavigator extends Component {
               return <Ionicons name={iconName} size={iconSize} color={iconColor} style={styles.icons} />;
             },
           })}
-          initialRouteName="Schedule"
+          initialRouteName="Agenda"
           // initialRouteName="Tela2"
           activeColor={"black"}
           inactiveColor={"gray"}
         >
-          <Tab.Screen name="Schedule" component={Schedule} />
+          <Tab.Screen name="Agenda" component={Schedule} />
           {/* <Tab.Screen name="Tela1" component={AddEmployee} /> */}
           {/* <Tab.Screen name="Tela2" component={AddClients1} /> */}
           {/* <Tab.Screen name="Welcome" component={Welcome}/> */}
           <Tab.Screen name="Dashboard" component={Dashboard} />
           {/* <Tab.Screen name="Modal" component={this.handleOpenBottomSheet} /> */}
           {/* <Tab.Screen name="Login" component={Login} /> */}
-          <Tab.Screen name="Clients" component={Clients} />
-          <Tab.Screen name="Settings" component={Settings} />
+          <Tab.Screen name="Clientes" component={Clients} />
+          <Tab.Screen name="Config." component={Settings} />
         </Tab.Navigator >
 
          {/* <TouchableOpacity
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(125, 255, 140,0.5)",
     borderTopColor: "transparent",
     height: "10%",
-    borderWidth: 1.5,
+    // borderWidth: 1.5,
     // backgroundColor: "white",
     // borderTopLeftRadius: RFValue(50),
     // borderTopRightRadius: RFValue(30),

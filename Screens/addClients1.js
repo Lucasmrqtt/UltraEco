@@ -29,7 +29,6 @@ export default class AddClients1 extends Component {
       dayValue1: '',
       dayValue2: '',
       dayValue3: '',
-      yearValue: '',
       dropDownHeight: 40,
       phoneInput: null,
       value: "",
@@ -85,7 +84,7 @@ export default class AddClients1 extends Component {
       this.setState({ yearValue: '' }); // Limpa o valor se não for válido
     }
 
-    if (text.length >= 4 && parsedValue <= 2030) {
+    if (text.length >= 4 && parsedValue <= 2100) {
       Keyboard.dismiss()
     }
   };

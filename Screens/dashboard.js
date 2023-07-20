@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StatusBar,
   Platform,
+  Keyboard,
   SafeAreaView,
   TextInput,
   FlatList
@@ -21,22 +22,120 @@ export default class Dashboard extends Component {
     super(props);
     this.state = {
       searchText: '',
-      searchText: '',
-      searchText: '',
+      searchText2: '',
+      searchText3: '',
+      searchText4: '',
+      searchText5: '',
+      searchText6: '',
+      searchText7: '',
+      dayValue1: '',
+      dayValue2: '',
+      dayValue3: '',
+      dayValue4: '',
+      dayValue5: '',
+      dayValue6: '',
       dropDownHeight1: 40,
       dropDownHeight2: 40,
       selectedValue1: null,
       selectedValue2: null,
       payment: "Din",
     };
+    this.textInputBirth1 = null
+    this.textInputMonth1 = null
+    this.textInputYear1 = null
+    this.textInputBirth2 = null
+    this.textInputMonth2 = null
+    this.textInputYear2 = null
   }
 
   handleValueChange1 = (itemValue) => {
     this.setState({ selectedValue1: itemValue });
   };
 
-  handleValueChange2 = (itemValue) => {
-    this.setState({ selectedValue2: itemValue });
+  handleSearchTextChange2 = (text) => {
+    this.setState({ searchText2: text });
+  
+    const parsedValue = parseInt(text, 10);
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 31) {
+      this.setState({ dayValue1: String(parsedValue) });
+    } else {
+      this.setState({ dayValue1: '' });
+    }
+  
+    if (text.length >= 2 && parsedValue <= 31) {
+      this.textInputMonth1.focus();
+    }
+  };
+  handleSearchTextChange3 = (text) => {
+    this.setState({ searchText3: text });
+
+    const parsedValue = parseInt(text, 10); // Parse the input to an integer
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 12) {
+      this.setState({ dayValue2: String(parsedValue) });
+    } else {
+      this.setState({ dayValue2: '' }); // Limpa o valor se não for válido
+    }
+
+    if (text.length >= 2 && parsedValue <= 12) {
+      this.textInputYear1.focus(); // Move to the year TextInput
+    }
+  };
+  handleSearchTextChange4 = (text) => {
+    this.setState({ searchText4: text });
+
+    const parsedValue = parseInt(text, 10); // Parse the input to an integer
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 2100) {
+      this.setState({ dayValue3: String(parsedValue) });
+    } else {
+      this.setState({ dayValue3: '' }); // Limpa o valor se não for válido
+    }
+
+    if (text.length >= 4 && parsedValue <= 2100) {
+      this.textInputBirth2.focus(); // Move to the year TextInput
+    }
+  };
+
+  handleSearchTextChange5 = (text) => {
+    this.setState({ searchText5: text });
+
+    const parsedValue = parseInt(text, 10); // Parse the input to an integer
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 31) {
+      this.setState({ dayValue4: String(parsedValue) });
+    } else {
+      this.setState({ dayValue4: '' }); // Limpa o valor se não for válido
+    }
+
+    if (text.length >= 2 && parsedValue <= 31) {
+      this.textInputMonth2.focus(); // Move to the month TextInput
+    }
+  };
+  handleSearchTextChange6 = (text) => {
+    this.setState({ searchText6: text });
+
+    const parsedValue = parseInt(text, 10); // Parse the input to an integer
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 12) {
+      this.setState({ dayValue5: String(parsedValue) });
+    } else {
+      this.setState({ dayValue5: '' }); // Limpa o valor se não for válido
+    }
+
+    if (text.length >= 2 && parsedValue <= 12) {
+      this.textInputYear2.focus(); // Move to the year TextInput
+    }
+  };
+  handleSearchTextChange7 = (text) => {
+    this.setState({ searchText7: text });
+
+    const parsedValue = parseInt(text, 10); // Parse the input to an integer
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 2100) {
+      this.setState({ dayValue6: String(parsedValue) });
+    } else {
+      this.setState({ dayValue6: '' }); // Limpa o valor se não for válido
+    }
+
+    if (text.length >= 4 && parsedValue <= 2100) {
+      Keyboard.dismiss()
+    }
   };
 
   renderPlaceholder1 = () => {
@@ -47,7 +146,6 @@ export default class Dashboard extends Component {
       return 'Din / Nub / Sic / Déb / Créd';
     }
   };
-
   renderPlaceholder2 = () => {
     const { selectedValue2 } = this.state;
     if (selectedValue2) {
@@ -203,17 +301,97 @@ export default class Dashboard extends Component {
               </View>
 
               <View style={styles.dateFilter}>
+                <Text style={[styles.fromTxt, {fontSize:RFValue(20)}]}>Filtro Data</Text>
                 <View style={styles.from}>
-                  <Text style={styles.filterText}> De </Text>
-                  <TouchableOpacity style={styles.dateFilterButton}>
-                    <Text style={styles.date}> DATA</Text>
-                  </TouchableOpacity>
+                  <Text style={[styles.fromTxt, {paddingRight:RFValue(11)}]}>De:</Text>
+                  <View  style={styles.textInput}>
+                    <TextInput
+                      placeholder="Dia"
+                      placeholderStyle={{
+                        justifyContent: "center",
+                        alignItems: "center"
+                      }}
+                      onChangeText={this.handleSearchTextChange2}
+                      value={this.state.dayValue1}
+                      keyboardType='numeric'
+                      style={styles.textInputBirth}
+                      maxLength={2}
+                      ref={(input) => (this.textInputBirth1 = input)}
+                    />
+                    <TextInput
+                      placeholder="Mês"
+                      placeholderStyle={{
+                        justifyContent: "center",
+                        alignItems: "center"
+                      }}
+                      onChangeText={this.handleSearchTextChange3}
+                      value={this.state.dayValue2}
+                      keyboardType='numeric'
+                      style={styles.textInputBirth}
+                      maxLength={2}
+                      ref={(input) => (this.textInputMonth1 = input)}
+                    />
+
+                    <TextInput
+                      placeholder="Ano"
+                      placeholderStyle={{
+                        justifyContent: "center",
+                        alignItems: "center"
+                      }}
+                      onChangeText={this.handleSearchTextChange4}
+                      value={this.state.dayValue3}
+                      keyboardType='numeric'
+                      style={[styles.textInputBirth, { width: RFValue(60) }]}
+                      maxLength={4}
+                      ref={(input) => (this.textInputYear1 = input)}
+                    />
+                  </View>
                 </View>
-                <View style={styles.to}>
-                  <Text style={styles.filterText}> até </Text>
-                  <TouchableOpacity style={styles.dateFilterButton}>
-                    <Text style={styles.date}> DATA</Text>
-                  </TouchableOpacity>
+
+                <View style={styles.from}>
+                  <Text style={styles.fromTxt}>Até:</Text>
+                  <View  style={styles.textInput}>
+                    <TextInput
+                      placeholder="Dia"
+                      placeholderStyle={{
+                        justifyContent: "center",
+                        alignItems: "center"
+                      }}
+                      onChangeText={this.handleSearchTextChange5}
+                      value={this.state.dayValue4}
+                      keyboardType='numeric'
+                      style={styles.textInputBirth}
+                      maxLength={2}
+                      ref={(input) => (this.textInputBirth2 = input)}
+                    />
+                    <TextInput
+                      placeholder="Mês"
+                      placeholderStyle={{
+                        justifyContent: "center",
+                        alignItems: "center"
+                      }}
+                      onChangeText={this.handleSearchTextChange6}
+                      value={this.state.dayValue5}
+                      keyboardType='numeric'
+                      style={styles.textInputBirth}
+                      maxLength={2}
+                      ref={(input) => (this.textInputMonth2 = input)}
+                    />
+
+                    <TextInput
+                      placeholder="Ano"
+                      placeholderStyle={{
+                        justifyContent: "center",
+                        alignItems: "center"
+                      }}
+                      onChangeText={this.handleSearchTextChange7}
+                      value={this.state.dayValue6}
+                      keyboardType='numeric'
+                      style={[styles.textInputBirth, { width: RFValue(60) }]}
+                      maxLength={4}
+                      ref={(input) => (this.textInputYear2 = input)}
+                    />
+                  </View>
                 </View>
               </View>
 
@@ -375,7 +553,7 @@ const styles = StyleSheet.create({
     marginTop: RFValue(10),
     // backgroundColor: "green",
     width: "100%",
-    height: Platform.OS === 'ios' ? RFValue(350) : RFValue(430),
+    height: Platform.OS === 'ios' ? RFValue(440) : RFValue(530),
   },
   invoicingAndCash: {
     // backgroundColor: "gray",
@@ -505,24 +683,47 @@ const styles = StyleSheet.create({
     // fontWeight: 'bold'
     padding: RFValue(2)
   },
+
   dateFilter: {
-    // backgroundColor:"purple",
-    flexDirection: 'row',
-    // justifyContent: 'space-around'
-    marginBottom: RFValue(10),
-    marginLeft: RFValue(10),
-    alignItems: 'center',
+    // backgroundColor: "purple",
+    flexDirection: 'column',
+    borderWidth:RFValue(3),
+    alignSelf:'center',
+    borderRadius:RFValue(10),
+    width:"100%"
   },
   from: {
     // backgroundColor: "blue",
+    marginBottom:RFValue(10),
     flexDirection: 'row',
-    marginRight: RFValue(10),
     alignItems: 'center',
   },
-  to: {
-    //  backgroundColor:"red",
-    flexDirection: 'row',
-    alignItems: 'center',
+  textInput:{
+    flexDirection:'row',
+    // backgroundColor: "#f1f",
+    justifyContent:'space-between',
+    width:RFValue(180)
+  },
+  fromTxt:{
+    fontSize:RFValue(16),
+    fontWeight:'bold',
+    paddingStart:RFValue(6),
+    paddingRight:RFValue(6),
+  },
+
+  textInputBirth: {
+    borderWidth: RFValue(1.5),
+    borderRadius: RFValue(4),
+    paddingLeft: RFValue(10),
+    height: RFValue(40),
+    width: RFValue(50),
+    backgroundColor: "white",
+    marginTop: RFValue(3),
+    // fontWeight:'bold',
+    fontSize: RFValue(16),
+    justifyContent: 'center',
+    alignItems: 'center'
+    // width: 10
   },
   date: {
     borderWidth: RFValue(1.5),
@@ -535,7 +736,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "yellow",
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: RFValue(4)
+    marginTop: RFValue(10)
   },
   OpenCloseFilter: {
     // backgroundColor: "purple",
@@ -595,8 +796,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: RFValue(4),
-    borderBottomWidth:RFValue(2),
-    borderBottomColor:"#000",
+    borderBottomWidth: RFValue(2),
+    borderBottomColor: "#000",
   },
   fotterText: {
     fontWeight: 'bold',
@@ -615,9 +816,9 @@ const styles = StyleSheet.create({
     // justifyContent: 'space-around',
     height: RFValue(20),
     width: "100%",
-    marginBottom:RFValue(1),
-    borderBottomWidth:RFValue(1),
-    borderBottomColor:"#000",
+    marginBottom: RFValue(1),
+    borderBottomWidth: RFValue(1),
+    borderBottomColor: "#000",
     marginTop: RFValue(4), // Updated to RfValue
     marginBottom: RFValue(3), // Updated to RfValue
     // paddingBottom:RFValue(4),
