@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './Navigation/stackNavigator';
-import AddButton from './Components/addButton';
 import TabNavigator from './Navigation/tabNavigator';
 import Scheduling from './Screens/scheduling';
 import AddEmployee from './Screens/addEmployee';
@@ -41,8 +40,7 @@ const StackNav = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      {/* <AddButton navigation={this.props.navigation}/> */}
-      {/* <AddButton/> */}
+
       <StackNav/>
     </NavigationContainer>   
   );

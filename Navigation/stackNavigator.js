@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import TabNavigator from "./tabNavigator";
-import AddButton from "../Components/addButton"; //Feito
+
 import AddClients1 from "../Screens/addClients1"; //Feito
 import AddClients2 from "../Screens/addClients2"; //Feito
 import AddEmployee from "../Screens/addEmployee"; //Feito

@@ -39,12 +39,18 @@ export function ActionModal({ handleClose }) {
         </View>
 
         <View>
-          <TouchableOpacity style={styles.containerIcons}>
+          <TouchableOpacity 
+          style={styles.containerIcons} 
+          onPress={() => this.props.navigation.navigate("Scheduling")}
+          >
             <Image source={require("../assets/add.png")} style={styles.icons} />
             <Text style={styles.text}>Agendar Serviço</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.containerIcons}>
+          <TouchableOpacity 
+          style={styles.containerIcons}
+          onPress={() => this.props.navigation.navigate("RegisterService")}
+          >
             <Image source={require("../assets/customer-support.png")} style={{
               width: RFValue(35),
               height: RFValue(35),
@@ -54,12 +60,18 @@ export function ActionModal({ handleClose }) {
             <Text style={styles.text}>Cadastrar Serviço</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.containerIcons}>
+          <TouchableOpacity 
+          style={styles.containerIcons}
+          onPress={() => this.props.navigation.navigate("AddEmploye")}
+          >
             <Image source={require("../assets/employee.png")} style={styles.icons} />
             <Text style={styles.text}>Cadastrar Funcionário</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.containerIcons}>
+          <TouchableOpacity 
+          style={styles.containerIcons}
+          onPress={() => this.props.navigation.navigate("AddClients")}
+          >
             <Image source={require("../assets/client.png")} style={styles.icons} />
             <Text style={styles.text}>Cadastrar Clientes</Text>
           </TouchableOpacity>

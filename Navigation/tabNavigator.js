@@ -22,7 +22,6 @@ import { ActionModal } from '../Components/ActionModal';
 import ButtonStyle from '../Components/ButtonStyle';
 
 import Welcome from '../Screens/welcome';
-import AddButton from "../Components/addButton"; //Feito
 import AddClients1 from "../Screens/addClients1"; //Feito
 import AddClients2 from "../Screens/addClients2"; //Feito
 import AddEmployee from "../Screens/addEmployee"; //Feito
@@ -126,9 +125,6 @@ export default class TabNavigator extends Component {
           <Tab.Screen name="Clientes" component={Clients} />
           <Tab.Screen name="Config." component={Settings} />
         </Tab.Navigator >
-
-
-
 
         <Modal
           visible={this.state.visibleModal}

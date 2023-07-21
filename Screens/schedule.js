@@ -160,7 +160,7 @@ export default class Schedule extends Component {
             </View>
           </View>
 
-          <View style={styles.space}></View>
+          {/* <View style={styles.space}></View> */}
         </ScrollView>
       </View>
     );
@@ -289,7 +289,6 @@ const styles = StyleSheet.create({
     paddingTop: RFValue(2),
     fontSize: RFValue(8),
   },
-
   weekTxt: {
     fontSize: RFValue(14),
     // fontWeight: 'bold'
@@ -297,9 +296,9 @@ const styles = StyleSheet.create({
   dayTxt: {
     fontSize: RFValue(9),
   },
-  space: {
-    width: "100%",
-    // backgroundColor: "brown",
-    height: RFValue(75)
-  },
+  // space: {
+  //   width: "100%",
+  //   // backgroundColor: "brown",
+  //   height: Platform.OS === 'ios' ? RFValue(75) : RFValue(0)
+  // },
 });

@@ -553,7 +553,7 @@ const styles = StyleSheet.create({
     marginTop: RFValue(10),
     // backgroundColor: "green",
     width: "100%",
-    height: Platform.OS === 'ios' ? RFValue(440) : RFValue(530),
+    height: Platform.OS === 'ios' ? RFValue(460) : RFValue(540),
   },
   invoicingAndCash: {
     // backgroundColor: "gray",
