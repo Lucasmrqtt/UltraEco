@@ -26,16 +26,17 @@ export default class Schedule extends Component {
   renderItem = ({ item }) => {
     const borderLeftColor = item.status === "FINALIZADO" ? "#3bbf3f" : "#1c20ff"
     const color = item.status === "FINALIZADO" ? "#3bbf3f" : "#1c20ff"
-    
+
     return (
       <View style={[styles.value, { borderLeftColor }]}>
+        <View style={{flexDirection:'row'}}>
         <Text style={styles.hour}>{item.horario1} - {item.horario2}</Text>
-        <Text style={styles.name}>{item.nome}</Text>
-        <View style={styles.lavagem}>
-          <Text style={styles.servico}>{item.servico}</Text>
-          <Text style={styles.tipoCarro}>{item.tipoCarro}</Text>
+        <Text style={[styles.hour, {marginLeft:RFValue(5), marginRight:RFValue(5) }]}>|</Text>
+        <Text style={styles.hour}>{item.bairro}</Text>
         </View>
-        <Text style={[styles.status, {color}]}>{item.status}</Text>
+        <Text style={styles.name}>{item.nome}</Text>
+        <Text style={styles.servico}>{item.servico}</Text>
+        <Text style={[styles.status, { color }]}>{item.status}</Text>
       </View>
     )
   }
@@ -58,7 +59,7 @@ export default class Schedule extends Component {
                   style={styles.userEmployee}
                 />
               </TouchableOpacity>
-              <Text style={styles.name}>Pedro</Text>
+              <Text style={styles.nome}>Pedro</Text>
             </View>
 
             <TouchableOpacity
@@ -76,10 +77,9 @@ export default class Schedule extends Component {
 
             <View style={styles.containerWeeks}>
               <View style={styles.week}>
-                <Text style={styles.weekTxt}>Dom</Text>
-                <Text style={styles.dayTxt}>16/07</Text>
+                <Text style={styles.weekTxt}>Seg</Text>
+                <Text style={styles.dayTxt}>17/07</Text>
               </View>
-
               <ScrollView horizontal={true} style={styles.values}>
                 <View style={styles.containerValues}>
                   {/* flatlist */}
@@ -90,17 +90,6 @@ export default class Schedule extends Component {
                     renderItem={this.renderItem}
                     keyExtractor={(item, index) => index.toString()}
                   />
-                </View>
-              </ScrollView>
-            </View>
-            <View style={styles.containerWeeks}>
-              <View style={styles.week}>
-                <Text style={styles.weekTxt}>Seg</Text>
-                <Text style={styles.dayTxt}>17/07</Text>
-              </View>
-              <ScrollView horizontal={true} style={styles.values}>
-                <View style={styles.containerValues}>
-
                 </View>
               </ScrollView>
             </View>
@@ -159,7 +148,16 @@ export default class Schedule extends Component {
                 </View>
               </ScrollView>
             </View>
+            <View style={styles.containerWeeks}>
+              <View style={styles.week}>
+                <Text style={styles.weekTxt}>Dom</Text>
+                <Text style={styles.dayTxt}>16/07</Text>
+              </View>
 
+              <ScrollView horizontal={true} style={styles.values}>
+
+              </ScrollView>
+            </View>
           </View>
 
           <View style={styles.space}></View>
@@ -201,26 +199,27 @@ const styles = StyleSheet.create({
   },
   calendar: {
     fontSize: RFValue(16),
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     paddingTop: RFValue(10),
     // backgroundColor:"red",
   },
-  name: {
+  nome: {
     fontWeight: 'bold',
     paddingTop: RFValue(6),
     paddingBottom: RFValue(4),
   },
   userEmployee: {
-    width: RFValue(50),
-    height: RFValue(50),
+    width: RFValue(35),
+    height: RFValue(35),
     marginTop: RFValue(5),
     // alignSelf:'center',
     // backgroundColor: 'pink',
   },
   historic: {
-    width: RFValue(40),
-    height: RFValue(40),
-    marginEnd: RFValue(10),
+    width: RFValue(25),
+    height: RFValue(25),
+    marginEnd: RFValue(15),
+    marginTop: RFValue(6),
     // backgroundColor: "brown",
   },
 
@@ -238,8 +237,8 @@ const styles = StyleSheet.create({
     // backgroundColor:"red",
     height: "100%",
     width: RFValue(45),
-    paddingTop: RFValue(45),
-    paddingBottom: RFValue(50),
+    paddingTop: RFValue(30),
+    paddingBottom: RFValue(30),
     alignItems: 'center',
   },
   values: {
@@ -250,13 +249,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // backgroundColor:"#f1f",
     alignItems: 'center',
-    paddingRight: RFValue(15)
+    paddingRight: RFValue(15),
+    
 
   },
   value: {
     backgroundColor: "#FFF",
     marginLeft: RFValue(15),
-    padding: RFValue(16),
+    width:RFValue(160),
+    padding: RFValue(7),
     paddingRight: RFValue(60),
     borderWidth: RFValue(1),
     borderRadius: RFValue(8),
@@ -269,33 +270,32 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   hour: {
-    color: "#a1a1a1",
+    color: "#000",
+    fontSize: RFValue(9),
   },
   name: {
-    fontSize: RFValue(14),
-    fontWeight: 'bold',
+    fontSize: RFValue(13),
+    // fontWeight: 'bold',
     marginTop: RFValue(2),
-    marginBottom: RFValue(2)
+    // marginBottom: RFValue(R),
+    width:RFValue(160),
+    height:RFValue(19)
   },
   servico: {
     fontSize: RFValue(12.5),
-  },
-  tipoCarro: {
-    fontSize: RFValue(12),
-    marginLeft: RFValue(2)
+    color: "#a1a1a1",
   },
   status: {
-    paddingTop: RFValue(3),
-    fontSize: RFValue(12),
-    color: "green" //Condição: borderLeftColor: {item.status} == 'FINALIZADO' ? "green" : "blue"
+    paddingTop: RFValue(2),
+    fontSize: RFValue(8),
   },
 
   weekTxt: {
-    fontSize: RFValue(18),
-    fontWeight: 'bold'
+    fontSize: RFValue(14),
+    // fontWeight: 'bold'
   },
   dayTxt: {
-    fontSize: RFValue(14),
+    fontSize: RFValue(9),
   },
   space: {
     width: "100%",

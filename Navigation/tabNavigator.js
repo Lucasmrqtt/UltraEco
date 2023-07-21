@@ -6,6 +6,7 @@ import {
   Button,
   Text,
   StyleSheet,
+  StatusBar,
   Dimensions,
   TouchableOpacity,
   Platform,
@@ -17,6 +18,8 @@ import Schedule from '../Screens/schedule';
 import Dashboard from '../Screens/dashboard';
 import Clients from "../Screens/clients";
 import Settings from "../Screens/settings";
+import { ActionModal } from '../Components/ActionModal';
+import ButtonStyle from '../Components/ButtonStyle';
 
 import Welcome from '../Screens/welcome';
 import AddButton from "../Components/addButton"; //Feito
@@ -28,17 +31,10 @@ import Historic from "../Screens/historic";
 import RegisterServices from "../Screens/registerService";
 import ScheduleChange from "../Screens/ScheduleChange";
 import Scheduling from "../Screens/scheduling";
-
 import DrawerNavigator from "./drawerNavigator";
-import CashFlow from "../Screens/cashFlow";
-import AddClients1 from "../Screens/addClients1";
-import AddClients2 from "../Screens/addClients2";
-import AddEmployee from "../Screens/addEmployee";
-import AddButton from "../Components/addButton";
-
-
 import Login from "../Screens/login";
-
+import Revenue from '../Screens/revenue';
+import Expenses from '../Screens/expenses';
 
 
 const Tab = createMaterialBottomTabNavigator()
@@ -48,16 +44,15 @@ export default class TabNavigator extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isBottomSheetOpen: false,
+      visibleModal: false,
     };
   }
-  handleOpenBottomSheet = () => {
-    this.setState({ isBottomSheetOpen: true });
+  visibleModalTrue = () => {
+    this.setState({ visibleModal: true });
   };
 
-  // Function to close the bottom sheet
-  handleCloseBottomSheet = () => {
-    this.setState({ isBottomSheetOpen: false });
+  visibleModalFalse = () => {
+    this.setState({ visibleModal: false });
   };
 
   isTabBarVisible = (route) => {
@@ -83,7 +78,7 @@ export default class TabNavigator extends Component {
             tabBarVisible: this.isTabBarVisible(route),
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
-              let iconSize = RFValue(20);
+              let iconSize = RFValue(24);
               let iconColor = color
 
               if (route.name === 'Clientes') {
@@ -96,133 +91,56 @@ export default class TabNavigator extends Component {
                 iconName = focused ? 'bar-chart' : 'bar-chart-outline';
               } else if (route.name === 'Config.') {
                 iconName = focused ? 'settings' : 'settings-outline';
+              } else if (route.name === 'Modal') {
+                iconName = focused ? 'add' : 'add-outline';
               }
 
               // You can return any component that you like here!
-              return <Ionicons name={iconName} size={iconSize} color={iconColor} style={styles.icons} />;
+              return <Ionicons name={iconName} size={iconSize} color={iconColor} />;
             },
           })}
 
-          initialRouteName="Agenda"
+          // initialRouteName="Agenda"
 
-          initialRouteName="Schedule"
-
-          // initialRouteName="Tela2"
           activeColor={"black"}
           inactiveColor={"gray"}
         >
-          <Tab.Screen name="Agenda" component={Schedule} />
-          {/* <Tab.Screen name="Tela1" component={AddEmployee} /> */}
-          {/* <Tab.Screen name="Tela2" component={AddClients1} /> */}
+          {/* <Tab.Screen name="Agenda" component={Schedule} /> */}
+          {/* <Tab.Screen name="Receita" component={Revenue} /> */}
+          <Tab.Screen name="Despesa" component={Expenses} />
+          {/* <Tab.Screen name="1" component={AddClients1} />
+          <Tab.Screen name="2" component={AddClients2} /> */}
           {/* <Tab.Screen name="Welcome" component={Welcome}/> */}
           <Tab.Screen name="Dashboard" component={Dashboard} />
-
-          {/* <Tab.Screen name="Modal" component={this.handleOpenBottomSheet} /> */}
-
-          <Tab.Screen name="Modal" component={this.handleOpenBottomSheet} />
-
           {/* <Tab.Screen name="Login" component={Login} /> */}
+          <Tab.Screen
+            name="Modal"
+            component={this.visibleModalTrue}
+            options={{
+              tabBarLabel: "",
+              tabBarIcon: () => (
+               <ButtonStyle/> 
+              )
+            }}
+          />
           <Tab.Screen name="Clientes" component={Clients} />
           <Tab.Screen name="Config." component={Settings} />
         </Tab.Navigator >
 
 
-         {/* <TouchableOpacity
-          onPress={this.handleOpenBottomSheet}
-          style={styles.button}
-        >
-           <Image
-            source={require("../assets/botao-adicionar.png")}
-            style={styles.icon}
-          /> 
-        </TouchableOpacity>  */}
 
-        {/* if (Platform.OS === 'android') {
-          *Modal do android*
-        } else {
-          <Modal
-            animationType="slide"
-            transparent={true}
-            onPress={() => this.state.isBottomSheetOpen(true)}
-            visible={this.state.isBottomSheetOpen}
-            onRequestClose={() => this.handleCloseBottomSheet()}>
-            <View style={[styles.bottomSheet, { height: windowHeight * 0.6 }]}>
-              <View style={styles.modal}>
-                <TouchableOpacity style={styles.closeButton} onPress={() => this.handleCloseBottomSheet()}>
-                  <Image source={require("../assets/botao-adicionar.png")} style={styles.close} />
-                </TouchableOpacity>
-                <View style={styles.adds}>
-                  <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("Scheduling") }}>
-                    <Image source={require("../assets/add.png")} style={styles.iconsModal} />
-                    <Text style={styles.text}>Agendar Serviço</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("RegisterServices") }}>
-                    <Image source={require("../assets/customer-support.png")} style={{
-                      width: RFValue(35),
-                      height: RFValue(35),
-                      marginRight: 35,
-                    }} />
-                    <Text style={styles.text}>Cadastrar Serviço</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("AddEmployee") }}>
-                    <Image source={require("../assets/employee.png")} style={styles.iconsModal} />
-                    <Text style={styles.text}>Cadastrar Funcionário</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("AddClients1") }}>
-                    <Image source={require("../assets/client.png")} style={styles.iconsModal} />
-                    <Text style={styles.text}>Cadastrar Cliente</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          </Modal>
-        } */}
-
-        <TouchableOpacity
-          onPress={this.handleOpenBottomSheet}
-          style={styles.button}
-        >
-          {/* <Image
-            source={require("../assets/botao-adicionar.png")}
-            style={styles.icon}
-          /> */}
-        </TouchableOpacity>
 
         <Modal
-          animationType="slide"
+          visible={this.state.visibleModal}
           transparent={true}
-          onPress={() => this.state.isBottomSheetOpen(true)}
-          visible={this.state.isBottomSheetOpen}
-          onRequestClose={() => this.handleCloseBottomSheet()}>
-          <View style={[styles.bottomSheet, { height: windowHeight * 0.6 }]}>
-            <View style={styles.modal}>
-              <TouchableOpacity style={styles.closeButton} onPress={() => this.handleCloseBottomSheet()}>
-                <Image source={require("../assets/botao-adicionar.png")} style={styles.close} />
-              </TouchableOpacity>
-              <View style={styles.adds}>
-                <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("Scheduling") }}>
-                  <Image source={require("../assets/add.png")} style={styles.icons} />
-                  <Text style={styles.text}>Agendar Serviço</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("RegisterServices") }}>
-                  <Image source={require("../assets/customer-support.png")} style={{
-                    width: RFValue(35),
-                    height: RFValue(35),
-                    marginRight: 35,
-                  }} />
-                  <Text style={styles.text}>Cadastrar Serviço</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("AddEmployee") }}>
-                  <Image source={require("../assets/employee.png")} style={styles.icons} />
-                  <Text style={styles.text}>Cadastrar Funcionário</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.add} onPress={() => { this.handleCloseBottomSheet(), this.props.navigation.navigate("AddClients1") }}>
-                  <Image source={require("../assets/client.png")} style={styles.icons} />
-                  <Text style={styles.text}>Cadastrar Cliente</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
+          onRequestClose={this.visibleModalFalse}
+          // animationType="slide"
+          onPress={this.visibleModalTrue}
+
+        >
+          <ActionModal
+            handleClose={this.visibleModalFalse}
+          />
         </Modal>
       </View>
     )
@@ -236,64 +154,31 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(125, 255, 140,0.5)",
     borderTopColor: "transparent",
     height: "10%",
-    // borderWidth: 1.5,
-    // backgroundColor: "white",
-    // borderTopLeftRadius: RFValue(50),
-    // borderTopRightRadius: RFValue(30),
-    overflow: "hidden",
-    position: "absolute",
+    // overflow: "hidden",
+    // position: "absolute",
   },
-  icons: {
-    // backgroundColor:"red",
-    width: RFValue(30),
-    height: RFValue(30),
-    // backgroundColor:"white",
-  },
-  button: {
-    position: 'absolute',
 
-    backgroundColor: "red",
-
-    backgroundColor:"red",
-
-    alignSelf: 'center',
-    bottom: 50,
-    width: 50,
-    height: 50,
-    zIndex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    // borderWidth: 1,
-    // borderColor: '#86827e',
-    paddingVertical: 12,
-    borderRadius: 100,
-    // backgroundColor:"red"
+  droidSafeArea: {
+    marginTop:
+      Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
   },
-  bottomSheet: {
-    position: 'absolute',
-    width: "100%",
-    backgroundColor: 'white',
-    borderWidth: 1.5,
-    bottom: 0,
-    // backgroundColor:"blue",
-  },
+
   modal: {
     width: '100%',
-    // backgroundColor: "pink",
+    backgroundColor: "#dbdbdb",
     justifyContent: 'center'
   },
-
   closeButton: {
     justifyContent: 'center',
     alignSelf: 'center',
     backgroundColor: "gray",
     width: RFValue(60)
-
-  closeButton96: {
+  },
+  closeButton: {
     justifyContent: 'center',
     alignSelf: 'center',
-    backgroundColor:"gray",
-    width:RFValue(60)
+    backgroundColor: "gray",
+    width: RFValue(60)
   },
   close: {
     width: RFValue(60),
@@ -307,7 +192,6 @@ const styles = StyleSheet.create({
     height: windowHeight * 0.7
   },
   iconsModal: {
-  icons: {
     width: RFValue(40),
     height: RFValue(40),
     marginRight: 30
@@ -322,4 +206,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-});
+})

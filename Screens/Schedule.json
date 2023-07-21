@@ -1,26 +1,26 @@
 [
   {
-    "horario1":"13:30",
-    "horario2":"15:00",
-    "nome": "Débora Pedrini",
-    "servico": "Lavagem",
-    "tipoCarro":"(SUV)",
+    "horario1":"8:00",
+    "horario2":"9:30",
+    "nome": "Gloria Marquetti",
+    "bairro":"Vila A",
+    "servico": "Lavagem (SUV)", 
     "status":"FINALIZADO"
   },
   {
-    "horario1":"8:00",
-    "horario2":"9:30",
+    "horario1":"13:30",
+    "horario2":"15:00",
     "nome": "Marcelo Técnico",
-    "servico": "Lavagem",
-    "tipoCarro":"(SUV)",
+    "bairro":"Centro",
+    "servico": "Lavagem (SUV)",
     "status":"FINALIZADO"
   },
   {
     "horario1":"10:00",
     "horario2":"11:30",
     "nome": "Gloria Marquetti",
-    "servico": "Lavagem",
-    "tipoCarro":"(SUV)",
+    "bairro":"Vila A",
+    "servico": "Lavagem (SUV)",
     "status":"AGENDADO"
   }
 ]

@@ -194,7 +194,7 @@ export default class Dashboard extends Component {
       </View>
     )
   }
-
+  
   handleSearchTextChange = text => {
     this.setState({ searchText: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
@@ -301,7 +301,7 @@ export default class Dashboard extends Component {
               </View>
 
               <View style={styles.dateFilter}>
-                <Text style={[styles.fromTxt, {fontSize:RFValue(20)}]}>Filtro Data</Text>
+                <Text style={[styles.fromTxt, {fontSize:RFValue(20), marginVertical:6}]}>Filtro Data</Text>
                 <View style={styles.from}>
                   <Text style={[styles.fromTxt, {paddingRight:RFValue(11)}]}>De:</Text>
                   <View  style={styles.textInput}>

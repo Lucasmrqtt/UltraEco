@@ -107,7 +107,7 @@ export default class AddClients2 extends Component {
           }}>
             <Text style={{
               fontWeight: 'bold',
-              fontSize: RFValue(15),
+              fontSize: RFValue(19),
               // paddingBottom:RFValue(10)
             }}>Carro</Text>
             <TextInput
@@ -146,7 +146,7 @@ export default class AddClients2 extends Component {
             <View style={styles.margin}>
               <Text style={styles.bodyText}>Bairro do Trabalho</Text>
               <TextInput
-                placeholder="Rua tal, 100"
+                placeholder="Centro"
                 placeholderStyle={{
                   justifyContent: "center"
                 }}

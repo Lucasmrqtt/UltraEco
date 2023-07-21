@@ -14,6 +14,7 @@ import {
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import PhoneInput from 'react-native-phone-number-input';
+import { TextInputMask } from 'react-native-masked-text';
 
 export default class AddClients1 extends Component {
   constructor(props) {
@@ -21,16 +22,16 @@ export default class AddClients1 extends Component {
     this.state = {
       speakerIcon: "chevron-back-outline",
       Check: "checkmark-outline",
-      searchText1: '',
-      searchText2: '',
-      searchText3: '',
-      searchText4: '',
-      searchText5: '',
-      dayValue1: '',
-      dayValue2: '',
-      dayValue3: '',
+      // searchText1: '',
+      // searchText2: '',
+      // searchText3: '',
+      // searchText4: '',
+      // searchText5: '',
+      // dayValue1: '',
+      // dayValue2: '',
+      // dayValue3: '',
       dropDownHeight: 40,
-      phoneInput: null,
+      cell: "",
       value: "",
       formattedValue: '',
     }
@@ -76,12 +77,12 @@ export default class AddClients1 extends Component {
   };
   handleSearchTextChange4 = (text) => {
     this.setState({ searchText4: text });
-  
+
     const parsedValue = parseInt(text, 10); // Parse the input to an integer
     if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 2100) {
-      this.setState({ yearValue: String(parsedValue) });
+      this.setState({ dayValue3: String(parsedValue) });
     } else {
-      this.setState({ yearValue: '' }); // Limpa o valor se não for válido
+      this.setState({ dayValue3: '' }); // Limpa o valor se não for válido
     }
 
     if (text.length >= 4 && parsedValue <= 2100) {
@@ -92,11 +93,12 @@ export default class AddClients1 extends Component {
     this.setState({ searchText5: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-
+  handleSearchTextChangeCell = text => {
+    this.setState({ cell: text });
+  }
 
   render() {
-    const { searchText1 } = this.state;
-    const { searchText5 } = this.state;
+    const { searchText1, dayValue1, dayValue2,dayValue3,searchText5,cell } = this.state;
 
     return (
       <View style={styles.container}>
@@ -106,7 +108,7 @@ export default class AddClients1 extends Component {
             <Ionicons
               name={this.state.speakerIcon}
               size={RFValue(40)}
-              onPress={() => this.props.navigation.navigate("Schedule")}
+              onPress={() => this.props.navigation.navigate("Homer")}
             />
             {/* onPress={() => this.props.navigation.navigate("Schedule")} */}
           </TouchableOpacity>
@@ -134,36 +136,28 @@ export default class AddClients1 extends Component {
 
           <View style={styles.margin}>
             <Text style={styles.bodyText}>Telefone</Text>
-            <PhoneInput
-              ref={this.state.phoneInput}
-              defaultValue={this.state.value}
-              placeholder='Número de telefone'
-              placeholderStyle={{
-                justifyContent: "center"
+            
+            <TextInputMask
+              style={styles.textInputName}
+              type={"cel-phone"}
+              placeholder="(99) 99999-9999"
+              options={{
+                maskType: 'BRL',
+                withDDD: true,
+                dddMask: '(99) '
               }}
-              defaultCode="BR"
-              layout="first"
-              onChangeText={(text) => {
-                this.setState({ value: text });
-              }}
-              onChangeFormattedText={(text) => {
-                this.setState({ formattedValue: text });
-              }}
-              containerStyle={{
-                marginTop: RFValue(4),
-                borderWidth: RFValue(2),
-                borderRadius: RFValue(5)
-              }}
-              withShadow
+              value={cell}
+              onChangeText={this.handleSearchTextChangeCell}
             />
+            
           </View>
 
           <View style={styles.margin}>
             <Text style={styles.bodyText}>Data de Nascimento</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-              <Text style={{fontSize:RFValue(16)}}>Dia</Text>
-              <Text style={{fontSize:RFValue(16)}}>Mês</Text>
-              <Text style={{fontSize:RFValue(16)}}>Ano</Text>
+              <Text style={{ fontSize: RFValue(16) }}>Dia</Text>
+              <Text style={{ fontSize: RFValue(16) }}>Mês</Text>
+              <Text style={{ fontSize: RFValue(16) }}>Ano</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
               <TextInput
@@ -173,7 +167,7 @@ export default class AddClients1 extends Component {
                   alignItems: "center"
                 }}
                 onChangeText={this.handleSearchTextChange2}
-                value={this.state.dayValue1}
+                value={dayValue1}
                 keyboardType='numeric'
                 style={styles.textInputBirth}
                 maxLength={2}
@@ -187,7 +181,7 @@ export default class AddClients1 extends Component {
                   alignItems: "center"
                 }}
                 onChangeText={this.handleSearchTextChange3}
-                value={this.state.dayValue2}
+                value={dayValue2}
                 keyboardType='numeric'
                 style={styles.textInputBirth}
                 maxLength={2}
@@ -201,7 +195,7 @@ export default class AddClients1 extends Component {
                   alignItems: "center"
                 }}
                 onChangeText={this.handleSearchTextChange4}
-                value={this.state.yearValue}
+                value={dayValue3}
                 keyboardType='numeric'
                 style={[styles.textInputBirth, { width: RFValue(60) }]}
                 maxLength={4}
@@ -235,10 +229,10 @@ export default class AddClients1 extends Component {
 
         <View style={styles.space}></View>
         <View style={styles.fotter}>
-          <TouchableOpacity style={styles.fotterTouchableOpacityLeft} onPress={() => this.props.navigation.navigate("Schedule")}>
+          <TouchableOpacity style={styles.fotterTouchableOpacityLeft} onPress={() => this.props.navigation.navigate("Homer")}>
             <Text style={styles.fotterTextCancel}>Cancelar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.fotterTouchableOpacityRight} onPress={() => this.props.navigation.navigate("AddClients2")}>
+          <TouchableOpacity style={styles.fotterTouchableOpacityRight} onPress={() => this.props.navigation.navigate("addClients2")}>
             <Text style={styles.fotterTextAdvance}>Avancar</Text>
           </TouchableOpacity>
         </View>

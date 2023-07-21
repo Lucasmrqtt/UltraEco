@@ -27,14 +27,14 @@
 //     };
 //   }
 //   // Function to open the bottom sheet
-//   handleOpenBottomSheet = () => {
-//     this.setState({ isBottomSheetOpen: true });
-//   };
+  // handleOpenBottomSheet = () => {
+  //   this.setState({ isBottomSheetOpen: true });
+  // };
 
-//   // Function to close the bottom sheet
-//   handleCloseBottomSheet = () => {
-//     this.setState({ isBottomSheetOpen: false });
-//   };
+  // // Function to close the bottom sheet
+  // handleCloseBottomSheet = () => {
+  //   this.setState({ isBottomSheetOpen: false });
+  // };
 
 //   // componentDidMount(){
 //   //   this.handleOpenBottomSheet()
@@ -53,6 +53,8 @@
 //           visible={this.state.isBottomSheetOpen}
 
 //           onRequestClose={() => this.handleCloseBottomSheet()}>
+
+
 //           <View style={[styles.bottomSheet, { height: windowHeight * 0.6 }]}>
 //             <View style={styles.modal}>
 //               <TouchableOpacity style={styles.closeButton} onPress={() => this.handleCloseBottomSheet()}>

@@ -11,6 +11,7 @@ import AddClients from './Screens/addClients1';
 import Historic from './Screens/historic';
 import CashFlow from './Screens/cashFlow';
 import { createStackNavigator } from '@react-navigation/stack';
+
 // import firebase from 'firebase';
 // import { firebaseConfig } from './config';
 

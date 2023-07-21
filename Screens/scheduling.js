@@ -7,6 +7,7 @@ export default class Scheduling extends Component{
       <View style={styles.container}>
         {/* Escolha o cliente */}
         {/* Escolha o serviço */}
+        {/* Desconto */}
         {/* Escolha a Duração */}
         {/* Escolha o Profissional */}
         {/* Observação */}

@@ -26,6 +26,8 @@ export default class CashFlow extends Component {
       selectedValue1: null,
       selectedValue2: null,
       valorAntigo: 0,
+      dropDownHeight1: 40,
+      payment: "Din",
     };
   }
 
@@ -184,6 +186,7 @@ export default class CashFlow extends Component {
                       // backgroundColor: "pink",
                       width: RFValue(250),
                     }}
+                    listMode='SCROLLVIEW'
                   // zIndexInverse={1000}
                   // zIndex={1000}
                   />
