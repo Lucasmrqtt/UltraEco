@@ -342,11 +342,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: RFValue(20)
   },
-  space: {
-    width: "100%",
-    // backgroundColor: "pink",
-    height: RFValue(148)
-  },
   fotter: {
     // backgroundColor:"gray",
     justifyContent: 'space-between',
@@ -401,5 +396,10 @@ const styles = StyleSheet.create({
     width: 25,
     resizeMode: 'stretch',
     alignItems: 'center',
-  }
+  },
+  space: {
+    width: "100%",
+    // backgroundColor: "pink",
+    height: RFValue(148)
+  },
 })

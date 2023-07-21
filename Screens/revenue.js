@@ -27,13 +27,25 @@ export default class Revenue extends Component {
       speakerIcon: "chevron-back-outline",
       Check: "checkmark-outline",
       money: 'R$0,00',
+      name:'',
       selectedValue: null,
       dropDownHeight: 40,
       payment: "Din",
+      birthTxt: '',
+      monthTxt: '',
+      yearTxt: '',
+      dayValue1: '',
+      dayValue2: '',
+      dayValue3: '',
     }
-
+    this.textInputBirth = null
+    this.textInputMonth = null
+    this.textInputYear = null
   }
 
+  handleValueChange = (itemValue) => {
+    this.setState({ name: itemValue });
+  };
   renderPlaceholder1 = () => {
     const { selectedValue } = this.state;
     if (selectedValue) {
@@ -42,8 +54,51 @@ export default class Revenue extends Component {
       return "Selecionar";
     }
   };
+  handleSearchTextChange1 = (text) => {
+    this.setState({ birthTxt: text });
+
+    const parsedValue = parseInt(text, 10); // Parse the input to an integer
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 31) {
+      this.setState({ dayValue1: String(parsedValue) });
+    } else {
+      this.setState({ dayValue1: '' }); // Limpa o valor se não for válido
+    }
+
+    if (text.length >= 2 && parsedValue <= 31) {
+      this.textInputMonth.focus(); // Move to the month TextInput
+    }
+  };
+  handleSearchTextChange2 = (text) => {
+    this.setState({ monthTxt: text });
+
+    const parsedValue = parseInt(text, 10); // Parse the input to an integer
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 12) {
+      this.setState({ dayValue2: String(parsedValue) });
+    } else {
+      this.setState({ dayValue2: '' }); // Limpa o valor se não for válido
+    }
+
+    if (text.length >= 2 && parsedValue <= 12) {
+      this.textInputYear.focus(); // Move to the month TextInput
+    }
+  };
+  handleSearchTextChange3 = (text) => {
+    this.setState({ yearTxt: text });
+
+    const parsedValue = parseInt(text, 10); // Parse the input to an integer
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 2100) {
+      this.setState({ dayValue3: String(parsedValue) });
+    } else {
+      this.setState({ dayValue3: '' }); // Limpa o valor se não for válido
+    }
+
+    if (text.length >= 4 && parsedValue <= 2100) {
+      Keyboard.dismiss()
+    }
+  };
 
   render() {
+    const { money, name, dayValue1, dayValue2,dayValue3,} = this.state;
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
@@ -71,7 +126,7 @@ export default class Revenue extends Component {
                   unit: 'R$',
                   suffixUnit: ''
                 }}
-                value={this.state.money}
+                value={money}
                 onChangeText={text => {
                   this.setState({
                     money: text
@@ -91,12 +146,12 @@ export default class Revenue extends Component {
           </View>
         </View>
 
-
         <ScrollView style={styles.containerForm}>
           <Text style={styles.title}>Nome</Text>
           <TextInput
             style={styles.input}
-            onChangeText={text => this.setState({ name: text })}
+            onChangeText={this.handleValueChange}
+            value={name}
             placeholder={"Nome da receita"}
           />
 
@@ -120,7 +175,7 @@ export default class Revenue extends Component {
               onOpen={() => this.setState({ dropDownHeight: 170 })}
               onClose={() => this.setState({ dropDownHeight: 40 })}
               style={{
-                marginTop:RFValue(10),
+                marginTop: RFValue(10),
                 backgroundColor: "#FFF",
                 borderWidth: RFValue(2),
                 borderColor: "black",
@@ -144,9 +199,63 @@ export default class Revenue extends Component {
             />
           </View>
 
+          <View style={styles.date}>
+            <Text style={[styles.title, {marginBottom:RFValue(10)}]}>Data da entrada</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+              <Text style={{ fontSize: RFValue(16) }}>Dia</Text>
+              <Text style={{ fontSize: RFValue(16) }}>Mês</Text>
+              <Text style={{ fontSize: RFValue(16) }}>Ano</Text>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+              <TextInput
+                placeholder="Dia"
+                placeholderStyle={{
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+                onChangeText={this.handleSearchTextChange1}
+                value={dayValue1}
+                keyboardType='numeric'
+                style={styles.textInputBirth}
+                maxLength={2}
+                ref={(input) => (this.textInputDay = input)}
+              />
+
+              <TextInput
+                placeholder="Mês"
+                placeholderStyle={{
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+                onChangeText={this.handleSearchTextChange2}
+                value={dayValue2}
+                keyboardType='numeric'
+                style={styles.textInputBirth}
+                maxLength={2}
+                ref={(input) => (this.textInputMonth = input)}
+              />
+
+              <TextInput
+                placeholder="Ano"
+                placeholderStyle={{
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+                onChangeText={this.handleSearchTextChange3}
+                value={dayValue3}
+                keyboardType='numeric'
+                style={[styles.textInputBirth, { width: RFValue(60) }]}
+                maxLength={4}
+                ref={(input) => (this.textInputYear = input)}
+              />
+            </View>
+          </View>
+
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Salvar</Text>
           </TouchableOpacity>
+
+          <View style={styles.space}></View>
         </ScrollView>
       </View>
     )
@@ -193,7 +302,26 @@ const styles = StyleSheet.create({
     // backgroundColor: "red",
     // width:RFValue(100)
   },
-
+  date: {
+    // backgroundColor: "brown",
+    paddingEnd: 40,
+    marginTop: RFValue(10),
+    marginBottom: RFValue(10)
+  },
+  textInputBirth: {
+    borderWidth: RFValue(1.5),
+    borderRadius: RFValue(4),
+    paddingLeft: RFValue(10),
+    height: RFValue(40),
+    width: RFValue(50),
+    backgroundColor: "white",
+    marginTop: RFValue(3),
+    // fontWeight:'bold',
+    fontSize: RFValue(16),
+    justifyContent: 'center',
+    alignItems: 'center'
+    // width: 10
+  },
   containerForm: {
     backgroundColor: "#fff",
     flex: 1,
@@ -212,20 +340,26 @@ const styles = StyleSheet.create({
     marginBottom: RFValue(12),
     fontSize: RFValue(16)
   },
-  button:{
-    position:"absolute",
+  button: {
+    // position: "absolute",
     backgroundColor: "green",
-    borderRadius:RFValue(50),
+    borderRadius: RFValue(50),
     paddingVertical: RFValue(8),
-    width:"60%",
-    alignSelf:"center",
-    bottom:"-100%",
-    alignItems:"center",
-    justifyContent:"center"
+    width: "60%",
+    alignSelf: "center",
+    // bottom: "-40%",
+    marginTop:RFValue(70),
+    alignItems: "center",
+    justifyContent: "center"
   },
   buttonText: {
     color: "#fff",
     fontSize: RFValue(18),
     fontWeight: "bold"
+  },
+  space: {
+    width: "100%",
+    // backgroundColor: "pink",
+    height: RFValue(80)
   },
 })

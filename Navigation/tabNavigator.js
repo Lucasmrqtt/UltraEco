@@ -100,14 +100,14 @@ export default class TabNavigator extends Component {
             },
           })}
 
-          // initialRouteName="Agenda"
+          initialRouteName="Agenda"
 
           activeColor={"black"}
           inactiveColor={"gray"}
         >
-          {/* <Tab.Screen name="Agenda" component={Schedule} /> */}
+          <Tab.Screen name="Agenda" component={Schedule} />
           {/* <Tab.Screen name="Receita" component={Revenue} /> */}
-          <Tab.Screen name="Despesa" component={Expenses} />
+          {/* <Tab.Screen name="Despesa" component={Expenses} /> */}
           {/* <Tab.Screen name="1" component={AddClients1} />
           <Tab.Screen name="2" component={AddClients2} /> */}
           {/* <Tab.Screen name="Welcome" component={Welcome}/> */}
