@@ -18,19 +18,6 @@ export default class AddEmployee extends Component {
     this.state = {
       speakerIcon: "chevron-back-outline",
       searchText1: '',
-      searchText2: '',
-      dropDownHeight: 40,
-      selectedDate: null,
-      minDate: "1-1-1920", // Definindo a data mínima como a data atual
-      maxDate: new Date(Date.now()).toLocaleString().split(","),
-      choseDate: '',
-      phoneInput: null,
-      value: "",
-      formattedValue: '',
-      date: null,
-      mode: "date",
-      show: false,
-      
     }
   }
 
@@ -44,23 +31,17 @@ export default class AddEmployee extends Component {
   //   // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   // }
 
-  onChange = (events, selectedDate) => {
-    const currentDate = selectedDate || this.state.date
-    this.state.show = Platform.OS == 'ios'
-    this.state.date = currentDate
-
-    let tempDate = new Date(currentDate)
-    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear()
-  }
 
   render() {
     const { searchText1 } = this.state;
-    // const { searchText2 } = this.state;
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.header}>
-          <TouchableOpacity style={styles.back}>
+          <TouchableOpacity
+            style={styles.back}
+
+          >
             <Ionicons
               name={this.state.speakerIcon}
               size={RFValue(40)}
@@ -86,8 +67,6 @@ export default class AddEmployee extends Component {
             />
           </View>
         </View>
-
-        <View style={styles.space}></View>
 
         <View style={styles.fotter}>
           <TouchableOpacity style={styles.fotterTouchableOpacityLeft}>
@@ -194,16 +173,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: RFValue(20)
   },
-
-  space: {
-    width: "100%",
-    // backgroundColor: "pink",
-    height: RFValue(447)
-  },
   fotter: {
     // backgroundColor:"gray",
     justifyContent: 'space-between',
     flexDirection: 'row',
+    top: Platform.OS == "ios" ? "151%" : "121%"
     // alignSelf: 'flex-end'
   },
   fotterTouchableOpacityLeft: {

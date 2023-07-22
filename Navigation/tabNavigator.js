@@ -16,22 +16,21 @@ import { RFValue } from "react-native-responsive-fontsize";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Schedule from '../Screens/schedule';
 import Dashboard from '../Screens/dashboard';
-import Clients from "../Screens/clients";
-import Settings from "../Screens/settings";
 import { ActionModal } from '../Components/ActionModal';
 import ButtonStyle from '../Components/ButtonStyle';
+import Clients from "../Screens/clients";
+import Settings from "../Screens/settings";
 
 import Welcome from '../Screens/welcome';
+import Login from "../Screens/login";
 import AddClients1 from "../Screens/addClients1"; //Feito
 import AddClients2 from "../Screens/addClients2"; //Feito
 import AddEmployee from "../Screens/addEmployee"; //Feito
 import CashFlow from "../Screens/cashFlow"; //Feito
 import Historic from "../Screens/historic";
 import RegisterServices from "../Screens/registerService";
-import ScheduleChange from "../Screens/ScheduleChange";
 import Scheduling from "../Screens/scheduling";
 import DrawerNavigator from "./drawerNavigator";
-import Login from "../Screens/login";
 import Revenue from '../Screens/revenue';
 import Expenses from '../Screens/expenses';
 
@@ -99,16 +98,15 @@ export default class TabNavigator extends Component {
             },
           })}
 
-          initialRouteName="Agenda"
-
+          // initialRouteName="Agenda"
           activeColor={"black"}
           inactiveColor={"gray"}
         >
           <Tab.Screen name="Agenda" component={Schedule} />
-          {/* <Tab.Screen name="Receita" component={Revenue} /> */}
+          {/* <Tab.Screen name="Serviço" component={AddEmployee} /> */}
           {/* <Tab.Screen name="Despesa" component={Expenses} /> */}
-          {/* <Tab.Screen name="1" component={AddClients1} />
-          <Tab.Screen name="2" component={AddClients2} /> */}
+          {/* <Tab.Screen name="1" component={AddClients1} /> */}
+          {/* <Tab.Screen name="2" component={AddClients2} /> */}
           {/* <Tab.Screen name="Welcome" component={Welcome}/> */}
           <Tab.Screen name="Dashboard" component={Dashboard} />
           {/* <Tab.Screen name="Login" component={Login} /> */}
@@ -132,7 +130,7 @@ export default class TabNavigator extends Component {
           onRequestClose={this.visibleModalFalse}
           // animationType="slide"
           onPress={this.visibleModalTrue}
-
+          animationType='slide'
         >
           <ActionModal
             handleClose={this.visibleModalFalse}

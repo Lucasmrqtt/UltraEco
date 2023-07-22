@@ -8,26 +8,29 @@ import AddEmployee from "../Screens/addEmployee"; //Feito
 import CashFlow from "../Screens/cashFlow"; //Feito
 import Historic from "../Screens/historic";
 import RegisterServices from "../Screens/registerService";
-import ScheduleChange from "../Screens/ScheduleChange";
 import Scheduling from "../Screens/scheduling";
 import Login from "../Screens/login";
+import Revenue from "../Screens/revenue";
+import Expenses from "../Screens/expenses";
 
 const Stack = createStackNavigator()
 
 export default class StackNavigator extends Component{
   render(){
-    return(
-      <Stack.Navigator initialRouteName="Homer">
-        <Stack.Screen name="Homer" component={TabNavigator}/>
+        <Stack.Screen name="Scheduling" component={Scheduling} />
+        return(
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={TabNavigator}/>
         {/* <Stack.Screen name="AddButton" component={AddButton}/> */}
         <Stack.Screen name="Scheduling" component={Scheduling} />
+        <Stack.Screen name="Expenses" component={Expenses} />
+        <Stack.Screen name="Revenue" component={Revenue} />
         <Stack.Screen name="AddEmployee" component={AddEmployee}/>
         <Stack.Screen name="RegisterService" component={RegisterServices}/>
         <Stack.Screen name="Historic" component={Historic}/>
         <Stack.Screen name="CashFlow" component={CashFlow}/>
         <Stack.Screen name="AddClients1" component={AddClients1}/>
         <Stack.Screen name="AddClients2" component={AddClients2}/>
-        <Stack.Screen name="ScheduleChange" component={ScheduleChange}/>
         <Stack.Screen name="Login" component={Login}/>
       </Stack.Navigator>
     )

@@ -96,9 +96,9 @@ export default class CashFlow extends Component {
         </View>
       </View>
     )
-    this.setState({valorAntigo:item.valorCx})
+    this.setState({ valorAntigo: item.valorCx })
   }
-  
+
   render() {
     const { searchText } = this.state;
     return (
@@ -128,7 +128,10 @@ export default class CashFlow extends Component {
               <View style={styles.revenuesContainer}>
                 <Text style={styles.revenuesAndExpensesPrice}>R$***** </Text>
                 <View style={styles.addRevenues}>
-                  <TouchableOpacity style={styles.addRevenuesButton}>
+                  <TouchableOpacity
+                    style={styles.addRevenuesButton}
+                    onPress={() => this.props.navigation.navigate("Revenue")}
+                  >
                     <Text style={styles.revenuesAndExpensesButtonTxt}> Adc. Receitas</Text>
                   </TouchableOpacity>
                 </View>
@@ -137,7 +140,10 @@ export default class CashFlow extends Component {
               <View style={styles.expensesContainer}>
                 <Text style={styles.revenuesAndExpensesPrice}> R$ ******** </Text>
                 <View style={styles.addExpense}>
-                  <TouchableOpacity style={styles.addExpenseButton}>
+                  <TouchableOpacity 
+                  style={styles.addExpenseButton}
+                  onPress={() => this.props.navigation.navigate("Expenses")}
+                  >
                     <Text style={styles.revenuesAndExpensesButtonTxt}> Adc. Despesas</Text>
                   </TouchableOpacity>
                 </View>
@@ -452,8 +458,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: RFValue(4),
-    borderBottomWidth:RFValue(2),
-    borderBottomColor:"#000",
+    borderBottomWidth: RFValue(2),
+    borderBottomColor: "#000",
   },
   fotterText: {
     fontWeight: 'bold',
@@ -472,9 +478,9 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     height: RFValue(30),
     width: "100%",
-    marginBottom:RFValue(1),
-    borderBottomWidth:RFValue(1),
-    borderBottomColor:"#000",
+    marginBottom: RFValue(1),
+    borderBottomWidth: RFValue(1),
+    borderBottomColor: "#000",
     // marginTop: RFValue(4), // Updated to RfValue
     // marginBottom: RFValue(3),
     // padding: RFValue(3)

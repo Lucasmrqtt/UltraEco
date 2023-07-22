@@ -104,11 +104,14 @@ export default class Revenue extends Component {
         <SafeAreaView style={styles.droidSafeArea} />
 
         <View style={styles.header}>
-          <TouchableOpacity style={styles.back}>
+          <TouchableOpacity 
+          style={styles.back}
+          onPress={() => this.props.navigation.navigate("Home")}
+          >
             <Ionicons
               name={this.state.speakerIcon}
               size={RFValue(40)}
-              onPress={() => this.props.navigation.navigate("Homer")}
+              onPress={() => this.props.navigation.navigate("Home")}
               style={{ color: "#fff" }}
             />
           </TouchableOpacity>
@@ -132,6 +135,7 @@ export default class Revenue extends Component {
                     money: text
                   })
                 }}
+                maxLength={20}
                 autoFocus
                 style={styles.value}
               />

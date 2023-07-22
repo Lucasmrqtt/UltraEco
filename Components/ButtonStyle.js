@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import {
-  Text,
   View,
   StyleSheet
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { RFValue } from 'react-native-responsive-fontsize';
 
 export default function ButtonStyle() {
   return (
@@ -13,7 +11,6 @@ export default function ButtonStyle() {
       <Ionicons
         name="add-outline"
         size={40}
-        // onPress={() => this.props.navigation.navigate("Homer")}
       />
     </View>
   )

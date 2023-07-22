@@ -28,7 +28,7 @@ export default class Schedule extends Component {
     const color = item.status === "FINALIZADO" ? "#3bbf3f" : "#1c20ff"
 
     return (
-      <View style={[styles.value, { borderLeftColor }]}>
+      <TouchableOpacity style={[styles.value, { borderLeftColor }]}>
         <View style={{flexDirection:'row'}}>
         <Text style={styles.hour}>{item.horario1} - {item.horario2}</Text>
         <Text style={[styles.hour, {marginLeft:RFValue(5), marginRight:RFValue(5) }]}>|</Text>
@@ -37,7 +37,7 @@ export default class Schedule extends Component {
         <Text style={styles.name}>{item.nome}</Text>
         <Text style={styles.servico}>{item.servico}</Text>
         <Text style={[styles.status, { color }]}>{item.status}</Text>
-      </View>
+      </TouchableOpacity>
     )
   }
 

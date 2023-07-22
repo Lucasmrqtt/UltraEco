@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import PhoneInput from 'react-native-phone-number-input';
 import { TextInputMask } from 'react-native-masked-text';
 
 export default class AddClients1 extends Component {
@@ -108,7 +107,7 @@ export default class AddClients1 extends Component {
             <Ionicons
               name={this.state.speakerIcon}
               size={RFValue(40)}
-              onPress={() => this.props.navigation.navigate("Homer")}
+              onPress={() => this.props.navigation.navigate("Home")}
             />
             {/* onPress={() => this.props.navigation.navigate("Schedule")} */}
           </TouchableOpacity>
@@ -229,7 +228,7 @@ export default class AddClients1 extends Component {
 
         <View style={styles.space}></View>
         <View style={styles.fotter}>
-          <TouchableOpacity style={styles.fotterTouchableOpacityLeft} onPress={() => this.props.navigation.navigate("Homer")}>
+          <TouchableOpacity style={styles.fotterTouchableOpacityLeft} onPress={() => this.props.navigation.navigate("Home")}>
             <Text style={styles.fotterTextCancel}>Cancelar</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.fotterTouchableOpacityRight} onPress={() => this.props.navigation.navigate("addClients2")}>

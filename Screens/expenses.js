@@ -20,7 +20,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-export default class Revenue extends Component {
+export default class Expenses extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -150,17 +150,20 @@ export default class Revenue extends Component {
   };
 
   render() {
-    const { money, name, dayValue1, dayValue2,dayValue3, dayValue4, dayValue5,dayValue6,} = this.state;
+    const { money,Check, name, dayValue1, dayValue2,dayValue3, dayValue4, dayValue5,dayValue6,} = this.state;
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
 
         <View style={styles.header}>
-          <TouchableOpacity style={styles.back}>
+          <TouchableOpacity 
+          style={styles.back}
+          onPress={() => this.props.navigation.navigate("Home")}
+          >
             <Ionicons
               name={this.state.speakerIcon}
               size={RFValue(40)}
-              onPress={() => this.props.navigation.navigate("Homer")}
+              onPress={() => this.props.navigation.navigate("Home")}
               style={{ color: "#fff" }}
             />
           </TouchableOpacity>
@@ -184,13 +187,14 @@ export default class Revenue extends Component {
                     money: text
                   })
                 }}
-                // autoFocus
+                autoFocus
+                maxLength={20}
                 style={styles.value}
               />
             </View>
             <TouchableOpacity onPress={Keyboard.dismiss}>
               <Ionicons
-                name={this.state.Check}
+                name={Check}
                 size={RFValue(40)}
                 style={{ color: "#fff" }}
               />
