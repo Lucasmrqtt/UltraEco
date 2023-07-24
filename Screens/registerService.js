@@ -14,7 +14,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
 
-export default class AddEmployee extends Component {
+export default class RegisterServices extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -43,7 +43,8 @@ export default class AddEmployee extends Component {
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.header}>
-          <TouchableOpacity style={styles.back}>
+          <TouchableOpacity style={styles.back}
+          onPress={() => this.props.navigation.navigate("Home")}>
             <Ionicons
               name={this.state.speakerIcon}
               size={RFValue(40)}

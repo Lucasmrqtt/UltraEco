@@ -83,13 +83,13 @@ export default class Schedule extends Component {
               <ScrollView horizontal={true} style={styles.values}>
                 <View style={styles.containerValues}>
                   {/* flatlist */}
-
-                  <FlatList
+{/* AQUI */}
+                  {/* <FlatList
                     horizontal={true}
                     data={schedule}
                     renderItem={this.renderItem}
                     keyExtractor={(item, index) => index.toString()}
-                  />
+                  /> */}
                 </View>
               </ScrollView>
             </View>
