@@ -90,8 +90,7 @@ export default class Search extends Component {
             onChangeText={(t) => this.setState({ searchText: t })}
           />
           <TouchableOpacity
-            // onPress={this.handleOrderClick}
-            onPress={() => this.props.navigation.replace("AddClients1")}
+            onPress={this.handleOrderClick}
             style={styles.orderButton}
           >
             <Ionicons

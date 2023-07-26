@@ -10,8 +10,10 @@ import {
   StatusBar,
   Platform,
   SafeAreaView,
+  Modal
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar, Calendar, CalendarList } from 'react-native-calendars';
 
 var schedule = require("./Schedule.json")
 
@@ -20,8 +22,18 @@ export default class Schedule extends Component {
     super(props);
     this.state = {
       status: "",
+      visibleModal: false,
+      date:""
     };
   }
+
+  visibleModalTrue = () => {
+    this.setState({ visibleModal: true });
+  };
+
+  visibleModalFalse = () => {
+    this.setState({ visibleModal: false });
+  };
 
   renderItem = ({ item }) => {
     const borderLeftColor = item.status === "FINALIZADO" ? "#3bbf3f" : "#1c20ff"
@@ -29,10 +41,10 @@ export default class Schedule extends Component {
 
     return (
       <TouchableOpacity style={[styles.value, { borderLeftColor }]}>
-        <View style={{flexDirection:'row'}}>
-        <Text style={styles.hour}>{item.horario1} - {item.horario2}</Text>
-        <Text style={[styles.hour, {marginLeft:RFValue(5), marginRight:RFValue(5) }]}>|</Text>
-        <Text style={styles.hour}>{item.bairro}</Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.hour}>{item.horario1} - {item.horario2}</Text>
+          <Text style={[styles.hour, { marginLeft: RFValue(5), marginRight: RFValue(5) }]}>|</Text>
+          <Text style={styles.hour}>{item.bairro}</Text>
         </View>
         <Text style={styles.name}>{item.nome}</Text>
         <Text style={styles.servico}>{item.servico}</Text>
@@ -42,15 +54,44 @@ export default class Schedule extends Component {
   }
 
   render() {
+
     return (
       <View style={styles.container}>
+        <Modal
+          visible={this.state.visibleModal}
+          transparent={true}
+          onRequestClose={this.visibleModalFalse}
+          // animationType="slide"
+          onPress={this.visibleModalTrue}
+          animationType="fade"
+
+        >
+          <CalendarProvider>
+
+            <Calendar
+              style={{
+                marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
+                borderRadius: RFValue(10),
+                elevation: 4,
+                // margin: 10
+              }}
+              monthFormat={'dd-MM-yyyy'}
+              // value={this.state.date}
+              onDayPress={(day) => { 
+                this.setState({ date: day })
+                this.visibleModalFalse()
+              }}
+            ></Calendar>
+
+          </CalendarProvider>
+        </Modal>
         <SafeAreaView style={styles.droidSafeArea} />
         <ScrollView>
           <View style={styles.header}>
 
             <View style={styles.profile}>
-              <TouchableOpacity>
-                <Text style={styles.calendar}>16/07 á 22/07</Text>
+              <TouchableOpacity onPress={this.visibleModalTrue}>
+                <Text style={styles.calendar}>17.07 á 23.07</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.userEmployee}>
@@ -80,7 +121,7 @@ export default class Schedule extends Component {
                 <Text style={styles.weekTxt}>Seg</Text>
                 <Text style={styles.dayTxt}>17/07</Text>
               </View>
-              <ScrollView horizontal={true} style={styles.values}>
+              <ScrollView style={styles.values}>
                 <View style={styles.containerValues}>
                   {/* flatlist */}
 
@@ -98,7 +139,7 @@ export default class Schedule extends Component {
                 <Text style={styles.weekTxt}>Ter</Text>
                 <Text style={styles.dayTxt}>18/07</Text>
               </View>
-              <ScrollView horizontal={true} style={styles.values}>
+              <ScrollView style={styles.values}>
                 <View style={styles.containerValues}>
 
                 </View>
@@ -109,7 +150,7 @@ export default class Schedule extends Component {
                 <Text style={styles.weekTxt}>Qua</Text>
                 <Text style={styles.dayTxt}>19/07</Text>
               </View>
-              <ScrollView horizontal={true} style={styles.values}>
+              <ScrollView style={styles.values}>
                 <View style={styles.containerValues}>
 
                 </View>
@@ -120,7 +161,7 @@ export default class Schedule extends Component {
                 <Text style={styles.weekTxt}>Qui</Text>
                 <Text style={styles.dayTxt}>20/07</Text>
               </View>
-              <ScrollView horizontal={true} style={styles.values}>
+              <ScrollView style={styles.values}>
                 <View style={styles.containerValues}>
 
                 </View>
@@ -131,7 +172,7 @@ export default class Schedule extends Component {
                 <Text style={styles.weekTxt}>Sex</Text>
                 <Text style={styles.dayTxt}>21/07</Text>
               </View>
-              <ScrollView horizontal={true} style={styles.values}>
+              <ScrollView style={styles.values}>
                 <View style={styles.containerValues}>
 
                 </View>
@@ -142,7 +183,7 @@ export default class Schedule extends Component {
                 <Text style={styles.weekTxt}>Sab</Text>
                 <Text style={styles.dayTxt}>22/07</Text>
               </View>
-              <ScrollView horizontal={true} style={styles.values}>
+              <ScrollView style={styles.values}>
                 <View style={styles.containerValues}>
 
                 </View>
@@ -151,10 +192,10 @@ export default class Schedule extends Component {
             <View style={styles.containerWeeks}>
               <View style={styles.week}>
                 <Text style={styles.weekTxt}>Dom</Text>
-                <Text style={styles.dayTxt}>16/07</Text>
+                <Text style={styles.dayTxt}>23/07</Text>
               </View>
 
-              <ScrollView horizontal={true} style={styles.values}>
+              <ScrollView style={styles.values}>
 
               </ScrollView>
             </View>
@@ -250,13 +291,13 @@ const styles = StyleSheet.create({
     // backgroundColor:"#f1f",
     alignItems: 'center',
     paddingRight: RFValue(15),
-    
+
 
   },
   value: {
     backgroundColor: "#FFF",
     marginLeft: RFValue(15),
-    width:RFValue(160),
+    width: RFValue(160),
     padding: RFValue(7),
     paddingRight: RFValue(60),
     borderWidth: RFValue(1),
@@ -278,8 +319,8 @@ const styles = StyleSheet.create({
     // fontWeight: 'bold',
     marginTop: RFValue(2),
     // marginBottom: RFValue(R),
-    width:RFValue(160),
-    height:RFValue(19)
+    width: RFValue(160),
+    height: RFValue(19)
   },
   servico: {
     fontSize: RFValue(12.5),
@@ -296,9 +337,4 @@ const styles = StyleSheet.create({
   dayTxt: {
     fontSize: RFValue(9),
   },
-  // space: {
-  //   width: "100%",
-  //   // backgroundColor: "brown",
-  //   height: Platform.OS === 'ios' ? RFValue(75) : RFValue(0)
-  // },
 });

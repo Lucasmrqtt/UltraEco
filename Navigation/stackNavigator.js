@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import TabNavigator from "./tabNavigator";
 
@@ -15,23 +15,22 @@ import Expenses from "../Screens/expenses";
 
 const Stack = createStackNavigator()
 
-export default class StackNavigator extends Component{
-  render(){
-        <Stack.Screen name="Scheduling" component={Scheduling} />
-        return(
+export default class StackNavigator extends Component {
+  render() {
+    return (
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={TabNavigator}/>
+        <Stack.Screen name="Home" component={TabNavigator} />
         {/* <Stack.Screen name="AddButton" component={AddButton}/> */}
         <Stack.Screen name="Scheduling" component={Scheduling} />
         <Stack.Screen name="Expenses" component={Expenses} />
         <Stack.Screen name="Revenue" component={Revenue} />
-        <Stack.Screen name="AddEmployee" component={AddEmployee}/>
-        <Stack.Screen name="RegisterService" component={RegisterServices}/>
-        <Stack.Screen name="Historic" component={Historic}/>
-        <Stack.Screen name="CashFlow" component={CashFlow}/>
-        <Stack.Screen name="AddClients1" component={AddClients1}/>
-        <Stack.Screen name="AddClients2" component={AddClients2}/>
-        <Stack.Screen name="Login" component={Login}/>
+        <Stack.Screen name="AddEmployee" component={AddEmployee} />
+        <Stack.Screen name="RegisterService" component={RegisterServices} />
+        <Stack.Screen name="Historic" component={Historic} />
+        <Stack.Screen name="CashFlow" component={CashFlow} />
+        <Stack.Screen name="AddClients1" component={AddClients1} />
+        <Stack.Screen name="AddClients2" component={AddClients2} />
+        <Stack.Screen name="Login" component={Login} />
       </Stack.Navigator>
     )
   }

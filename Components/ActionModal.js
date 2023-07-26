@@ -12,69 +12,96 @@ import {
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
-export function ActionModal({ handleClose }) {
-  return (
-    <View style={styles.container}>
-      <SafeAreaView style={styles.droidSafeArea} />
-      <TouchableOpacity style={{ flex: 1 }} onPress={handleClose}></TouchableOpacity>
-      <View style={styles.content}>
-        <View style={{ alignItems: 'center', height: RFValue(20) }}>
-          <TouchableOpacity onPress={handleClose}>
-            <Image
-              source={require("../assets/botao-adicionar.png")}
-              style={{
-                height: RFValue(70),
-                width: RFValue(70),
-                top: '-60%',
-                zIndex: 99,
-                transform: [{ rotate: '45deg' }],
+export default class ActionModal extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <View style={styles.container}>
+        <SafeAreaView style={styles.droidSafeArea} />
+        <TouchableOpacity
+          style={{ flex: 1 }}
+          onPress={this.props.handleClose}
+        ></TouchableOpacity>
+        <View style={styles.content}>
+          <View style={{ alignItems: 'center', height: RFValue(20) }}>
+            <TouchableOpacity onPress={this.props.handleClose}>
+              <Image
+                source={require("../assets/botao-adicionar.png")}
+                style={{
+                  height: RFValue(70),
+                  width: RFValue(70),
+                  top: "-60%",
+                  zIndex: 99,
+                  transform: [{ rotate: "45deg" }],
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View>
+            <TouchableOpacity
+              style={styles.containerIcons}
+              onPress={() => {
+                this.props.handleClose()
+                this.props.navigation.navigate("Home")
               }}
-            />
-          </TouchableOpacity>
-        </View>
+            >
+              <Image
+                source={require("../assets/add.png")}
+                style={styles.icons}
+              />
+              <Text style={styles.text}>Agendar Serviço</Text>
+            </TouchableOpacity>
 
-        <View>
-          <TouchableOpacity
-            style={styles.containerIcons}
-            onPress={() => this.props.navigation.navigate("Home")}
-          >
-            <Image source={require("../assets/add.png")} style={styles.icons} />
-            <Text style={styles.text}>Agendar Serviço</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.containerIcons}
+              onPress={() => {
+                this.props.handleClose();
+                this.props.navigation.navigate("RegisterService");
+              }}            >
+              <Image
+                source={require("../assets/customer-support.png")}
+                style={{
+                  width: RFValue(35),
+                  height: RFValue(35),
+                  marginRight: 30,
+                  marginStart: "3%"
+                }} />
+              <Text style={styles.text}>Serviço</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.containerIcons}
-            onPress={() => this.props.navigation.navigate("RegisterService")}
-          >
-            <Image source={require("../assets/customer-support.png")} style={{
-              width: RFValue(35),
-              height: RFValue(35),
-              marginRight: 30,
-              marginStart: "3%"
-            }} />
-            <Text style={styles.text}>Serviço</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.containerIcons}
+              onPress={() => {
+                this.props.handleClose();
+                this.props.navigation.navigate("AddEmployee");
+              }}
+            >
+              <Image
+                source={require("../assets/employee.png")}
+                style={styles.icons} />
+              <Text style={styles.text}>Funcionário</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.containerIcons}
-            onPress={() => this.props.navigation.navigate("AddEmploye")}
-          >
-            <Image source={require("../assets/employee.png")} style={styles.icons} />
-            <Text style={styles.text}>Funcionário</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.containerIcons}
-            onPress={() => this.props.navigation.navigate("AddClients")}
-          >
-              <Image source={require("../assets/client.png")} style={styles.icons} />
+            <TouchableOpacity
+              style={styles.containerIcons}
+              onPress={() => {
+                this.props.handleClose()
+                this.props.navigation.navigate("AddClients")
+              }}            >
+              <Image
+                source={require("../assets/client.png")}
+                style={styles.icons} />
               <Text style={styles.text}>Clientes</Text>
-          </TouchableOpacity>
-        </View>
+            </TouchableOpacity>
+          </View>
 
+        </View>
       </View>
-    </View>
-  )
+    )
+  }
 }
 
 const styles = StyleSheet.create({

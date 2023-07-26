@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from "react";
 import {
   Text,
   View,
@@ -8,7 +8,7 @@ import {
   Platform,
   SafeAreaView,
   TextInput,
-} from 'react-native';
+} from "react-native";
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -17,11 +17,11 @@ export default class AddEmployee extends Component {
     super(props)
     this.state = {
       speakerIcon: "chevron-back-outline",
-      searchText1: '',
+      searchText1: "",
     }
   }
 
-  handleSearchTextChange1 = text => {
+  handleSearchTextChange1 = (text) => {
     this.setState({ searchText1: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
@@ -33,19 +33,16 @@ export default class AddEmployee extends Component {
 
 
   render() {
-    const { searchText1 } = this.state;
+    const { searchText1, speakerIcon } = this.state;
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.back}
-
+            onPress={() => this.props.navigation.navigate("Home")}
           >
-            <Ionicons
-              name={this.state.speakerIcon}
-              size={RFValue(40)}
-            />
+            <Ionicons name={speakerIcon} size={RFValue(40)} />
           </TouchableOpacity>
           <View style={styles.title}>
             <Text style={styles.titleText}>Novo Funcionário</Text>
@@ -58,7 +55,7 @@ export default class AddEmployee extends Component {
             <TextInput
               placeholder="Digite o nome do seu cliente aqui"
               placeholderStyle={{
-                justifyContent: "center"
+                justifyContent: "center",
               }}
               onChangeText={this.handleSearchTextChange1}
               value={searchText1}

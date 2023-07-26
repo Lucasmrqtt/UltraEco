@@ -27,6 +27,7 @@ export default class CashFlow extends Component {
       selectedValue2: null,
       valorAntigo: 0,
       dropDownHeight1: 40,
+      dropDownHeight2: 40,
       payment: "Din",
     };
   }
@@ -61,7 +62,6 @@ export default class CashFlow extends Component {
     this.setState({ searchText: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-
 
   renderItem = ({ item }) => {
     // nome = item.nome
@@ -100,17 +100,16 @@ export default class CashFlow extends Component {
   }
 
   render() {
-    const { searchText } = this.state;
+    const { speakerIcon, searchText, dropDownHeight1, dropDownHeight2, payment } = this.state;
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
         <ScrollView>
           <View style={styles.header}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("Dashboard")}>
               <Ionicons
-                name={this.state.speakerIcon}
+                name={speakerIcon}
                 size={RFValue(40)}
-                onPress={() => this.props.navigation.navigate("Dashboard")}
               />
             </TouchableOpacity>
             <View style={styles.title}>
@@ -170,8 +169,8 @@ export default class CashFlow extends Component {
                       alignSelf: 'center',
                       textAlign: 'center'
                     }}
-                    defaultValue={this.state.payment}
-                    open={this.state.dropDownHeight1 == 170}
+                    defaultValue={payment}
+                    open={dropDownHeight1 == 170}
                     onOpen={() => this.setState({ dropDownHeight1: 170 })}
                     onClose={() => this.setState({ dropDownHeight1: 40 })}
                     style={{
@@ -212,8 +211,8 @@ export default class CashFlow extends Component {
                       alignSelf: 'center',
                       textAlign: 'center'
                     }}
-                    defaultValue={this.state.payment}
-                    open={this.state.dropDownHeight2 == 170}
+                    defaultValue={payment}
+                    open={dropDownHeight2 == 170}
                     onOpen={() => this.setState({ dropDownHeight2: 170 })}
                     onClose={() => this.setState({ dropDownHeight2: 40 })}
                     style={{

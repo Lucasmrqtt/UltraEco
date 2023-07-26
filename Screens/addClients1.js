@@ -97,7 +97,7 @@ export default class AddClients1 extends Component {
   }
 
   render() {
-    const { searchText1, dayValue1, dayValue2,dayValue3,searchText5,cell } = this.state;
+    const { searchText1, dayValue1, dayValue2, dayValue3, searchText5, cell } = this.state;
 
     return (
       <View style={styles.container}>
@@ -135,7 +135,7 @@ export default class AddClients1 extends Component {
 
           <View style={styles.margin}>
             <Text style={styles.bodyText}>Telefone</Text>
-            
+
             <TextInputMask
               style={styles.textInputName}
               type={"cel-phone"}
@@ -148,7 +148,7 @@ export default class AddClients1 extends Component {
               value={cell}
               onChangeText={this.handleSearchTextChangeCell}
             />
-            
+
           </View>
 
           <View style={styles.margin}>
@@ -228,10 +228,16 @@ export default class AddClients1 extends Component {
 
         <View style={styles.space}></View>
         <View style={styles.fotter}>
-          <TouchableOpacity style={styles.fotterTouchableOpacityLeft} onPress={() => this.props.navigation.navigate("Home")}>
+          <TouchableOpacity
+            style={styles.fotterTouchableOpacityLeft}
+            onPress={() => this.props.navigation.navigate("Home")}
+          >
             <Text style={styles.fotterTextCancel}>Cancelar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.fotterTouchableOpacityRight} onPress={() => this.props.navigation.navigate("addClients2")}>
+          <TouchableOpacity 
+            style={styles.fotterTouchableOpacityRight}
+            onPress={() => this.props.navigation.navigate("AddClients2")}
+          >
             <Text style={styles.fotterTextAdvance}>Avancar</Text>
           </TouchableOpacity>
         </View>
@@ -345,6 +351,7 @@ const styles = StyleSheet.create({
     // backgroundColor:"gray",
     justifyContent: 'space-between',
     flexDirection: 'row',
+    height: RFValue(60),
     // alignSelf: 'flex-end'
   },
   fotterTouchableOpacityLeft: {
@@ -399,6 +406,6 @@ const styles = StyleSheet.create({
   space: {
     width: "100%",
     // backgroundColor: "pink",
-    height: RFValue(148)
+    height: Platform.OS == "ios" ? RFValue(221) : RFValue(152)
   },
 })
