@@ -16,6 +16,22 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar, Calendar, CalendarList } from 'react-native-calendars';
 
 var schedule = require("./Schedule.json")
+var date = new Date()
+var meses = {
+  "Jan": "01",
+  "Fev": "02",
+  "Mar": "03",
+  "Abr": "04",
+  "Mai": "05",
+  "Jun": "06",
+  "Jul": "07",
+  "Ago": "08",
+  "Set": "09",
+  "Out": "10",
+  "Nov": "11",
+  "Dec": "12",
+
+}
 
 export default class Schedule extends Component {
   constructor(props) {
@@ -23,7 +39,7 @@ export default class Schedule extends Component {
     this.state = {
       status: "",
       visibleModal: false,
-      date:""
+      date:{dateString:"27-07-2023"}
     };
   }
 
@@ -67,20 +83,25 @@ export default class Schedule extends Component {
 
         >
           <CalendarProvider>
-
             <Calendar
               style={{
-                marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
                 borderRadius: RFValue(10),
                 elevation: 4,
                 // margin: 10
               }}
+              value={this.state.date}
               monthFormat={'dd-MM-yyyy'}
-              // value={this.state.date}
               onDayPress={(day) => { 
                 this.setState({ date: day })
                 this.visibleModalFalse()
+                let d = new Date(day.timestamp)
+                // d = d.toDateString()
+                d = d.toString().split("").slice(0,15).join("")
+                // d = d.toString().split("")
+                d = d.split(" ").slice(1,4)
+                console.log(d[1] +" "+ d[0] +" "+ d[2])
               }}
+              
             ></Calendar>
 
           </CalendarProvider>
@@ -91,7 +112,7 @@ export default class Schedule extends Component {
 
             <View style={styles.profile}>
               <TouchableOpacity onPress={this.visibleModalTrue}>
-                <Text style={styles.calendar}>17.07 á 23.07</Text>
+                <Text style={styles.calendar}>{this.state.date.dateString}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.userEmployee}>
