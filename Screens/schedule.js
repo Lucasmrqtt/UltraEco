@@ -39,8 +39,14 @@ export default class Schedule extends Component {
     this.state = {
       status: "",
       visibleModal: false,
-      date:{dateString:"27-07-2023"}
+      date: new Date().getDay()
+
     };
+  }
+
+  componentDidMount() {
+    // console.log(date)
+    this.convertDateInitial(date)
   }
 
   visibleModalTrue = () => {
@@ -69,6 +75,50 @@ export default class Schedule extends Component {
     )
   }
 
+  convertDateInitial = (day) => {
+    // let d = new Date(day.timestamp)
+    let d = day
+    console.log(d)
+    // d = d.toDateString()
+    d = d.toString().split("").slice(0, 15).join("")
+    // d = d.toString().split("")
+    d = d.split(" ").slice(1, 4)
+    for (const key in meses) {
+      if (d[0] == key) {
+        d[0] = meses[key]
+      }
+    }
+    if (d[1].length == 1){
+      d[1] = "0"+d[1]
+    }
+    d = d[1] + "/" + d[0] + "/" + d[2]
+    // console.log(d)
+    this.setState({ date: d })
+  }
+
+  convertDate = (day) => {
+    // let d = new Date(day.timestamp)
+    let d = day
+    console.log(d)
+    // d = d.toDateString()
+    d = d.toString().split("").slice(0, 15).join("")
+    // d = d.toString().split("")
+    d = d.split(" ").slice(1, 4)
+    for (const key in meses) {
+      if (d[0] == key) {
+        d[0] = meses[key]
+      }
+    }
+    d[1] = parseInt(d[1]) + 1
+    d[1] = d[1].toString()
+    if (d[1].length == 1){
+      d[1] = "0"+d[1]
+    }
+    d = d[1] + "/" + d[0] + "/" + d[2]
+    // console.log(d)
+    this.setState({ date: d })
+  }
+
   render() {
 
     return (
@@ -91,17 +141,13 @@ export default class Schedule extends Component {
               }}
               value={this.state.date}
               monthFormat={'dd-MM-yyyy'}
-              onDayPress={(day) => { 
-                this.setState({ date: day })
+              onDayPress={(day) => {
                 this.visibleModalFalse()
-                let d = new Date(day.timestamp)
-                // d = d.toDateString()
-                d = d.toString().split("").slice(0,15).join("")
-                // d = d.toString().split("")
-                d = d.split(" ").slice(1,4)
-                console.log(d[1] +" "+ d[0] +" "+ d[2])
+                 day = new Date(day.timestamp)
+                
+                this.convertDate(day)
               }}
-              
+
             ></Calendar>
 
           </CalendarProvider>
@@ -112,7 +158,7 @@ export default class Schedule extends Component {
 
             <View style={styles.profile}>
               <TouchableOpacity onPress={this.visibleModalTrue}>
-                <Text style={styles.calendar}>{this.state.date.dateString}</Text>
+                <Text style={styles.calendar}>{this.state.date}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.userEmployee}>
