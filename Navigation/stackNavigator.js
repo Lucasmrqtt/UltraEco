@@ -20,7 +20,7 @@ export default class StackNavigator extends Component {
     return (
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={TabNavigator} />
-        {/* <Stack.Screen name="AddButton" component={AddButton}/> */}
+        <Stack.Screen name="ProfileClient" component={ProfileClient}/>
         <Stack.Screen name="Scheduling" component={Scheduling} />
         <Stack.Screen name="AddClients1" component={AddClients1} />
         <Stack.Screen name="AddClients2" component={AddClients2} />

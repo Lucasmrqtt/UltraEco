@@ -33,6 +33,7 @@ import Scheduling from "../Screens/scheduling";
 import DrawerNavigator from "./drawerNavigator";
 import Revenue from "../Screens/revenue";
 import Expenses from "../Screens/expenses";
+import ProfileClient from '../Screens/profileClient';
 
 const Tab = createMaterialBottomTabNavigator()
 const windowHeight = Dimensions.get('window').height;
@@ -122,7 +123,7 @@ export default class TabNavigator extends Component {
           inactiveColor={"gray"}
         >
           <Tab.Screen name="Agenda" component={Schedule} />
-          {/* <Tab.Screen name="Serviço" component={AddEmployee} /> */}
+          {/* <Tab.Screen name="PerfilClient" component={ProfileClient} /> */}
           {/* <Tab.Screen name="Despesa" component={Expenses} /> */}
           {/* <Tab.Screen name="1" component={AddClients1} /> */}
           {/* <Tab.Screen name="2" component={AddClients2} /> */}
