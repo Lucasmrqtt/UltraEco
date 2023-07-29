@@ -8,12 +8,16 @@ import {
   SafeAreaView,
   TextInput,
   FlatList,
-  StatusBar
+  StatusBar,
+  Alert
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
+import firebase from 'firebase';
+import db from "../config"
 
 var clients = require("./Clients.json")
+
 
 export default class Search extends Component {
   constructor(props) {
@@ -22,18 +26,56 @@ export default class Search extends Component {
       speakerIcon: "text-outline",
       photo: "person-circle-outline",
       searchText: '',
-      list: clients,
+      list: [],
     };
   }
 
+
   componentDidMount() {
     this.handleFilterList();
+    this.getClients()
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchText !== this.state.searchText) {
       this.handleFilterList();
     }
+  }
+
+  getClients = () => {
+      let client = []
+      db.collection("clients")
+      .get()
+      .then(response => {
+          // console.log(response.docs)
+          // console.log(doc.data())
+          response.docs.map(doc => {
+            client.push(doc.data())
+          })
+        })
+        this.setState({ list: client })
+        console.log(this.state.list)      
+        // .catch(error => {
+      //   Alert.alert(error.message)
+      // })
+  }
+
+  renderItem = ({ item }) => {
+    console.log(item)
+    return (
+      <TouchableOpacity style={styles.item}>
+        <Ionicons
+          name={this.state.photo}
+          size={RFValue(50)}
+          color="#555"
+          style={styles.itemPhoto}
+        />
+        <View style={styles.itemInfo}>
+          <Text style={styles.itemP1}>{item.name}</Text>
+          <Text style={styles.itemP2}>{item.email}</Text>
+        </View>
+      </TouchableOpacity>
+    )
   }
 
   handleFilterList() {
@@ -58,22 +100,7 @@ export default class Search extends Component {
     this.setState({ list: newList });
   }
 
-  renderItem = ({ item }) => {
-    return (
-      <TouchableOpacity style={styles.item}>
-        <Ionicons
-          name={this.state.photo}
-          size={RFValue(50)}
-          color="#555"
-          style={styles.itemPhoto}
-        />
-        <View style={styles.itemInfo}>
-          <Text style={styles.itemP1}>{item.name}</Text>
-          <Text style={styles.itemP2}>{item.email}</Text>
-        </View>
-      </TouchableOpacity>
-    )
-  }
+  
 
   render() {
     const { searchText, allTransactions } = this.state;
@@ -161,7 +188,7 @@ const styles = StyleSheet.create({
     // height: RFValue(50), // Updated to RfValue
     borderRadius: RFValue(30), // Updated to RfValue
     // backgroundColor: '#ababab',
-    paddingStart:"5%"
+    paddingStart: "5%"
   },
   itemInfo: {
     marginLeft: RFValue(20), // Updated to RfValue

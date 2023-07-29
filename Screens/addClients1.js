@@ -236,7 +236,7 @@ export default class AddClients1 extends Component {
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.fotterTouchableOpacityRight}
-            onPress={() => this.props.navigation.navigate("AddClients2")}
+            onPress={() => {this.props.navigation.navigate("AddClients2")}}
           >
             <Text style={styles.fotterTextAdvance}>Avancar</Text>
           </TouchableOpacity>

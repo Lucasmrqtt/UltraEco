@@ -18,18 +18,18 @@ import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar, Calenda
 var schedule = require("./Schedule.json")
 var date = new Date()
 var meses = {
-  "Jan": "01",
-  "Fev": "02",
-  "Mar": "03",
-  "Abr": "04",
-  "Mai": "05",
-  "Jun": "06",
-  "Jul": "07",
-  "Ago": "08",
-  "Set": "09",
-  "Out": "10",
-  "Nov": "11",
-  "Dec": "12",
+  "Jan": "01", //31
+  "Fev": "02", //28
+  "Mar": "03", //31
+  "Abr": "04", //30
+  "Mai": "05", //31
+  "Jun": "06", //30
+  "Jul": "07", //31
+  "Ago": "08", //31
+  "Set": "09", //30
+  "Out": "10", //31
+  "Nov": "11", //30
+  "Dec": "12", //31
 
 }
 
@@ -78,7 +78,7 @@ export default class Schedule extends Component {
   convertDateInitial = (day) => {
     // let d = new Date(day.timestamp)
     let d = day
-    console.log(d)
+    // console.log(d)
     // d = d.toDateString()
     d = d.toString().split("").slice(0, 15).join("")
     // d = d.toString().split("")
@@ -99,7 +99,7 @@ export default class Schedule extends Component {
   convertDate = (day) => {
     // let d = new Date(day.timestamp)
     let d = day
-    console.log(d)
+    // console.log(d)
     // d = d.toDateString()
     d = d.toString().split("").slice(0, 15).join("")
     // d = d.toString().split("")
