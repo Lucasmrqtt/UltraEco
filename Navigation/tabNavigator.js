@@ -119,6 +119,7 @@ export default class TabNavigator extends Component {
           })}
 
           // initialRouteName="Agenda"
+          initialRouteName="PerfilClient"
           activeColor={"black"}
           inactiveColor={"gray"}
         >

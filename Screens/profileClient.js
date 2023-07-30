@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import {
   Text,
   View,
-  Image,
   StyleSheet,
   TouchableOpacity,
   StatusBar,
   Platform,
   SafeAreaView,
+  ScrollView
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -22,71 +22,95 @@ export default class ProfileClient extends Component {
 
 
   render() {
-    const { } = this.state;
-
+    const { speakerIcon } = this.state;
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.header}>
           <TouchableOpacity style={styles.back}>
             <Ionicons
-              name={this.state.speakerIcon}
+              name={speakerIcon}
               size={RFValue(40)}
-              // onPress={() => this.props.navigation.navigate("Home")}
-              onPress={() => this.props.navigation.navigate("Agenda")}
+              onPress={() => this.props.navigation.navigate("Home")}
+              // onPress={() => this.props.navigation.navigate("Agenda")}
             />
           </TouchableOpacity>
           <View style={styles.title}>
-            <Text style={styles.titleText}>Nome Cliente</Text>
+            <Text style={styles.titleText}>Maria da Gloria Karam Marquetti</Text>
           </View>
         </View>
 
         <View style={styles.body}>
           <View style={styles.profile}>
             <Text style={{
-              fontSize:20,
-              fontWeight:'bold',
-              paddingStart:10
+              fontSize: 25,
+              fontWeight: 'bold',
+              marginStart: -7,
+              paddingTop: 10,
             }}>Perfil</Text>
-            <View style={styles.row}>
-              <View style={styles.name}>
-                <Text style={styles.titleBody}>Nome</Text>
-                <Text style={{paddingStart:4}}>Maria da Gloria Karam Marquetti</Text>
-              </View>
-              <View style={styles.birth}>
+            <View style={[styles.margin, { marginTop: RFValue(13), }]}>
+              <Text style={styles.titleBody}>Nome</Text>
+              <Text style={{ fontSize: 15, color: "#a1a1a1" }}>Maria da Gloria Karam Marquetti</Text>
+            </View>
+            <View style={{ flexDirection: "row", justifyContent:'space-between'}}>
+              <View style={styles.margin}>
                 <Text style={styles.titleBody}>Nascimento</Text>
-                <Text>04/09/1970</Text>
+                <Text style={{ fontSize: 15, color: "#a1a1a1" }}>04/09/1970</Text>
+              </View>
+              <View style={[styles.margin, {marginEnd:140,}]}>
+                <Text style={styles.titleBody}>Carro</Text>
+                <Text style={{ fontSize: 15, color: "#a1a1a1" }}>HR-V</Text>
               </View>
             </View>
-            <View style={styles.row}>
-              <View style={styles.gmail}>
-                <Text style={styles.titleBody}>G-mail</Text>
-                <Text>Gloriamarquetti@gmail.com</Text>
-              </View>
-              <View style={styles.phone}>
-                <Text style={styles.titleBody}>Telefone</Text>
-                <Text>(45) 99975-6051</Text>
-              </View>
+            <View style={styles.margin}>
+              <Text style={styles.titleBody}>G-mail</Text>
+              <Text style={{ fontSize: 15, color: "#a1a1a1" }}>Gloriamarquetti@gmail.com</Text>
+            </View>
+            <View style={styles.margin}>
+              <Text style={styles.titleBody}>Telefone</Text>
+              <Text style={{ fontSize: 15, color: "#a1a1a1" }}>(45) 99975-6051</Text>
             </View>
           </View>
-          {/* <View style={styles.house}>
-            <View style={styles.birth}>
-              <Text>Nascimento</Text>
-              <Text>04/09/1970</Text>
+          <View style={styles.Adress}>
+            <Text style={{
+              fontSize: 25,
+              fontWeight: 'bold',
+              marginStart: -7,
+              paddingTop: 10,
+            }}>Casa</Text>
+
+            <View style={[styles.margin, { marginTop: RFValue(13), }]}>
+              <Text style={styles.titleBody}>Endereço</Text>
+              <Text style={{ fontSize: 15, color: "#a1a1a1" }}>Rua Trinta Reis, 442</Text>
+            </View>
+            <View style={styles.margin}>
+              <Text style={styles.titleBody}>Bairro</Text>
+              <Text style={{ fontSize: 15, color: "#a1a1a1" }}>Vila A</Text>
             </View>
           </View>
-          <View style={styles.homework}>
-            <View style={styles.birth}>
-              <Text>Nascimento</Text>
-              <Text>04/09/1970</Text>
+          <View style={styles.Adress}>
+            <Text style={{
+              fontSize: 25,
+              fontWeight: 'bold',
+              marginStart: -7,
+              paddingTop: 10,
+            }}>Trabalho</Text>
+
+            <View style={[styles.margin, { marginTop: RFValue(13), }]}>
+              <Text style={styles.titleBody}>Endereço</Text>
+              <Text style={{ fontSize: 15, color: "#a1a1a1" }}>Rua Trinta Reis, 442</Text>
             </View>
-          </View> */}
+            <View style={styles.margin}>
+              <Text style={styles.titleBody}>Bairro</Text>
+              <Text style={{ fontSize: 15, color: "#a1a1a1" }}>Vila A</Text>
+            </View>
+          </View>
         </View>
 
         <View style={styles.space}></View>
 
 
-      </View>
+      </ScrollView>
     )
   }
 }
@@ -125,55 +149,47 @@ const styles = StyleSheet.create({
   },
   titleText: {
     // backgroundColor: "purple",
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     fontSize: RFValue(20),
     height: RFValue(25),
     paddingRight: RFValue(65),
     marginTop: RFValue(3),
   },
   body: {
-    backgroundColor: "green",
+    // backgroundColor: "green",
     justifyContent: 'flex-start',
     // paddingLeft: RFValue(15),
     marginTop: RFValue(10),
     alignContent: 'space-around'
   },
-  row: {
-    marginTop:4,
-    flexDirection: 'row',
-    justifyContent: 'space-around'
-  },
-  titleBody:{
-    fontSize:RFValue(18),
-  },
   profile: {
-    backgroundColor: "pink",
-    paddingBottom:RFValue(10),
-    borderWidth:RFValue(1),
+    // backgroundColor: "pink",
+    paddingBottom: RFValue(14),
+    borderWidth: RFValue(1),
+    paddingStart: RFValue(15),
   },
-  name: {
-    backgroundColor: "blue",
-    width:120,
+  Adress:{
+    paddingBottom: RFValue(14),
+    marginTop: RFValue(10),
+    borderWidth: RFValue(1),
+    paddingStart: RFValue(15),
   },
-  birth: {
-    backgroundColor: "gray",
-    width:120,
-
+  titleBody: {
+    fontSize: RFValue(18),
+    paddingBottom: RFValue(1)
+    // fontWeight:'bold'
   },
-  gmail: {
-    backgroundColor: "brown",
-    width:180,
-
-  },
-  phone: {
-    backgroundColor: "yellow",
-    width:140,
-
+  margin: {
+    // backgroundColor: "gray",
+    marginBottom: RFValue(13),
+    // width:120,
+    justifyContent: 'flex-start',
+    // alignItems:'center',
   },
 
   space: {
     width: "100%",
     // backgroundColor: "pink",
-    height: Platform.OS == "ios" ? RFValue(221) : RFValue(152)
+    height: RFValue(100)
   },
 })
