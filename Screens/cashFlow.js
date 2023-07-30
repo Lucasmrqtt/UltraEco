@@ -16,7 +16,20 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import DropDownPicker from 'react-native-dropdown-picker';
 
 var cashFlow = require("./Cashflow.json")
+var meses = {
+  "1": "Janeiro", //31
+  "3": "Março", //31
+  "4": "Abril", //30
+  "5": "Maio", //31
+  "6": "Junho", //30
+  "7": "Julho", //31
+  "8": "Agosto", //31
+  "9": "Setembro", //30
+  "10": "Outubro", //31
+  "11": "Novembro", //30
+  "12": "Dezembro", //31
 
+}
 export default class CashFlow extends Component {
   constructor(props) {
     super(props);
@@ -29,9 +42,13 @@ export default class CashFlow extends Component {
       dropDownHeight1: 40,
       dropDownHeight2: 40,
       payment: "Din",
+      date: new Date().getMonth() + 1
     };
   }
-
+  componentDidMount() {
+    // console.log(date)
+    this.dateChange()
+  }
   handleValueChange1 = (itemValue) => {
     this.setState({ selectedValue1: itemValue });
   };
@@ -48,7 +65,16 @@ export default class CashFlow extends Component {
       return 'Din / Nub / Sic / Déb / Créd';
     }
   };
-
+  dateChange = () =>{
+    let d = this.state.date
+    for (const key in meses) {
+      if (d == key) {
+        d = meses[key]
+      }
+    }
+    // console.log(d)
+    this.setState({ date: d })
+  }
   renderPlaceholder2 = () => {
     const { selectedValue2 } = this.state;
     if (selectedValue2) {
@@ -150,7 +176,7 @@ export default class CashFlow extends Component {
             </View>
 
             <View style={styles.textMonthContainer}>
-              <Text style={styles.textMonth}>Fevereiro</Text>
+              <Text style={styles.textMonth}>{this.state.date}</Text>
             </View>
             <View style={styles.filter}>
               <View style={styles.moneyFilter}>

@@ -29,7 +29,7 @@ var meses = {
   "Set": "09", //30
   "Out": "10", //31
   "Nov": "11", //30
-  "Dec": "12", //31
+  "Dez": "12", //31
 
 }
 
@@ -88,8 +88,8 @@ export default class Schedule extends Component {
         d[0] = meses[key]
       }
     }
-    if (d[1].length == 1){
-      d[1] = "0"+d[1]
+    if (d[1].length == 1) {
+      d[1] = "0" + d[1]
     }
     d = d[1] + "/" + d[0] + "/" + d[2]
     // console.log(d)
@@ -111,8 +111,8 @@ export default class Schedule extends Component {
     }
     d[1] = parseInt(d[1]) + 1
     d[1] = d[1].toString()
-    if (d[1].length == 1){
-      d[1] = "0"+d[1]
+    if (d[1].length == 1) {
+      d[1] = "0" + d[1]
     }
     d = d[1] + "/" + d[0] + "/" + d[2]
     // console.log(d)
@@ -143,8 +143,8 @@ export default class Schedule extends Component {
               monthFormat={'dd-MM-yyyy'}
               onDayPress={(day) => {
                 this.visibleModalFalse()
-                 day = new Date(day.timestamp)
-                
+                day = new Date(day.timestamp)
+
                 this.convertDate(day)
               }}
 
@@ -181,14 +181,14 @@ export default class Schedule extends Component {
 
           </View>
 
-          <View style={styles.schedule}>
+          <ScrollView style={styles.schedule}>
 
             <View style={styles.containerWeeks}>
               <View style={styles.week}>
                 <Text style={styles.weekTxt}>Seg</Text>
                 <Text style={styles.dayTxt}>17/07</Text>
               </View>
-              <ScrollView style={styles.values}>
+              <View style={styles.values}>
                 <View style={styles.containerValues}>
                   {/* flatlist */}
 
@@ -199,62 +199,62 @@ export default class Schedule extends Component {
                     keyExtractor={(item, index) => index.toString()}
                   />
                 </View>
-              </ScrollView>
+              </View>
             </View>
             <View style={styles.containerWeeks}>
               <View style={styles.week}>
                 <Text style={styles.weekTxt}>Ter</Text>
                 <Text style={styles.dayTxt}>18/07</Text>
               </View>
-              <ScrollView style={styles.values}>
+              <View style={styles.values}>
                 <View style={styles.containerValues}>
 
                 </View>
-              </ScrollView>
+              </View>
             </View>
             <View style={styles.containerWeeks}>
               <View style={styles.week}>
                 <Text style={styles.weekTxt}>Qua</Text>
                 <Text style={styles.dayTxt}>19/07</Text>
               </View>
-              <ScrollView style={styles.values}>
+              <View style={styles.values}>
                 <View style={styles.containerValues}>
 
                 </View>
-              </ScrollView>
+              </View>
             </View>
             <View style={styles.containerWeeks}>
               <View style={styles.week}>
                 <Text style={styles.weekTxt}>Qui</Text>
                 <Text style={styles.dayTxt}>20/07</Text>
               </View>
-              <ScrollView style={styles.values}>
+              <View style={styles.values}>
                 <View style={styles.containerValues}>
 
                 </View>
-              </ScrollView>
+              </View>
             </View>
             <View style={styles.containerWeeks}>
               <View style={styles.week}>
                 <Text style={styles.weekTxt}>Sex</Text>
                 <Text style={styles.dayTxt}>21/07</Text>
               </View>
-              <ScrollView style={styles.values}>
+              <View style={styles.values}>
                 <View style={styles.containerValues}>
 
                 </View>
-              </ScrollView>
+              </View>
             </View>
             <View style={styles.containerWeeks}>
               <View style={styles.week}>
                 <Text style={styles.weekTxt}>Sab</Text>
                 <Text style={styles.dayTxt}>22/07</Text>
               </View>
-              <ScrollView style={styles.values}>
+              <View style={styles.values}>
                 <View style={styles.containerValues}>
 
                 </View>
-              </ScrollView>
+              </View>
             </View>
             <View style={styles.containerWeeks}>
               <View style={styles.week}>
@@ -262,11 +262,13 @@ export default class Schedule extends Component {
                 <Text style={styles.dayTxt}>23/07</Text>
               </View>
 
-              <ScrollView style={styles.values}>
+              <View style={styles.values}>
+                <View style={styles.containerValues}>
 
-              </ScrollView>
+                </View>
+              </View>
             </View>
-          </View>
+          </ScrollView>
 
           {/* <View style={styles.space}></View> */}
         </ScrollView>
@@ -332,8 +334,8 @@ const styles = StyleSheet.create({
   },
 
   schedule: {
-    backgroundColor: '#fff',
-    alignItems: 'center'
+    // alignItems: 'center'
+    backgroundColor: "#F1F1F1",
   },
   containerWeeks: {
     width: "100%",
@@ -348,6 +350,8 @@ const styles = StyleSheet.create({
     paddingTop: RFValue(30),
     paddingBottom: RFValue(30),
     alignItems: 'center',
+    backgroundColor: "#fff",
+
   },
   values: {
     backgroundColor: "#F1F1F1",

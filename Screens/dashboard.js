@@ -16,7 +16,20 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 var clients = require("./Dashboard.json")
+var meses = {
+  "1": "Janeiro", //31
+  "3": "Março", //31
+  "4": "Abril", //30
+  "5": "Maio", //31
+  "6": "Junho", //30
+  "7": "Julho", //31
+  "8": "Agosto", //31
+  "9": "Setembro", //30
+  "10": "Outubro", //31
+  "11": "Novembro", //30
+  "12": "Dezembro", //31
 
+}
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -39,6 +52,7 @@ export default class Dashboard extends Component {
       selectedValue1: null,
       selectedValue2: null,
       payment: "Din",
+      date: new Date().getMonth() + 1
     };
     this.textInputBirth1 = null
     this.textInputMonth1 = null
@@ -46,6 +60,22 @@ export default class Dashboard extends Component {
     this.textInputBirth2 = null
     this.textInputMonth2 = null
     this.textInputYear2 = null
+  }
+
+  componentDidMount() {
+    // console.log(date)
+    this.dateChange()
+  }
+  
+  dateChange = () =>{
+    let d = this.state.date
+    for (const key in meses) {
+      if (d == key) {
+        d = meses[key]
+      }
+    }
+    // console.log(d)
+    this.setState({ date: d })
   }
 
   handleValueChange1 = (itemValue) => {
@@ -208,8 +238,8 @@ export default class Dashboard extends Component {
         <ScrollView>
           <View style={styles.header}>
             <View style={styles.title}>
-              <Text style={styles.textTitle}> Dashboard </Text>
-              <Text style={styles.textMonth}> Fevereiro  </Text>
+              <Text style={styles.textTitle}>Dashboard</Text>
+              <Text style={styles.textMonth}>{this.state.date}</Text>
             </View>
             <TouchableOpacity style={styles.cashFlow} onPress={() => this.props.navigation.navigate("CashFlow")}
             >
@@ -534,6 +564,8 @@ const styles = StyleSheet.create({
     borderWidth: RFValue(2),
     borderRadius: RFValue(5),
     marginTop: RFValue(10),
+    paddingHorizontal:RFValue(15),
+    paddingVertical:RFValue(2),
     left: RFValue(20)
   },
   cashFlow: {
