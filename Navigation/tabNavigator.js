@@ -25,7 +25,7 @@ import Welcome from "../Screens/welcome";
 import Login from "../Screens/login";
 import AddClients1 from "../Screens/addClients1"; //Feito
 import AddClients2 from "../Screens/addClients2"; //Feito
-import AddEmployee from "../Screens/addEmployee"; //Feito
+import Employee from '../Screens/addEmployee';
 import CashFlow from "../Screens/cashFlow"; //Feito
 import Historic from "../Screens/historic";
 import RegisterServices from "../Screens/registerService";
@@ -34,6 +34,8 @@ import DrawerNavigator from "./drawerNavigator";
 import Revenue from "../Screens/revenue";
 import Expenses from "../Screens/expenses";
 import ProfileClient from '../Screens/profileClient';
+import Service from "../Screens/service";
+
 
 const Tab = createMaterialBottomTabNavigator()
 const windowHeight = Dimensions.get('window').height;
@@ -64,7 +66,7 @@ export default class TabNavigator extends Component {
       // Telas que ao precionar, irá sair o TabNavigator. EX: "AddClients "
       "AddClients1",
       "AddClients2",
-      "AddEmployee",
+      "Employee"
     ].includes(routeName)
   }
 
@@ -124,12 +126,12 @@ export default class TabNavigator extends Component {
           inactiveColor={"gray"}
         >
           <Tab.Screen name="Agenda" component={Schedule} />
-          {/* <Tab.Screen name="PerfilClient" component={ProfileClient} /> */}
-          {/* <Tab.Screen name="Despesa" component={Expenses} /> */}
-          {/* <Tab.Screen name="1" component={AddClients1} /> */}
-          {/* <Tab.Screen name="2" component={AddClients2} /> */}
+          <Tab.Screen name="Service" component={Service} />
+          {/* <Tab.Screen name="Despesa" component=} /> */}
+          {/* <Tab.Screen name="1" component={AddClients1} />
+          <Tab.Screen name="2" component={AddClients2} /> */}
           {/* <Tab.Screen name="Welcome" component={Welcome}/> */}
-          <Tab.Screen name="Dashboard" component={Dashboard} />
+          {/* <Tab.Screen name="Dashboard" component={Dashboard} /> */}
           {/* <Tab.Screen name="Login" component={Login} /> */}
           <Tab.Screen
             name="Modal"

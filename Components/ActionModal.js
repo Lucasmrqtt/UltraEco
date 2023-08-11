@@ -60,7 +60,7 @@ export default class ActionModal extends React.Component {
               onPress={() => {
                 this.props.handleClose();
                 this.props.navigation.navigate("RegisterService");
-              }}            >
+              }}>
               <Image
                 source={require("../assets/customer-support.png")}
                 style={{
@@ -76,15 +76,13 @@ export default class ActionModal extends React.Component {
               style={styles.containerIcons}
               onPress={() => {
                 this.props.handleClose();
-                this.props.navigation.navigate("AddEmployee");
-              }}
-            >
+                this.props.navigation.navigate("Employee");
+              }}>
               <Image
                 source={require("../assets/employee.png")}
                 style={styles.icons} />
               <Text style={styles.text}>Funcionário</Text>
             </TouchableOpacity>
-
             <TouchableOpacity
               style={styles.containerIcons}
               onPress={() => {

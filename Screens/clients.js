@@ -23,7 +23,7 @@ export default class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      speakerIcon: "text-outline",
+      abc: "text-outline",
       photo: "person-circle-outline",
       searchText: '',
       list: [],
@@ -121,7 +121,7 @@ export default class Search extends Component {
             style={styles.orderButton}
           >
             <Ionicons
-              name={this.state.speakerIcon}
+              name={this.state.abc}
               size={RFValue(20)}
               color="#888"
             />

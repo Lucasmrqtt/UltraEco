@@ -12,7 +12,7 @@ import {
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-export default class AddEmployee extends Component {
+export default class Employee extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -22,18 +22,11 @@ export default class AddEmployee extends Component {
   }
 
   handleSearchTextChange1 = (text) => {
-    this.setState({ searchText1: text });
-    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
+    this.setState({ searchText1: text })
   }
 
-  // handleSearchTextChange2 = text => {
-  //   this.setState({ searchText2: text });
-  //   // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
-  // }
-
-
   render() {
-    const { searchText1, speakerIcon } = this.state;
+    const { searchText1, speakerIcon } = this.state
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
@@ -70,7 +63,7 @@ export default class AddEmployee extends Component {
             <Text style={styles.fotterTextCancel}>Cancelar</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.fotterTouchableOpacityRight}>
-            <Text style={styles.fotterTextAdvance}>Avancar</Text>
+            <Text style={styles.fotterTextAdvance}>Avançar</Text>
           </TouchableOpacity>
         </View>
       </View>
