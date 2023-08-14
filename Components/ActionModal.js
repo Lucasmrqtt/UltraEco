@@ -87,7 +87,7 @@ export default class ActionModal extends React.Component {
               style={styles.containerIcons}
               onPress={() => {
                 this.props.handleClose()
-                this.props.navigation.navigate("AddClients")
+                this.props.navigation.navigate("AddClients1")
               }}            >
               <Image
                 source={require("../assets/client.png")}

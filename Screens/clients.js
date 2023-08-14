@@ -13,11 +13,16 @@ import {
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import firebase from 'firebase';
-import db from "../config"
+import { initializeApp } from 'firebase/app'
+// import firebase from 'firebase';
+import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
+//import db from "../Config"
+import { firebaseConfig } from '../Config';
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 
 var clients = require("./Clients.json")
-
 
 export default class Search extends Component {
   constructor(props) {
@@ -26,10 +31,9 @@ export default class Search extends Component {
       abc: "text-outline",
       photo: "person-circle-outline",
       searchText: '',
-      list: [],
+      clientList:[]
     };
   }
-
 
   componentDidMount() {
     this.handleFilterList();
@@ -42,26 +46,16 @@ export default class Search extends Component {
     }
   }
 
-  getClients = () => {
-      let client = []
-      db.collection("clients")
-      .get()
-      .then(response => {
-          // console.log(response.docs)
-          // console.log(doc.data())
-          response.docs.map(doc => {
-            client.push(doc.data())
-          })
-        })
-        this.setState({ list: client })
-        console.log(this.state.list)      
-        // .catch(error => {
-      //   Alert.alert(error.message)
-      // })
+  getClients = async () => {
+      const clients = collection(db,"clients")
+      const clientSnapshot = await getDocs(clients)
+      const clientList = clientSnapshot.docs.map(doc => doc.data());
+      // console.log(clientList)
+      this.setState({clientList : [...clientList]})
   }
 
   renderItem = ({ item }) => {
-    console.log(item)
+    // console.log(item)
     return (
       <TouchableOpacity style={styles.item}>
         <Ionicons
@@ -71,8 +65,8 @@ export default class Search extends Component {
           style={styles.itemPhoto}
         />
         <View style={styles.itemInfo}>
-          <Text style={styles.itemP1}>{item.name}</Text>
-          <Text style={styles.itemP2}>{item.email}</Text>
+          <Text style={styles.itemP1}>{item.client_Name}</Text>
+          <Text style={styles.itemP2}>{item.client_Email}</Text>
         </View>
       </TouchableOpacity>
     )
@@ -82,13 +76,13 @@ export default class Search extends Component {
     const { searchText } = this.state;
 
     if (searchText === '') {
-      this.setState({ list: clients });
+      this.setState({ clientList: clients });
     } else {
       const filteredList = clients.filter(
         (item) =>
           item.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
       );
-      this.setState({ list: filteredList });
+      this.setState({ clientList: filteredList });
     }
   }
 
@@ -97,13 +91,13 @@ export default class Search extends Component {
 
     newList.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
 
-    this.setState({ list: newList });
+    this.setState({ clientList: newList });
   }
 
   
 
   render() {
-    const { searchText, allTransactions } = this.state;
+    const { searchText, allTransactions, clientList } = this.state;
     return (
       <View style={styles.container}>
 
@@ -129,7 +123,7 @@ export default class Search extends Component {
         </View>
 
         <FlatList
-          data={this.state.list}
+          data={clientList}
           renderItem={this.renderItem}
           keyExtractor={(item, index) => index.toString()}
           style={styles.list}

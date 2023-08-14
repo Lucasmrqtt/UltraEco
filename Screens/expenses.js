@@ -163,13 +163,13 @@ export default class Expenses extends Component {
             <Ionicons
               name={this.state.speakerIcon}
               size={RFValue(40)}
-              onPress={() => this.props.navigation.navigate("Home")}
+              onPress={() => this.props.navigation.navigate("CashFlow")}
               style={{ color: "#fff" }}
             />
           </TouchableOpacity>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View style={styles.valueContainer}>
-              <Text style={{ color: "#eb4034", fontSize: RFValue(13) }}>Valor da despesa</Text>
+              <Text style={{ color: "#990000", fontSize: RFValue(13) }}>Valor da despesa</Text>
               <TextInputMask
                 placeholder='R$0,00'
                 placeholderTextColor={"#fff"}
@@ -202,7 +202,7 @@ export default class Expenses extends Component {
           </View>
         </View>
 
-        <ScrollView style={styles.containerForm}>
+        <ScrollView style={styles.containerForm} showsVerticalScrollIndicator={false}>
           <Text style={styles.title}>Nome</Text>
           <TextInput
             style={styles.input}
@@ -314,7 +314,7 @@ export default class Expenses extends Component {
               <Text style={{ fontSize: RFValue(16) }}>Mês</Text>
               <Text style={{ fontSize: RFValue(16) }}>Ano</Text>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-around' }}>
               <TextInput
                 placeholder="Dia"
                 placeholderStyle={{
@@ -399,7 +399,6 @@ const styles = StyleSheet.create({
     color: "#FFF",
   },
   date: {
-    paddingEnd: 40,
     marginTop: RFValue(10),
     marginBottom: RFValue(10)
   },
@@ -434,7 +433,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(16)
   },
   button: {
-    backgroundColor: "#eb4034",
+    backgroundColor: "#990000",
     borderRadius: RFValue(50),
     paddingVertical: RFValue(8),
     width: "60%",

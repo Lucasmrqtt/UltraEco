@@ -12,7 +12,7 @@ import CashFlow from './Screens/cashFlow';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // import firebase from 'firebase';
-// import { firebaseConfig } from './config';
+// import { firebaseConfig } from './Config';
 
 
 // if (!firebase.apps.length) {
@@ -41,7 +41,7 @@ export default function App() {
   return (
     <NavigationContainer>
 
-      <StackNav/>
+      <StackNavigator/>
     </NavigationContainer>   
   );
 }

@@ -59,10 +59,16 @@ export default class Employee extends Component {
         </View>
 
         <View style={styles.fotter}>
-          <TouchableOpacity style={styles.fotterTouchableOpacityLeft}>
+          <TouchableOpacity 
+            style={styles.fotterTouchableOpacityLeft}
+            onPress={() => this.props.navigation.navigate("Home")}
+          >
             <Text style={styles.fotterTextCancel}>Cancelar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.fotterTouchableOpacityRight}>
+          <TouchableOpacity 
+            style={styles.fotterTouchableOpacityRight}
+            // onPress={() => this.props.navigation.navigate("Home")}  
+          >
             <Text style={styles.fotterTextAdvance}>Avançar</Text>
           </TouchableOpacity>
         </View>

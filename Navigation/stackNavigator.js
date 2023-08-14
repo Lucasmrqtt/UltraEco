@@ -14,17 +14,18 @@ import Login from "../Screens/login";
 import Revenue from "../Screens/revenue";
 import Expenses from "../Screens/expenses";
 import Service from "../Screens/service";
+import ProfileClient from "../Screens/profileClient";
 
 const Stack = createStackNavigator()
 
 export default class StackNavigator extends Component {
   render() {
     return (
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown:false}}>
         <Stack.Screen name="Home" component={TabNavigator} />
         <Stack.Screen name="ProfileClient" component={ProfileClient}/>
         <Stack.Screen name="Service" component={Service}/>
-        <Stack.Screen name="AddEmployee" component={Employee}/>
+        <Stack.Screen name="Employee" component={Employee}/>
         <Stack.Screen name="Scheduling" component={Scheduling} />
         <Stack.Screen name="AddClients1" component={AddClients1} />
         <Stack.Screen name="AddClients2" component={AddClients2} />

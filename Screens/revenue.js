@@ -106,18 +106,17 @@ export default class Revenue extends Component {
         <View style={styles.header}>
           <TouchableOpacity 
           style={styles.back}
-          onPress={() => this.props.navigation.navigate("Home")}
           >
             <Ionicons
               name={this.state.speakerIcon}
               size={RFValue(40)}
-              onPress={() => this.props.navigation.navigate("Home")}
+              onPress={() => this.props.navigation.navigate("CashFlow")}
               style={{ color: "#fff" }}
             />
           </TouchableOpacity>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View style={styles.valueContainer}>
-              <Text style={{ color: "#a1a1a1", fontSize: RFValue(13) }}>Valor da receita</Text>
+              <Text style={{ color: "rgb(0,128,0)", fontSize: RFValue(13) }}>Valor da receita</Text>
               <TextInputMask
                 placeholder='R$0,00'
                 placeholderTextColor={"#fff"}
@@ -308,7 +307,6 @@ const styles = StyleSheet.create({
   },
   date: {
     // backgroundColor: "brown",
-    paddingEnd: 40,
     marginTop: RFValue(10),
     marginBottom: RFValue(10)
   },
@@ -346,7 +344,7 @@ const styles = StyleSheet.create({
   },
   button: {
     // position: "absolute",
-    backgroundColor: "green",
+    backgroundColor: "rgb(0,128,0)",
     borderRadius: RFValue(50),
     paddingVertical: RFValue(8),
     width: "60%",

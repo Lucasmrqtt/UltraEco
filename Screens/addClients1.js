@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   TextInput,
   Keyboard,
+  ScrollView
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -21,16 +22,16 @@ export default class AddClients1 extends Component {
     this.state = {
       speakerIcon: "chevron-back-outline",
       Check: "checkmark-outline",
-      // searchText1: '',
-      // searchText2: '',
-      // searchText3: '',
-      // searchText4: '',
-      // searchText5: '',
-      // dayValue1: '',
-      // dayValue2: '',
-      // dayValue3: '',
-      dropDownHeight: 40,
+      searchText1: '',
       cell: "",
+      searchText2: '',
+      searchText3: '',
+      searchText4: '',
+      searchText5: '',
+      dayValue1: '',
+      dayValue2: '',
+      dayValue3: '',
+      dropDownHeight: 40,
       value: "",
       formattedValue: '',
     }
@@ -45,6 +46,9 @@ export default class AddClients1 extends Component {
   handleSearchTextChange1 = text => {
     this.setState({ searchText1: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
+  }
+  handleSearchTextChangeCell = text => {
+    this.setState({ cell: text });
   }
   handleSearchTextChange2 = (text) => {
     this.setState({ searchText2: text });
@@ -92,12 +96,10 @@ export default class AddClients1 extends Component {
     this.setState({ searchText5: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-  handleSearchTextChangeCell = text => {
-    this.setState({ cell: text });
-  }
+  
 
   render() {
-    const { searchText1, dayValue1, dayValue2, dayValue3, searchText5, cell } = this.state;
+    const { searchText1,cell, dayValue1, dayValue2, dayValue3, searchText5 } = this.state;
 
     return (
       <View style={styles.container}>
@@ -113,11 +115,10 @@ export default class AddClients1 extends Component {
           </TouchableOpacity>
           <View style={styles.title}>
             <Text style={styles.titleText}>Novo Cliente</Text>
-            <Text style={styles.titleText}>1 de 2</Text>
           </View>
         </View>
 
-        <View style={styles.body}>
+        <ScrollView style={styles.body}>
 
           <View style={styles.margin}>
             <Text style={styles.bodyText}>Nome</Text>
@@ -224,9 +225,11 @@ export default class AddClients1 extends Component {
               </TouchableOpacity>
             </View>
           </View>
-        </View>
+          
 
-        <View style={styles.space}></View>
+        </ScrollView>
+
+        {/* <View style={styles.space}></View> */}
         <View style={styles.fotter}>
           <TouchableOpacity
             style={styles.fotterTouchableOpacityLeft}
@@ -280,7 +283,7 @@ const styles = StyleSheet.create({
   titleText: {
     // backgroundColor: "purple",
     fontWeight: 'bold',
-    fontSize: RFValue(20),
+    fontSize: RFValue(25),
     paddingRight: RFValue(65),
     marginTop: RFValue(3),
   },
@@ -332,7 +335,7 @@ const styles = StyleSheet.create({
   },
   body: {
     // backgroundColor: "green",
-    justifyContent: 'flex-start',
+    // justifyContent: 'flex-start',
     paddingLeft: RFValue(15),
     marginTop: RFValue(10),
     alignContent: 'space-around'
@@ -409,3 +412,7 @@ const styles = StyleSheet.create({
     height: Platform.OS == "ios" ? RFValue(221) : RFValue(152)
   },
 })
+
+
+
+
