@@ -23,8 +23,7 @@ import Settings from "../Screens/settings";
 
 import Welcome from "../Screens/welcome";
 import Login from "../Screens/login";
-import AddClients1 from "../Screens/addClients1"; //Feito
-import AddClients2 from "../Screens/addClients2"; //Feito
+import AddClients from "../Screens/addClients"; //Feito
 import Employee from '../Screens/addEmployee';
 import CashFlow from "../Screens/cashFlow"; //Feito
 import Historic from "../Screens/historic";
@@ -64,8 +63,7 @@ export default class TabNavigator extends Component {
 
     return ![
       // Telas que ao precionar, irá sair o TabNavigator. EX: "AddClients "
-      "AddClients1",
-      "AddClients2",
+      "AddClients",
       "Employee"
     ].includes(routeName)
   }
@@ -128,8 +126,7 @@ export default class TabNavigator extends Component {
           <Tab.Screen name="Agenda" component={Schedule} />
           {/* <Tab.Screen name="Service" component={Service} /> */}
           {/* <Tab.Screen name="Despesa" component=} /> */}
-          {/* <Tab.Screen name="1" component={AddClients1} />
-          <Tab.Screen name="2" component={AddClients2} /> */}
+          {/* <Tab.Screen name="1" component={AddClients} /> */}
           {/* <Tab.Screen name="Welcome" component={Welcome}/> */}
           <Tab.Screen name="Dashboard" component={Dashboard} />
           {/* <Tab.Screen name="Login" component={Login} /> */}

@@ -7,7 +7,8 @@ import {
   StatusBar,
   Platform,
   SafeAreaView,
-  ScrollView
+  ScrollView,
+  Alert,
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -21,11 +22,14 @@ export default class Service extends Component {
     }
   }
 
+  alert(){
+    Alert.alert("Status foi definido como Agendado")
+  }
 
   render() {
     const { speakerIcon, photo } = this.state;
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.header}>
           <TouchableOpacity style={styles.back}>
@@ -41,15 +45,15 @@ export default class Service extends Component {
           </View>
         </View>
 
-        <View style={styles.body}>
+        <ScrollView style={styles.body}>
           <View style={{ alignItems: 'center', marginVertical: RFValue(10) }}>
             <Text style={{ color: "#a1a1a1" }}>8 de jul. de 2023</Text>
             <Text>08:00 - 08:30</Text>
             <Text style={{ color: "green", fontSize: 11 }}>FINALIZADO</Text>
           </View>
-          <View style={styles.clientEmployee}>
+          <View style={styles.headerBody}>
 
-            <View style={[styles.client, { borderTopWidth: RFValue(1), borderTopColor: "#bdbdbd" }]}>
+            <View style={[styles.margin, { borderTopWidth: RFValue(1), borderTopColor: "#bdbdbd" }]}>
               <Ionicons
                 name={photo}
                 size={RFValue(40)}
@@ -61,7 +65,7 @@ export default class Service extends Component {
                 <Text style={{ fontSize: 13, color: "#909090" }}>(45) 99975-6051</Text>
               </View>
             </View>
-            <View style={styles.client}>
+            <View style={styles.margin}>
               <Ionicons
                 name={photo}
                 size={RFValue(40)}
@@ -73,39 +77,102 @@ export default class Service extends Component {
                 <Text style={{ fontSize: 13, color: "#909090" }}>Profissional</Text>
               </View>
             </View>
-          </View>
-          <View>
-            <Text style={{ fontSize: 20, paddingStart: RFValue(10), paddingTop: RFValue(10) }}>Itens</Text>
-            <View style={styles.client}>
+            <View style={styles.margin}>
               <Ionicons
-                name={photo}
-                size={RFValue(40)}
-                style={{ marginRight: 6 }}
+                name={"location-outline"}
+                size={RFValue(35)}
+                style={{ marginRight: 10 }}
+              // onPress={() => this.props.navigation.navigate("Home")}
+              />
+              <View>
+                <Text style={styles.text}>Localização</Text>
+                <Text style={{ fontSize: 13, color: "#909090" }}>Rua trinta Reis, 442</Text>
+                <Text style={{ fontSize: 13, color: "#909090" }}>Vila A</Text>
+              </View>
+            </View>
+            <View style={styles.margin}>
+              <Ionicons
+                name={"clipboard-outline"}
+                size={RFValue(35)}
+                style={{ marginRight: 10 }}
+              // onPress={() => this.props.navigation.navigate("Home")}
+              />
+              <View>
+                <Text style={styles.text}>Observações</Text>
+                <Text style={{ fontSize: 13, color: "#909090" }}>Mora em uma casa azul</Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={{
+            borderBottomWidth: RFValue(1),
+            borderBottomColor: "#bdbdbd",
+          }}>
+            <Text style={{ fontSize: 25, paddingStart: RFValue(10), paddingTop: RFValue(10) }}>Itens</Text>
+            <View style={styles.marginItem}>
+              <Ionicons
+                name={"image-outline"}
+                size={RFValue(35)}
+                style={{ marginRight: 10 }}
               // onPress={() => this.props.navigation.navigate("Home")}
               />
               <View>
                 <Text style={styles.text}>Lavagem (SUV)</Text>
-                <Text style={{ fontSize: 13, color: "#909090" }}>R$ 85.00</Text>
+                <Text style={{ fontSize: 13, color: "#909090" }}>R$ 85,00</Text>
               </View>
             </View>
-          </View>
-          <View style={{ paddingStart: RFValue(10) }}>
-            <Text style={{ fontSize: 20, paddingStart: RFValue(5), paddingTop: RFValue(10) }}>Comanda</Text>
-            <View style={styles.client}>
+            <View style={styles.marginItem}>
+              <Ionicons
+                name={"image-outline"}
+                size={RFValue(35)}
+                style={{ marginRight: 10 }}
+              // onPress={() => this.props.navigation.navigate("Home")}
+              />
               <View>
-                <View style={{ flexDirection: "row", justifyContent: 'space-evenly' }}>
-                  <Text style={styles.text}>Lavagem</Text>
-                  <Text style={styles.text}>Lavagem</Text>
-                </View>
+                <Text style={styles.text}>Aplicação Evolution</Text>
+                <Text style={{ fontSize: 13, color: "#909090" }}>R$ 50,00</Text>
+              </View>
+            </View>
+
+          </View>
+
+          <View style={{
+            borderBottomWidth: RFValue(1),
+            borderBottomColor: "#bdbdbd",
+          }}>
+            <Text style={{ fontSize: 25, paddingStart: RFValue(10), paddingTop: RFValue(10), paddingBottom: RFValue(10) }}>Comanda</Text>
+            <View style={styles.commands}>
+              <View style={styles.commandsTxts}>
+                <Text style={[styles.text, { color: "#4d4d4d" }]}>Subtotal</Text>
+                <Text style={[styles.text, { color: "rgb(0,128,0)" }]}>R$ 225,00</Text>
+              </View>
+              <View style={styles.commandsTxts}>
+                <Text style={[styles.text, { color: "#a1a1a1" }]}>Desconto</Text>
+                <Text style={[styles.text, { color: "#990000" }]}>-R$ 50,00</Text>
+              </View>
+              <View style={styles.commandsTxts}>
+                <Text style={[styles.text, { color: "#000" }]}>Total pago</Text>
+                <Text style={[styles.text, { color: "#000" }]}>R$ 125,00</Text>
               </View>
             </View>
           </View>
-        </View>
 
-        <View style={styles.space}></View>
+          <TouchableOpacity style={styles.status} onPress={this.alert}>
+            <Ionicons
+              name={"sync-circle-outline"}
+              size={RFValue(35)}
+              style={{ marginRight: 10 , transform: [{rotate: '90deg'}],}}
+            />
+            <Text style={{fontSize:RFValue(16)}}>
+              Ativar status
+            </Text>
+          </TouchableOpacity>
+
+        </ScrollView>
 
 
-      </ScrollView>
+
+      </View>
     )
   }
 }
@@ -152,14 +219,13 @@ const styles = StyleSheet.create({
   },
   body: {
     // backgroundColor: "pink",
-    justifyContent: 'flex-start',
     paddingStart: RFValue(10),
     paddingEnd: RFValue(10),
     // paddingLeft: RFValue(15),
     // marginTop: RFValue(10),
     alignContent: 'space-around'
   },
-  client: {
+  margin: {
     //  backgroundColor:"brown",
     flexDirection: "row",
     borderBottomWidth: RFValue(1),
@@ -167,12 +233,31 @@ const styles = StyleSheet.create({
     paddingVertical: RFValue(4),
     alignItems: 'center'
   },
+  marginItem: {
+    //  backgroundColor:"brown",
+    flexDirection: "row",
+    paddingVertical: RFValue(2),
+    alignItems: 'center'
+  },
+  commands: {
+    // backgroundColor:"gray"
+  },
+  commandsTxts: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: RFValue(7)
+  },
   text: {
     fontSize: 16
   },
-  space: {
-    width: "100%",
-    // backgroundColor: "pink",
-    height: RFValue(100)
+  status: {
+    // backgroundColor:"pink", 
+    borderWidth:RFValue(2),
+    borderRadius:RFValue(10),
+    marginTop:RFValue(15),
+    paddingVertical:RFValue(2),
+    flexDirection:'row', 
+    alignItems:'center',
+    // justifyContent:'center'
   },
 })

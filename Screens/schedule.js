@@ -62,7 +62,10 @@ export default class Schedule extends Component {
     const color = item.status === "FINALIZADO" ? "#3bbf3f" : "#1c20ff"
 
     return (
-      <TouchableOpacity style={[styles.value, { borderLeftColor }]}>
+      <TouchableOpacity
+        style={[styles.value, { borderLeftColor }]}
+        onPress={() => this.props.navigation.navigate("Service")}
+      >
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.hour}>{item.horario1} - {item.horario2}</Text>
           <Text style={[styles.hour, { marginLeft: RFValue(5), marginRight: RFValue(5) }]}>|</Text>

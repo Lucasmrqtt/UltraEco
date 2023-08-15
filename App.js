@@ -6,7 +6,7 @@ import TabNavigator from './Navigation/tabNavigator';
 import Scheduling from './Screens/scheduling';
 import AddEmployee from './Screens/addEmployee';
 import RegisterServices from './Screens/registerService';
-import AddClients from './Screens/addClients1';
+import AddClients from './Screens/addClients';
 import Historic from './Screens/historic';
 import CashFlow from './Screens/cashFlow';
 import { createStackNavigator } from '@react-navigation/stack';

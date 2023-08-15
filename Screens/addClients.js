@@ -16,24 +16,29 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
 
-export default class AddClients1 extends Component {
+export default class AddClients extends Component {
   constructor(props) {
     super(props)
     this.state = {
       speakerIcon: "chevron-back-outline",
       Check: "checkmark-outline",
-      searchText1: '',
+      name: "",
       cell: "",
-      searchText2: '',
-      searchText3: '',
-      searchText4: '',
-      searchText5: '',
-      dayValue1: '',
-      dayValue2: '',
-      dayValue3: '',
+      day: "",
+      month: "",
+      year: "",
+      description: "",
+      car: "",
+      adressWork: "",
+      neighborhoodWork: "",
+      adressHouse: "",
+      neighborhoodHouse: "",
+      dayValue1: "",
+      dayValue2: "",
+      dayValue3: "",
       dropDownHeight: 40,
       value: "",
-      formattedValue: '',
+      formattedValue: "",
     }
     this.textInputBirth = null
     this.textInputMonth = null
@@ -44,14 +49,14 @@ export default class AddClients1 extends Component {
     this.setState({ selectedValue: itemValue });
   };
   handleSearchTextChange1 = text => {
-    this.setState({ searchText1: text });
+    this.setState({ name: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
   handleSearchTextChangeCell = text => {
     this.setState({ cell: text });
   }
   handleSearchTextChange2 = (text) => {
-    this.setState({ searchText2: text });
+    this.setState({ day: text });
 
     const parsedValue = parseInt(text, 10); // Parse the input to an integer
     if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 31) {
@@ -65,7 +70,7 @@ export default class AddClients1 extends Component {
     }
   };
   handleSearchTextChange3 = (text) => {
-    this.setState({ searchText3: text });
+    this.setState({ month: text });
 
     const parsedValue = parseInt(text, 10); // Parse the input to an integer
     if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 12) {
@@ -79,7 +84,7 @@ export default class AddClients1 extends Component {
     }
   };
   handleSearchTextChange4 = (text) => {
-    this.setState({ searchText4: text });
+    this.setState({ year: text });
 
     const parsedValue = parseInt(text, 10); // Parse the input to an integer
     if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 2100) {
@@ -93,13 +98,33 @@ export default class AddClients1 extends Component {
     }
   };
   handleSearchTextChange5 = text => {
-    this.setState({ searchText5: text });
+    this.setState({ description: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-  
+  handleSearchTextChange6 = text => {
+    this.setState({ car: text });
+    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
+  }
+  handleSearchTextChange7 = text => {
+    this.setState({ adressWork: text });
+    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
+  }
+  handleSearchTextChange8 = text => {
+    this.setState({ neighborhoodWork: text });
+    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
+  }
+  handleSearchTextChange9 = text => {
+    this.setState({ adressHouse: text });
+    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
+  }
+  handleSearchTextChange10 = text => {
+    this.setState({ neighborhoodHouse: text });
+    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
+  }
+
 
   render() {
-    const { searchText1,cell, dayValue1, dayValue2, dayValue3, searchText5 } = this.state;
+    const { name, cell, dayValue1, dayValue2, dayValue3, description, car, adressWork, neighborhoodWork, adressHouse, neighborhoodHouse } = this.state;
 
     return (
       <View style={styles.container}>
@@ -128,7 +153,7 @@ export default class AddClients1 extends Component {
                 justifyContent: "center"
               }}
               onChangeText={this.handleSearchTextChange1}
-              value={searchText1}
+              value={name}
               style={styles.textInputName}
               maxLength={40}
             />
@@ -214,7 +239,7 @@ export default class AddClients1 extends Component {
                 placeholder="Descrição do cliente"
                 multiline={true}
                 onChangeText={this.handleSearchTextChange5}
-                value={searchText5}
+                value={description}
                 style={[styles.textInputDescription, { height: RFValue(55) }]}
               />
               <TouchableOpacity onPress={Keyboard.dismiss}>
@@ -225,10 +250,104 @@ export default class AddClients1 extends Component {
               </TouchableOpacity>
             </View>
           </View>
-          
 
+          {/* Carro */}
+          <View style={{
+            marginTop: RFValue(10),
+            marginBottom: RFValue(15),
+          }}>
+            <Text style={{
+              fontWeight: 'bold',
+              fontSize: RFValue(19),
+              // paddingBottom:RFValue(10)
+            }}>Carro</Text>
+            <TextInput
+              placeholder="Digite o nome do carro"
+              placeholderStyle={{
+                justifyContent: "center"
+              }}
+              onChangeText={this.handleSearchTextChange6}
+              value={car}
+              style={styles.textInputName}
+              maxLength={40}
+            />
+          </View>
+
+          {/* Trabalho */}
+          <View style={styles.work}>
+            <View style={{ paddingLeft: RFValue(7), paddingTop: (7) }}>
+              <Text style={styles.txt}>Trabalho</Text>
+            </View>
+            {/* Endereço Trab */}
+            <View style={styles.margin}>
+              <Text style={styles.bodyText2}>Endereço do trabalho</Text>
+              <TextInput
+                placeholder="Rua Tal, 100"
+                placeholderStyle={{
+                  justifyContent: "center"
+                }}
+                onChangeText={this.handleSearchTextChange7}
+                value={adressWork}
+                style={styles.textInputName}
+                maxLength={40}
+              />
+            </View>
+
+            {/*Bairro Trab */}
+            <View style={styles.margin}>
+              <Text style={styles.bodyText2}>Bairro do Trabalho</Text>
+              <TextInput
+                placeholder="Centro"
+                placeholderStyle={{
+                  justifyContent: "center"
+                }}
+                onChangeText={this.handleSearchTextChange8}
+                value={neighborhoodWork}
+                style={styles.textInputName}
+                maxLength={40}
+              />
+            </View>
+          </View>
+
+          <View style={{ height: RFValue(20) }}></View>
+
+          {/* Casa */}
+          <View style={styles.house}>
+            <View style={{ paddingLeft: RFValue(7), paddingTop: (7) }}>
+              <Text style={styles.txt}>Casa</Text>
+            </View>
+            
+            {/* Endereço Casa */}
+            <View style={styles.margin}>
+              <Text style={styles.bodyText2}>Endereço Da casa</Text>
+              <TextInput
+                placeholder="Rua Tal, 100"
+                placeholderStyle={{
+                  justifyContent: "center"
+                }}
+                onChangeText={this.handleSearchTextChange9}
+                value={adressHouse}
+                style={styles.textInputName}
+                maxLength={40}
+              />
+            </View>
+
+            {/* Bairo Casa */}
+            <View style={styles.margin}>
+              <Text style={styles.bodyText2}>Bairro da casa</Text>
+              <TextInput
+                placeholder="Centro"
+                placeholderStyle={{
+                  justifyContent: "center"
+                }}
+                onChangeText={this.handleSearchTextChange10}
+                value={neighborhoodHouse}
+                style={styles.textInputName}
+                maxLength={40}
+              />
+            </View>
+          </View>
         </ScrollView>
-
         {/* <View style={styles.space}></View> */}
         <View style={styles.fotter}>
           <TouchableOpacity
@@ -237,9 +356,8 @@ export default class AddClients1 extends Component {
           >
             <Text style={styles.fotterTextCancel}>Cancelar</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.fotterTouchableOpacityRight}
-            onPress={() => {this.props.navigation.navigate("AddClients2")}}
           >
             <Text style={styles.fotterTextAdvance}>Avancar</Text>
           </TouchableOpacity>
@@ -273,6 +391,27 @@ const styles = StyleSheet.create({
     // backgroundColor: "brown",
     // justifyContent: 'flex-start',
   },
+  bodyText2:{
+    fontSize: RFValue(15)
+
+  },
+  work: {
+    // backgroundColor: "pink",
+    borderWidth: RFValue(3),
+    borderRadius: RFValue(8),
+    paddingBottom: RFValue(10),
+    marginStart:RFValue(-15),
+    paddingStart:RFValue(15),
+  },
+  house: {
+    // backgroundColor: "blue",
+    borderWidth: RFValue(3),
+    borderRadius: RFValue(8),
+    paddingBottom: RFValue(10),
+    marginBottom: RFValue(100),
+    marginStart:RFValue(-15),
+    paddingStart:RFValue(15),
+  },
   title: {
     // backgroundColor: "blue",
     justifyContent: 'center',
@@ -305,6 +444,16 @@ const styles = StyleSheet.create({
     width: RFValue(150),
     marginTop: RFValue(3),
     // width: 10
+  },
+  margin: {
+    // backgroundColor: "brown",
+    marginTop: RFValue(10),
+    marginBottom: RFValue(10),
+  },
+  txt: {
+    paddingRight: RFValue(2),
+    fontWeight: 'bold',
+    fontSize: RFValue(17)
   },
   textInputBirth: {
     borderWidth: RFValue(1.5),

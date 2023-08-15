@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import TabNavigator from "./tabNavigator";
 
-import AddClients1 from "../Screens/addClients1"; //Feito
-import AddClients2 from "../Screens/addClients2";
+import AddClients from "../Screens/addClients"; //Feito
 
 import CashFlow from "../Screens/cashFlow"; //Feito
 import Historic from "../Screens/historic";
@@ -27,8 +26,7 @@ export default class StackNavigator extends Component {
         <Stack.Screen name="Service" component={Service}/>
         <Stack.Screen name="Employee" component={Employee}/>
         <Stack.Screen name="Scheduling" component={Scheduling} />
-        <Stack.Screen name="AddClients1" component={AddClients1} />
-        <Stack.Screen name="AddClients2" component={AddClients2} />
+        <Stack.Screen name="AddClients" component={AddClients} />
         <Stack.Screen name="Expenses" component={Expenses} />
         <Stack.Screen name="Revenue" component={Revenue} />
         <Stack.Screen name="RegisterService" component={RegisterServices} />
