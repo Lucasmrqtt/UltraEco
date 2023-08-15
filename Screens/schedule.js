@@ -140,7 +140,7 @@ export default class Schedule extends Component {
               style={{
                 borderRadius: RFValue(10),
                 elevation: 4,
-                // margin: 10
+                marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
               }}
               value={this.state.date}
               monthFormat={'dd-MM-yyyy'}
