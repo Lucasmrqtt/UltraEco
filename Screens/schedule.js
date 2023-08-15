@@ -19,17 +19,17 @@ var schedule = require("./Schedule.json")
 var date = new Date()
 var meses = {
   "Jan": "01", //31
-  "Fev": "02", //28
+  "Feb": "02", //28
   "Mar": "03", //31
-  "Abr": "04", //30
-  "Mai": "05", //31
+  "Apr": "04", //30
+  "May": "05", //31
   "Jun": "06", //30
   "Jul": "07", //31
-  "Ago": "08", //31
-  "Set": "09", //30
-  "Out": "10", //31
+  "Aug": "08", //31
+  "Sep": "09", //30
+  "Oct": "10", //31
   "Nov": "11", //30
-  "Dez": "12", //31
+  "Dec": "12", //31
 
 }
 
@@ -102,13 +102,14 @@ export default class Schedule extends Component {
   convertDate = (day) => {
     // let d = new Date(day.timestamp)
     let d = day
-    // console.log(d)
     // d = d.toDateString()
     d = d.toString().split("").slice(0, 15).join("")
     // d = d.toString().split("")
     d = d.split(" ").slice(1, 4)
+    // console.log(d)
     for (const key in meses) {
       if (d[0] == key) {
+        // console.log(d[0])
         d[0] = meses[key]
       }
     }
