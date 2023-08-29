@@ -52,14 +52,14 @@ export default class ActionModal extends React.Component {
                 source={require("../assets/add.png")}
                 style={styles.icons}
               />
-              <Text style={styles.text}>Agendar Serviço</Text>
+              <Text style={styles.text}>Agendamento</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.containerIcons}
               onPress={() => {
                 this.props.handleClose();
-                this.props.navigation.navigate("RegisterService");
+                this.props.navigation.navigate("RegisterServices");
               }}>
               <Image
                 source={require("../assets/customer-support.png")}

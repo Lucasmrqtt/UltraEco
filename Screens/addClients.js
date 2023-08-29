@@ -121,6 +121,59 @@ export default class AddClients extends Component {
     this.setState({ neighborhoodHouse: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
+  async addClient() {
+    if (
+      this.state.name &&
+      this.state.cell &&
+      this.state.day &&
+      this.state.month &&
+      this.state.year &&
+      this.state.description &&
+      this.state.car &&
+      this.state.adressWork &&
+      this.state.neighborhoodWork &&
+      this.state.adressHouse &&
+      this.state.neighborhoodHouse
+    ) {
+      let storyData = {
+        name: this.state.name,
+        cell: this.state.cell,
+        day: this.state.day,
+        month: this.state.month,
+        year: this.state.year,
+        description: this.state.description,
+        car: this.state.car,
+        adressWork: this.state.adressWork,
+        neighborhoodWork: this.state.neighborhoodWork,
+        adressHouse: this.state.adressHouse,
+        neighborhoodHouse: this.state.neighborhoodHouse,
+      };
+      await firebase
+        .database()
+        .ref(
+          "/posts/" +
+          Math.random()
+            .toString(36)
+            .slice(2)
+        )
+        .set(storyData)
+        .then(function (snapshot) { });
+      this.props.setUpdateToTrue();
+      this.props.navigation.navigate("Home");
+      Alert.alert(
+        "Cliente cadastrado com sucesso!",
+        [{ text: "OK"}],
+        { cancelable: false }
+      );
+    } else {
+      Alert.alert(
+        "Error",
+        "Todos os campos são obrigatórios!",
+        [{ text: "OK", onPress: () => console.log("OK Pressionado") }],
+        { cancelable: false }
+      );
+    }
+  }
 
 
   render() {
@@ -316,7 +369,7 @@ export default class AddClients extends Component {
             <View style={{ paddingLeft: RFValue(7), paddingTop: (7) }}>
               <Text style={styles.txt}>Casa</Text>
             </View>
-            
+
             {/* Endereço Casa */}
             <View style={styles.margin}>
               <Text style={styles.bodyText2}>Endereço Da casa</Text>
@@ -391,7 +444,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "brown",
     // justifyContent: 'flex-start',
   },
-  bodyText2:{
+  bodyText2: {
     fontSize: RFValue(15)
 
   },
@@ -400,8 +453,8 @@ const styles = StyleSheet.create({
     borderWidth: RFValue(3),
     borderRadius: RFValue(8),
     paddingBottom: RFValue(10),
-    marginStart:RFValue(-15),
-    paddingStart:RFValue(15),
+    marginStart: RFValue(-15),
+    paddingStart: RFValue(15),
   },
   house: {
     // backgroundColor: "blue",
@@ -409,8 +462,8 @@ const styles = StyleSheet.create({
     borderRadius: RFValue(8),
     paddingBottom: RFValue(10),
     marginBottom: RFValue(100),
-    marginStart:RFValue(-15),
-    paddingStart:RFValue(15),
+    marginStart: RFValue(-15),
+    paddingStart: RFValue(15),
   },
   title: {
     // backgroundColor: "blue",

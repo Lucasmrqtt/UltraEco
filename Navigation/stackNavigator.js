@@ -29,7 +29,7 @@ export default class StackNavigator extends Component {
         <Stack.Screen name="AddClients" component={AddClients} />
         <Stack.Screen name="Expenses" component={Expenses} />
         <Stack.Screen name="Revenue" component={Revenue} />
-        <Stack.Screen name="RegisterService" component={RegisterServices} />
+        <Stack.Screen name="RegisterServices" component={RegisterServices} />
         <Stack.Screen name="Historic" component={Historic} />
         <Stack.Screen name="CashFlow" component={CashFlow} />
         <Stack.Screen name="Login" component={Login} />

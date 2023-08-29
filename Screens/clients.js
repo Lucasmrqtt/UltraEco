@@ -30,8 +30,10 @@ export default class Search extends Component {
     this.state = {
       abc: "text-outline",
       photo: "person-circle-outline",
-      searchText: '',
-      clientList:[]
+      searchText: "",
+      list: [],
+      clientList: [],
+
     };
   }
 
@@ -47,11 +49,11 @@ export default class Search extends Component {
   }
 
   getClients = async () => {
-      const clients = collection(db,"clients")
-      const clientSnapshot = await getDocs(clients)
-      const clientList = clientSnapshot.docs.map(doc => doc.data());
-      // console.log(clientList)
-      this.setState({clientList : [...clientList]})
+    const clients = collection(db, "clients")
+    const clientSnapshot = await getDocs(clients)
+    const clientList = clientSnapshot.docs.map(doc => doc.data());
+    // console.log(clientList)
+    this.setState({ clientList: [...clientList] })
   }
 
   renderItem = ({ item }) => {
@@ -73,28 +75,36 @@ export default class Search extends Component {
   }
 
   handleFilterList() {
-    const { searchText } = this.state;
+    const { searchText, clientList } = this.state;
 
     if (searchText === '') {
-      this.setState({ clientList: clients });
+      this.setState({ clientList: clientList });
+      this.getClients()
     } else {
-      const filteredList = clients.filter(
-        (item) =>
-          item.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+      // console.log(clientList)
+      // this.getClients():
+      const filteredList = clientList.filter(
+        
+        (item) => item.client_Name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
       );
-      this.setState({ clientList: filteredList });
+      // console.log(filteredList),
+        this.setState({ clientList: filteredList });
     }
   }
 
   handleOrderClick = () => {
-    const newList = [...clients];
+    const { clientList } = this.state;
 
-    newList.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
+    const newList = [...clientList];
+    // console.log(newList)
+    // newList.sort((a, b) => {return b.client_Name - a.client_Name});
+
+    newList.sort((a, b) => (a.client_Name > b.client_Name ? 1 : b.client_Name > a.client_Name ? -1 : 0));
 
     this.setState({ clientList: newList });
   }
 
-  
+
 
   render() {
     const { searchText, allTransactions, clientList } = this.state;
