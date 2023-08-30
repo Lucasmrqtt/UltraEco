@@ -11,18 +11,42 @@ import {
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { initializeApp } from 'firebase/app'
+import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
+import { firebaseConfig } from '../Config';
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 export default class ProfileClient extends Component {
   constructor(props) {
     super(props)
     this.state = {
       speakerIcon: "chevron-back-outline",
+      clientList: [],
     }
   }
 
+  componentDidMount() {
+    this.getClients("01")
+  }
+
+  getClients = async (clientID) => {
+    const clients = collection(db, "clients")
+    const clientSnapshot = await getDocs(clients)
+    const clientList = clientSnapshot.docs.map(doc => { doc.data().client_ID == clientID? doc.data() : false
+      // doc.data()
+      // if (doc.data().client_ID == clientID) {
+      //   return (doc.data())
+      // }
+    });
+    console.log(clientList)
+    console.log(clientList[2])
+    this.setState({ clientList: [...clientList] })
+  }
 
   render() {
-    const { speakerIcon } = this.state;
+    const { speakerIcon, clientList } = this.state;
     return (
       <ScrollView style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
@@ -32,11 +56,11 @@ export default class ProfileClient extends Component {
               name={speakerIcon}
               size={RFValue(40)}
               onPress={() => this.props.navigation.navigate("Home")}
-              // onPress={() => this.props.navigation.navigate("Agenda")}
+            // onPress={() => this.props.navigation.navigate("Agenda")}
             />
           </TouchableOpacity>
           <View style={styles.title}>
-            <Text style={styles.titleText}>Maria da Gloria Karam Marquetti</Text>
+            <Text style={styles.titleText}>{clientList.client_Name}</Text>
           </View>
         </View>
 
@@ -52,12 +76,12 @@ export default class ProfileClient extends Component {
               <Text style={styles.titleBody}>Nome</Text>
               <Text style={{ fontSize: 15, color: "#a1a1a1" }}>Maria da Gloria Karam Marquetti</Text>
             </View>
-            <View style={{ flexDirection: "row", justifyContent:'space-between'}}>
+            <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
               <View style={styles.margin}>
                 <Text style={styles.titleBody}>Nascimento</Text>
                 <Text style={{ fontSize: 15, color: "#a1a1a1" }}>04/09/1970</Text>
               </View>
-              <View style={[styles.margin, {marginEnd:140,}]}>
+              <View style={[styles.margin, { marginEnd: 140, }]}>
                 <Text style={styles.titleBody}>Carro</Text>
                 <Text style={{ fontSize: 15, color: "#a1a1a1" }}>HR-V</Text>
               </View>
@@ -168,7 +192,7 @@ const styles = StyleSheet.create({
     borderWidth: RFValue(1),
     paddingStart: RFValue(15),
   },
-  Adress:{
+  Adress: {
     paddingBottom: RFValue(14),
     marginTop: RFValue(10),
     borderWidth: RFValue(1),

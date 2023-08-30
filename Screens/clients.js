@@ -18,11 +18,10 @@ import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
 //import db from "../Config"
 import { firebaseConfig } from '../Config';
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-
-var clients = require("./Clients.json")
 
 export default class Search extends Component {
   constructor(props) {
