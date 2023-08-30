@@ -11,15 +11,33 @@ import {
   TextInput,
   Keyboard,
   ScrollView,
-  Modal
+  Modal,
 } from 'react-native';
 import ModalClient from '../Components/ModalClient';
 import ModalService from '../Components/ModalService';
+import ModalEmployee from '../Components/ModalEmployee';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
+import DropDownPicker from 'react-native-dropdown-picker';
 import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar, Calendar, CalendarList } from 'react-native-calendars';
 
+var date = new Date()
+var meses = {
+  "Jan": "01", //31
+  "Feb": "02", //28
+  "Mar": "03", //31
+  "Apr": "04", //30
+  "May": "05", //31
+  "Jun": "06", //30
+  "Jul": "07", //31
+  "Aug": "08", //31
+  "Sep": "09", //30
+  "Oct": "10", //31
+  "Nov": "11", //30
+  "Dec": "12", //31
+
+}
 
 export default class Scheduling extends Component {
   constructor(props) {
@@ -30,15 +48,21 @@ export default class Scheduling extends Component {
       add: "add-outline",
       clientModal: "",
       serviceModal: "",
-      day: "",
+      calendarModal: "false",
+      date: new Date().getDay(),
       hour: "",
-      duration: "",
-      employee: "",
+      duration: "30min",
+      dropDownHeight: 40,
+      employeeModal: "",
       discount: "R$0,00",
       description: "",
     }
   }
 
+  componentDidMount() {
+    // console.log(date)
+    this.convertDateInitial(date)
+  }
   clientModalTrue = () => {
     this.setState({ clientModal: true });
   };
@@ -50,6 +74,69 @@ export default class Scheduling extends Component {
   };
   serviceModalFalse = () => {
     this.setState({ serviceModal: false });
+  };
+  calendarModalTrue = () => {
+    this.setState({ calendarModal: true });
+  };
+  calendarModalFalse = () => {
+    this.setState({ calendarModal: false });
+  };
+  convertDateInitial = (day) => {
+    // let d = new Date(day.timestamp)
+    let d = day
+    // console.log(d)
+    // d = d.toDateString()
+    d = d.toString().split("").slice(0, 15).join("")
+    // d = d.toString().split("")
+    d = d.split(" ").slice(1, 4)
+    for (const key in meses) {
+      if (d[0] == key) {
+        d[0] = meses[key]
+      }
+    }
+    if (d[1].length == 1) {
+      d[1] = "0" + d[1]
+    }
+    d = d[1] + "/" + d[0] + "/" + d[2]
+    // console.log(d)
+    this.setState({ date: d })
+  }
+  convertDate = (day) => {
+    // let d = new Date(day.timestamp)
+    let d = day
+    // d = d.toDateString()
+    d = d.toString().split("").slice(0, 15).join("")
+    // d = d.toString().split("")
+    d = d.split(" ").slice(1, 4)
+    // console.log(d)
+    for (const key in meses) {
+      if (d[0] == key) {
+        // console.log(d[0])
+        d[0] = meses[key]
+      }
+    }
+    d[1] = parseInt(d[1]) + 1
+    d[1] = d[1].toString()
+    if (d[1].length == 1) {
+      d[1] = "0" + d[1]
+    }
+    d = d[1] + "/" + d[0] + "/" + d[2]
+    // console.log(d)
+    this.setState({ date: d })
+  }
+  renderPlaceholder1 = () => {
+    const { duration } = this.state;
+    if (duration) {
+      return duration;
+    } else {
+      return "Duração";
+    }
+  };
+  employeeModalTrue = () => {
+    this.setState({ employeeModal: true });
+  };
+  employeeModalFalse = () => {
+    this.setState({ employeeModal: false });
   };
 
   render() {
@@ -82,6 +169,47 @@ export default class Scheduling extends Component {
             handleClose={this.serviceModalFalse}
           />
         </Modal>
+        <Modal
+          visible={this.state.employeeModal}
+          transparent={true}
+          onRequestClose={this.employeeModalFalse}
+          // animationType="slide"
+          onPress={this.employeeModalTrue}
+          animationType="slide"
+        >
+          <ModalEmployee
+            navigation={this.props.navigation}
+            handleClose={this.employeeModalFalse}
+          />
+        </Modal>
+        <Modal
+          visible={this.state.calendarModal}
+          transparent={true}
+          onRequestClose={this.calendarModalFalse}
+          // animationType="slide"
+          onPress={this.calendarModalTrue}
+          animationType="fade"
+
+        >
+          <CalendarProvider>
+            <Calendar
+              style={{
+                borderRadius: RFValue(10),
+                elevation: 4,
+                marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
+              }}
+              value={this.state.date}
+              monthFormat={'dd-MM-yyyy'}
+              onDayPress={(day) => {
+                this.calendarModalFalse()
+                day = new Date(day.timestamp)
+                this.convertDate(day)
+              }}
+
+            ></Calendar>
+
+          </CalendarProvider>
+        </Modal>
 
         <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.header}>
@@ -96,6 +224,7 @@ export default class Scheduling extends Component {
             <Text style={styles.titleText}>Novo agendamento</Text>
           </View>
         </View>
+
         <ScrollView style={styles.body}>
           <View style={styles.margin}>
             <TouchableOpacity onPress={this.clientModalTrue} style={styles.touchableOpacity}>
@@ -119,44 +248,82 @@ export default class Scheduling extends Component {
               />
             </TouchableOpacity>
           </View>
+
           <View style={{ flexDirection: 'row' }}>
-            <View style={styles.margin}>
-              <TouchableOpacity onPress={this.serviceModalTrue} style={styles.touchableOpacity}>
-                <Text style={styles.bodyText}>12/08/2023</Text>
+            <View>
+              <TouchableOpacity onPress={this.calendarModalTrue} style={styles.calendarContainer}>
+                <Text style={styles.calendar}>{this.state.date}</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.margin}>
-              <TouchableOpacity onPress={this.serviceModalTrue} style={styles.touchableOpacity}>
+              <TouchableOpacity onPress={this.serviceModalTrue} >
                 <Text style={styles.bodyText}>11:00</Text>
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.margin}>
-            <TouchableOpacity onPress={this.serviceModalTrue} style={styles.touchableOpacity}>
-              <Text style={styles.bodyText}>Duração</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.add}>
-              <Ionicons
-                name={"chevron-down-outline"}
-                size={RFValue(25)}
-              />
-            </TouchableOpacity>
+
+          <View style={{zIndex: 99,}}>
+            <DropDownPicker
+              items={[
+                { label: "30min", value: "30min" },
+                { label: "1h", value: "1h" },
+                { label: "1:30", value: "1:30" },
+                { label: "2h", value: "2h" },
+                { label: "2:30", value: "2:30" },
+                { label: "3h", value: "3h" },
+                { label: "3:30", value: "3:30" },
+                { label: "4h", value: "4h" },
+                { label: "4:30", value: "4:30" },
+                { label: "5h", value: "5h" },
+              ]}
+              placeholder={this.renderPlaceholder1()}
+              placeholderStyle={{
+                alignSelf: 'center',
+                textAlign: 'center',
+              }}
+              defaultValue={this.state.duration}
+              open={this.state.dropDownHeight == 170}
+              onOpen={() => this.setState({ dropDownHeight: 170 })}
+              onClose={() => this.setState({ dropDownHeight: 40 })}
+              style={{
+                marginTop: RFValue(10),
+                marginBottom: RFValue(10),
+                backgroundColor: "#FFF",
+                borderWidth: RFValue(1),
+                borderColor: "black",
+                width: RFValue(200),
+              }}
+              textStyle={{
+                color: "black",
+                fontSize:RFValue(16),
+                fontWeight: 'bold'
+                // backgroundColor: "red",
+              }}
+              onSelectItem={(item) => {
+                this.setState({ duration: item.value })
+              }}
+              dropDownContainerStyle={{
+                // backgroundColor: "pink",
+                width: RFValue(200),
+                marginTop: RFValue(10),
+              }}
+            // zIndexInverse={1000}
+            />
           </View>
           <View style={styles.margin}>
-            <TouchableOpacity onPress={this.serviceModalTrue} style={styles.touchableOpacity}>
+            <TouchableOpacity onPress={this.employeeModalTrue} style={styles.touchableOpacity}>
               <Text style={{
                 fontWeight: 'bold',
                 fontSize: RFValue(16)
               }}>Profissional/Equipes</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.add}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("Employee")} style={styles.add}>
               <Ionicons
                 name={this.state.add}
                 size={RFValue(40)}
               />
             </TouchableOpacity>
           </View>
-
           <View style={{
             width: RFValue(200),
             marginTop: RFValue(10),
@@ -196,7 +363,6 @@ export default class Scheduling extends Component {
               }}
             />
           </View>
-
           <View style={{
             width: RFValue(200),
             marginTop: RFValue(10),
@@ -210,10 +376,25 @@ export default class Scheduling extends Component {
               height: RFValue(50),
               borderWidth: RFValue(1),
               borderRadius: RFValue(3),
+              padding:RFValue(3)
             }} />
           </View>
           <View style={styles.space}></View>
         </ScrollView>
+
+        <View style={styles.fotter}>
+          <TouchableOpacity
+            style={styles.fotterTouchableOpacityLeft}
+            onPress={() => this.props.navigation.navigate("Home")}
+          >
+            <Text style={styles.fotterTextCancel}>Cancelar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.fotterTouchableOpacityRight}
+          >
+            <Text style={styles.fotterTextAdvance}>Avancar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -222,6 +403,7 @@ export default class Scheduling extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:"#fff"
     // justifyContent:"center",
     // alignItems:"center",
   },
@@ -235,6 +417,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: RFValue(10),
+    borderBottomWidth:RFValue(1)
   },
   back: {
     // backgroundColor: "brown",
@@ -258,7 +441,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "green",
     // justifyContent: 'flex-start',
     paddingStart: RFValue(20),
-    marginTop: RFValue(15),
+    paddingTop: RFValue(15),
     alignContent: 'space-around'
   },
   margin: {
@@ -272,6 +455,23 @@ const styles = StyleSheet.create({
     borderWidth: RFValue(1),
     borderRadius: RFValue(6)
 
+  },
+  calendar: {
+    fontSize: RFValue(16),
+    margin:RFValue(10),
+    fontWeight: 'bold',
+    // paddingTop: RFValue(10),
+    // backgroundColor:"red",
+  },
+  calendarContainer: {
+    alignItems:'center',
+    justifyContent:'center',
+    // backgroundColor:"red",
+    width: RFValue(130),
+    marginTop: RFValue(10),
+    marginBottom: RFValue(10),
+    borderWidth: RFValue(1),
+    borderRadius: RFValue(6),
   },
   touchableOpacity: {
     width: RFValue(140),
@@ -296,6 +496,42 @@ const styles = StyleSheet.create({
     fontSize: RFValue(20)
   },
   space: {
-    height: RFValue(400)
+    height: RFValue(200)
+  },
+  fotter: {
+    // backgroundColor:"gray",
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    height: RFValue(60),
+    // alignSelf: 'flex-end'
+  },
+  fotterTouchableOpacityLeft: {
+    width: "48%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: RFValue(3),
+    borderRadius: RFValue(10),
+    padding: RFValue(6),
+    backgroundColor: "#990000"
+  },
+  fotterTouchableOpacityRight: {
+    width: "48%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: RFValue(3),
+    borderRadius: RFValue(10),
+    padding: RFValue(6),
+    backgroundColor: "rgb(0,128,0)"
+  },
+  fotterTextCancel: {
+    // fontWeight:'bold',
+    fontSize: RFValue(30),
+    color: "white"
+
+  },
+  fotterTextAdvance: {
+    // fontWeight:'bold',
+    fontSize: RFValue(30),
+    color: "white"
   },
 })

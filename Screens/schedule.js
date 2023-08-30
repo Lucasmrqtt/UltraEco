@@ -156,6 +156,7 @@ export default class Schedule extends Component {
 
           </CalendarProvider>
         </Modal>
+        
         <SafeAreaView style={styles.droidSafeArea} />
         <ScrollView>
           <View style={styles.header}>
