@@ -37,8 +37,9 @@ export default class Search extends Component {
   }
 
   componentDidMount() {
-    this.handleFilterList();
+    // this.handleFilterList();
     this.getClients()
+    this.handleFilterList();
   }
 
   componentDidUpdate(prevProps, prevState) {

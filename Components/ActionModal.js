@@ -45,7 +45,7 @@ export default class ActionModal extends React.Component {
               style={styles.containerIcons}
               onPress={() => {
                 this.props.handleClose()
-                this.props.navigation.navigate("Home")
+                this.props.navigation.navigate("Scheduling")
               }}
             >
               <Image

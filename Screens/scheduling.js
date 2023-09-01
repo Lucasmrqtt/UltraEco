@@ -62,6 +62,7 @@ export default class Scheduling extends Component {
   componentDidMount() {
     // console.log(date)
     this.convertDateInitial(date)
+    // this.clientModalTrue()
   }
   clientModalTrue = () => {
     this.setState({ clientModal: true });
@@ -251,18 +252,45 @@ export default class Scheduling extends Component {
 
           <View style={{ flexDirection: 'row' }}>
             <View>
+              <Text style={{
+                fontWeight: 'bold',
+                fontSize: RFValue(16),
+                // backgroundColor: "gray"
+                marginBottom: RFValue(-10),
+                marginTop: RFValue(5),
+              }}>Data</Text>
               <TouchableOpacity onPress={this.calendarModalTrue} style={styles.calendarContainer}>
                 <Text style={styles.calendar}>{this.state.date}</Text>
               </TouchableOpacity>
             </View>
-            <View style={styles.margin}>
-              <TouchableOpacity onPress={this.serviceModalTrue} >
+            <Text style={{
+              fontWeight: 'bold',
+              fontSize: RFValue(16),
+              marginLeft: RFValue(30),
+              marginTop: RFValue(3),
+
+            }}>Horário</Text>
+            <View style={[styles.margin, {
+              width: RFValue(100),
+              height: Platform.OS === 'android' ? RFValue(45) : RFValue(40),
+              padding: RFValue(10),
+              marginLeft: RFValue(-55),
+              marginTop: Platform.OS === 'android' ? RFValue(25) : RFValue(19),
+            }]}>
+              <TouchableOpacity>
                 <Text style={styles.bodyText}>11:00</Text>
               </TouchableOpacity>
             </View>
           </View>
 
-          <View style={{zIndex: 99,}}>
+          <View style={{ zIndex: 99, }}>
+            <Text style={{
+              fontWeight: 'bold',
+              fontSize: RFValue(16),
+              // backgroundColor: "gray"
+              marginBottom: RFValue(-10),
+              marginTop: RFValue(5),
+            }}>Duração</Text>
             <DropDownPicker
               items={[
                 { label: "30min", value: "30min" },
@@ -276,6 +304,7 @@ export default class Scheduling extends Component {
                 { label: "4:30", value: "4:30" },
                 { label: "5h", value: "5h" },
               ]}
+              // scrollViewProps={false}
               placeholder={this.renderPlaceholder1()}
               placeholderStyle={{
                 alignSelf: 'center',
@@ -295,7 +324,7 @@ export default class Scheduling extends Component {
               }}
               textStyle={{
                 color: "black",
-                fontSize:RFValue(16),
+                fontSize: RFValue(16),
                 fontWeight: 'bold'
                 // backgroundColor: "red",
               }}
@@ -376,7 +405,7 @@ export default class Scheduling extends Component {
               height: RFValue(50),
               borderWidth: RFValue(1),
               borderRadius: RFValue(3),
-              padding:RFValue(3)
+              padding: RFValue(3)
             }} />
           </View>
           <View style={styles.space}></View>
@@ -403,7 +432,7 @@ export default class Scheduling extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:"#fff"
+    backgroundColor: "#fff"
     // justifyContent:"center",
     // alignItems:"center",
   },
@@ -417,7 +446,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: RFValue(10),
-    borderBottomWidth:RFValue(1)
+    borderBottomWidth: RFValue(1)
   },
   back: {
     // backgroundColor: "brown",
@@ -453,19 +482,20 @@ const styles = StyleSheet.create({
     marginTop: RFValue(10),
     marginBottom: RFValue(10),
     borderWidth: RFValue(1),
-    borderRadius: RFValue(6)
-
+    borderRadius: RFValue(6),
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   calendar: {
     fontSize: RFValue(16),
-    margin:RFValue(10),
+    margin: RFValue(10),
     fontWeight: 'bold',
     // paddingTop: RFValue(10),
     // backgroundColor:"red",
   },
   calendarContainer: {
-    alignItems:'center',
-    justifyContent:'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     // backgroundColor:"red",
     width: RFValue(130),
     marginTop: RFValue(10),
@@ -496,7 +526,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(20)
   },
   space: {
-    height: RFValue(200)
+    height: RFValue(300)
   },
   fotter: {
     // backgroundColor:"gray",
