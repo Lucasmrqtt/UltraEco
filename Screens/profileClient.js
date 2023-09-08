@@ -11,12 +11,18 @@ import {
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
-import { firebaseConfig } from '../Config';
+import firebase from "firebase" 
+import { db } from "../Config";
+// import { initializeApp } from 'firebase/app'
+// import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
+//import db from "../Config"
+// import { firestore } from 'firebase';
+// import { firebaseConfig } from '../Config';
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// const app = initializeApp(firebaseConfig);
+// const db = getFirestore(app);
+// firebase.initializeApp(firebaseConfig);
+// const db = firebase.firestore()
 
 export default class ProfileClient extends Component {
   constructor(props) {

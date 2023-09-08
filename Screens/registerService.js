@@ -9,10 +9,24 @@ import {
   SafeAreaView,
   TextInput,
   Keyboard,
+  Alert,
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
+import firebase from "firebase" 
+import { db } from "../Config";
+// import { initializeApp } from 'firebase/app'
+// import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
+//import db from "../Config"
+// import { firestore } from 'firebase';
+// import { firebaseConfig } from '../Config';
+
+// const app = initializeApp(firebaseConfig);
+// const db = getFirestore(app);
+// firebase.initializeApp(firebaseConfig);
+// const db = firebase.firestore()
+
 
 export default class RegisterServices extends Component {
   constructor(props) {
@@ -21,21 +35,27 @@ export default class RegisterServices extends Component {
       speakerIcon: "chevron-back-outline",
       Check: "checkmark-outline",
       name: '',
-      Price: 'R$0,00',
+      Price: 0,
     }
   }
 
-  handleSearchTextChange1 = text => {
-    this.setState({ name: text });
-    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
+
+  registerServices = (name, price) => {
+    
+    let data = {
+      service_ID: "",
+      service_Name: name,
+      service_Value: price
+    }
+
+    db.collection("Service")
+    // collection(db, "Service")
+    // .doc("ID")
+    // .set(data)
+    .add(data)
+    .then(() => Alert.alert("Serviço cadastrado com sucesso"))
+    .catch(error => {Alert.alert(error.message)})
   }
-
-  // handleSearchTextChange2 = text => {
-  //   this.setState({ searchText2: text });
-  //   // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
-  // }
-
-
 
   render() {
     const { name, money, Check } = this.state;
@@ -63,7 +83,7 @@ export default class RegisterServices extends Component {
               placeholderStyle={{
                 justifyContent: "center"
               }}
-              onChangeText={this.handleSearchTextChange1}
+              onChangeText={text => this.setState({ name: text })}
               value={name}
               style={styles.textInputName}
               maxLength={40}
@@ -80,7 +100,7 @@ export default class RegisterServices extends Component {
                   precision: 2,
                   separator: ',',
                   delimiter: '.',
-                  unit: 'R$',
+                  // unit: 'R$',
                   suffixUnit: ''
                 }}
                 value={money}
@@ -112,7 +132,7 @@ export default class RegisterServices extends Component {
           >
             <Text style={styles.fotterTextCancel}>Cancelar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.fotterTouchableOpacityRight}>
+          <TouchableOpacity onPress={() => this.registerServices(name,money)} style={styles.fotterTouchableOpacityRight}>
             <Text style={styles.fotterTextAdvance}>Avancar</Text>
           </TouchableOpacity>
         </View>

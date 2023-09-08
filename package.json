@@ -21,7 +21,7 @@
     "@react-navigation/stack": "^6.3.16",
     "expo": "^47.0.0",
     "expo-status-bar": "~1.4.4",
-    "firebase": "^10.1.0",
+    "firebase": "8.10.0",
     "firebase-admin": "^11.10.1",
     "ios": "^0.0.1",
     "pod-install": "^0.1.38",

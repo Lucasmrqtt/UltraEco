@@ -52,7 +52,7 @@ export default class Scheduling extends Component {
       date: new Date().getDay(),
       hour: "",
       duration: "30min",
-      dropDownHeight: 40,
+      dropDownHeight: 40 ,
       employeeModal: "",
       discount: "R$0,00",
       description: "",
