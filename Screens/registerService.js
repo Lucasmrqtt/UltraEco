@@ -14,7 +14,7 @@ import {
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
-import firebase from "firebase" 
+import firebase from "firebase"
 import { db } from "../Config";
 // import { initializeApp } from 'firebase/app'
 // import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
@@ -35,26 +35,51 @@ export default class RegisterServices extends Component {
       speakerIcon: "chevron-back-outline",
       Check: "checkmark-outline",
       name: '',
-      Price: 0,
+      // name: ,
     }
   }
 
 
-  registerServices = (name, price) => {
-    
-    let data = {
-      service_ID: "",
-      service_Name: name,
-      service_Value: price
-    }
+  // componentDidMount(){
+  //   this.convertToInt()
+  // }
 
-    db.collection("Service")
-    // collection(db, "Service")
-    // .doc("ID")
-    // .set(data)
-    .add(data)
-    .then(() => Alert.alert("Serviço cadastrado com sucesso"))
-    .catch(error => {Alert.alert(error.message)})
+  // convertToInt () {
+  //   let m = this.state.money
+  //   m = m.toString().split("").slice(-3)
+  //   console.log(m)
+  //   // this.setState({ money: m })
+  //   // console.log(this.state.money)
+  // }
+
+
+  registerServices = (name, price) => {
+    // console.log(this.convertToInt())
+    if (
+      this.state.name &&
+      this.state.money 
+    ) {
+      let data = {
+        service_ID: "",
+        service_Name: name,
+        service_Value: price
+      }
+      db.collection("Service")
+        // collection(db, "Service")
+        // .doc("ID")
+        // .set(data)
+        .add(data)
+        .then(() => Alert.alert("Serviço cadastrado com sucesso"))
+      this.props.navigation.navigate("Home");
+    } else {
+      Alert.alert(
+        "Error",
+        "Todos os campos são obrigatórios!",
+        [{ text: "OK"}],
+        { cancelable: false }
+      );
+    }
+    // .catch(error => {Alert.alert(error.message)})
   }
 
   render() {
@@ -93,7 +118,7 @@ export default class RegisterServices extends Component {
             <Text style={styles.bodyText}>Preço</Text>
             <View style={{ flexDirection: 'row' }}>
               <TextInputMask
-                placeholder='R$0,00'
+                placeholder = "0,00"
                 placeholderTextColor={"#000"}
                 type={'money'}
                 options={{
@@ -132,7 +157,7 @@ export default class RegisterServices extends Component {
           >
             <Text style={styles.fotterTextCancel}>Cancelar</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.registerServices(name,money)} style={styles.fotterTouchableOpacityRight}>
+          <TouchableOpacity onPress={() => this.registerServices(name, money)} style={styles.fotterTouchableOpacityRight}>
             <Text style={styles.fotterTextAdvance}>Avancar</Text>
           </TouchableOpacity>
         </View>

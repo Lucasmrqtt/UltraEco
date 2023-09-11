@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import firebase from "firebase" 
+import firebase from "firebase"
 import { db } from "../Config";
 // import { initializeApp } from 'firebase/app'
 // import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
@@ -29,18 +29,40 @@ export default class Employee extends Component {
     super(props)
     this.state = {
       speakerIcon: "chevron-back-outline",
-      searchText1: "",
+      name: "",
     }
   }
 
   handleSearchTextChange1 = (text) => {
-    this.setState({ searchText1: text })
+    this.setState({ name: text })
   }
 
-  
+  registerEmployee = (name) => {
+    if (
+      this.state.name
+    ) {
+      let data = {
+        employee_Id: "",
+        employee_Name: name
+      }
+      db.collection("Employee")
+        .add(data)
+        .then(() => Alert.alert("Funcionário cadastrado com sucesso"))
+      this.props.navigation.navigate("Home");
+    } else {
+      Alert.alert(
+        "Error",
+        "Todos os campos são obrigatórios!",
+        [{ text: "OK" }],
+        { cancelable: false }
+      );
+    }
+    // .catch(error => {Alert.alert(error.message)})
+  }
+
 
   render() {
-    const { searchText1, speakerIcon } = this.state
+    const { name, speakerIcon } = this.state
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
@@ -65,7 +87,7 @@ export default class Employee extends Component {
                 justifyContent: "center",
               }}
               onChangeText={this.handleSearchTextChange1}
-              value={searchText1}
+              value={name}
               style={styles.textInputName}
               maxLength={40}
             />
@@ -73,15 +95,15 @@ export default class Employee extends Component {
         </View>
 
         <View style={styles.fotter}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.fotterTouchableOpacityLeft}
             onPress={() => this.props.navigation.navigate("Home")}
           >
             <Text style={styles.fotterTextCancel}>Cancelar</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.fotterTouchableOpacityRight}
-            // onPress={() => this.props.navigation.navigate("Home")}  
+            onPress={() => this.registerEmployee(name)}  
           >
             <Text style={styles.fotterTextAdvance}>Avançar</Text>
           </TouchableOpacity>

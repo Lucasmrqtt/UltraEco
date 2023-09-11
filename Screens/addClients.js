@@ -121,7 +121,8 @@ export default class AddClients extends Component {
     this.setState({ neighborhoodHouse: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-  async addClient() {
+
+  addClient = (name, cell, day, month, year, description, car, adressWork, neighborhoodWork, adressHouse, neighborhoodHouse) => {
     if (
       this.state.name &&
       this.state.cell &&
@@ -135,44 +136,39 @@ export default class AddClients extends Component {
       this.state.adressHouse &&
       this.state.neighborhoodHouse
     ) {
-      let storyData = {
-        name: this.state.name,
-        cell: this.state.cell,
-        day: this.state.day,
-        month: this.state.month,
-        year: this.state.year,
-        description: this.state.description,
-        car: this.state.car,
-        adressWork: this.state.adressWork,
-        neighborhoodWork: this.state.neighborhoodWork,
-        adressHouse: this.state.adressHouse,
-        neighborhoodHouse: this.state.neighborhoodHouse,
+      let data = {
+        client_Name: name,
+        client_Phone: cell,
+        // client_Data: day &&  month && year,
+        client_Obs: description,
+        client_Cars: car,
       };
-      await firebase
-        .database()
-        .ref(
-          "/posts/" +
-          Math.random()
-            .toString(36)
-            .slice(2)
-        )
-        .set(storyData)
-        .then(function (snapshot) { });
-      this.props.setUpdateToTrue();
-      this.props.navigation.navigate("Home");
-      Alert.alert(
-        "Cliente cadastrado com sucesso!",
-        [{ text: "OK"}],
-        { cancelable: false }
-      );
+      let collectionHouse = {
+        client_Adress: adressHouse,
+        client_Neighborhood: neighborhoodHouse
+      }
+      let collectionWork = {
+        client_Adress: adressWork,
+        client_Neighborhood: neighborhoodWork
+      }
+      db.collection("clients")
+        .add(data)
+
+      db.collection("client_House")
+        .add(collectionHouse)
+
+      db.collection("client_Work")
+        .add(collectionWork)
+        .then(() => Alert.alert("Cliente cadastrado com sucesso"))
     } else {
       Alert.alert(
         "Error",
         "Todos os campos são obrigatórios!",
-        [{ text: "OK", onPress: () => console.log("OK Pressionado") }],
+        [{ text: "OK" }],
         { cancelable: false }
       );
     }
+    // .catch(error => {Alert.alert(error.message)})
   }
 
 
