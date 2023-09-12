@@ -288,7 +288,7 @@ export default class Dashboard extends Component {
 
               <View style={styles.moneyFilter}>
                 <Text style={styles.filterText}> Filtro </Text>
-                <View>
+                <View style={{zIndex: 99,}} >
                   <DropDownPicker
                     items={[
                       { label: "Dinheiro", value: "Din" },
@@ -426,7 +426,7 @@ export default class Dashboard extends Component {
               </View>
 
               <View style={styles.OpenCloseFilterAndSearch}>
-                <View style={styles.OpenCloseFilter}>
+                <View style={[styles.OpenCloseFilter, {zIndex: 99,}]}>
                   <Text style={{
                     fontWeight: 'bold',
                     fontSize: RFValue(14),

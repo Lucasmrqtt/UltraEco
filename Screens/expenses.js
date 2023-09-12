@@ -211,7 +211,7 @@ export default class Expenses extends Component {
             placeholder={"Nome da despesa"}
           />
 
-          <View>
+          <View style={{zIndex: 99,}} >
             <Text style={styles.title}>Forma de pagamento</Text>
             <DropDownPicker
               items={[

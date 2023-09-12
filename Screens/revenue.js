@@ -158,7 +158,7 @@ export default class Revenue extends Component {
             placeholder={"Nome da receita"}
           />
 
-          <View>
+          <View style={{zIndex: 99,}} >
             <Text style={styles.title}>Forma de pagamento</Text>
             <DropDownPicker
               items={[

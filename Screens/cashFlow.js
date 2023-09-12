@@ -181,7 +181,7 @@ export default class CashFlow extends Component {
             <View style={styles.filter}>
               <View style={styles.moneyFilter}>
                 <Text style={styles.filterText}> Filtro Pgmt </Text>
-                <View style={styles.textInputName}>
+                <View style={[styles.textInputName, {zIndex: 99,}]}>
                   <DropDownPicker
                     items={[
                       { label: "Dinheiro", value: "Din" },
@@ -226,7 +226,7 @@ export default class CashFlow extends Component {
 
               <View style={styles.moneyFilter}>
                 <Text style={styles.filterText}> Filtro Pgmt </Text>
-                <View style={styles.textInputName}>
+                <View style={[styles.textInputName, {zIndex: 99,}]}>
                   <DropDownPicker
                     items={[
                       { label: "Receita", value: "Rec" },

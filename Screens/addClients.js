@@ -36,7 +36,6 @@ export default class AddClients extends Component {
       dayValue1: "",
       dayValue2: "",
       dayValue3: "",
-      dropDownHeight: 40,
       value: "",
       formattedValue: "",
     }
