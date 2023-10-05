@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Text,
   View,
+  Alert,
   Image,
   StyleSheet,
   TouchableOpacity,
@@ -15,6 +16,8 @@ import {
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
+import firebase from "firebase"
+import { db } from "../Config";
 
 export default class AddClients extends Component {
   constructor(props) {
@@ -28,7 +31,8 @@ export default class AddClients extends Component {
       month: "",
       year: "",
       description: "",
-      car: "",
+      car1: "",
+      car2: "",
       adressWork: "",
       neighborhoodWork: "",
       adressHouse: "",
@@ -47,11 +51,21 @@ export default class AddClients extends Component {
   handleValueChange = (itemValue) => {
     this.setState({ selectedValue: itemValue });
   };
-  handleSearchTextChange1 = text => {
-    this.setState({ name: text });
+  handleSearchTextChange1 = (text) => {
+    // Divida o texto em palavras usando espaço como separador
+    const words = text.split(' ');
+
+    // Transforme a primeira letra de cada palavra em maiúscula
+    const capitalizedWords = words.map((word) =>
+      word.charAt(0).toUpperCase() + word.slice(1)
+    );
+
+    // Junte as palavras novamente com espaços
+    const capitalizedText = capitalizedWords.join(' ');
+    this.setState({ name: capitalizedText });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-  handleSearchTextChangeCell = text => {
+  handleSearchTextChangeCell = (text) => {
     this.setState({ cell: text });
   }
   handleSearchTextChange2 = (text) => {
@@ -96,73 +110,75 @@ export default class AddClients extends Component {
       Keyboard.dismiss()
     }
   };
-  handleSearchTextChange5 = text => {
+  handleSearchTextChange5 = (text) => {
     this.setState({ description: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-  handleSearchTextChange6 = text => {
-    this.setState({ car: text });
+  handleCar1 = (text) => {
+    this.setState({ car1: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-  handleSearchTextChange7 = text => {
+  handleCar2 = (text) => {
+    this.setState({ car2: text });
+    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
+  }
+  handleSearchTextChange7 = (text) => {
     this.setState({ adressWork: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-  handleSearchTextChange8 = text => {
+  handleSearchTextChange8 = (text) => {
     this.setState({ neighborhoodWork: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-  handleSearchTextChange9 = text => {
+  handleSearchTextChange9 = (text) => {
     this.setState({ adressHouse: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-  handleSearchTextChange10 = text => {
+  handleSearchTextChange10 = (text) => {
     this.setState({ neighborhoodHouse: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
+  convertToTimestamp = (day, month, year) => {
+    var date = [day, month, year]
+    date = date.join("/")
+    date = new Date(date)
+    console.log(date)
+    return date
+  }
 
-  addClient = (name, cell, day, month, year, description, car, adressWork, neighborhoodWork, adressHouse, neighborhoodHouse) => {
+
+  addClient = (name, cell, day, month, year, description, car1, car2, adressWork, neighborhoodWork, adressHouse, neighborhoodHouse) => {
     if (
       this.state.name &&
       this.state.cell &&
       this.state.day &&
       this.state.month &&
       this.state.year &&
-      this.state.description &&
-      this.state.car &&
-      this.state.adressWork &&
-      this.state.neighborhoodWork &&
+      this.state.car1 &&
       this.state.adressHouse &&
       this.state.neighborhoodHouse
     ) {
+      var date = this.convertToTimestamp(day, month, year)
       let data = {
         client_Name: name,
         client_Phone: cell,
-        // client_Data: day &&  month && year,
+        client_Data: date,
         client_Obs: description,
-        client_Cars: car,
+        client_Car1: car1,
+        client_Car2: car2,
+        client_Work_Adress: adressWork,
+        client_Work_Neighborhood: neighborhoodWork,
+        client_House_Adress: adressHouse,
+        client_House_Neighborhood: neighborhoodHouse,
       };
-      let collectionHouse = {
-        client_Adress: adressHouse,
-        client_Neighborhood: neighborhoodHouse
-      }
-      let collectionWork = {
-        client_Adress: adressWork,
-        client_Neighborhood: neighborhoodWork
-      }
       db.collection("clients")
         .add(data)
-
-      db.collection("client_House")
-        .add(collectionHouse)
-
-      db.collection("client_Work")
-        .add(collectionWork)
         .then(() => Alert.alert("Cliente cadastrado com sucesso"))
+      this.props.navigation.navigate("Home");
     } else {
       Alert.alert(
         "Error",
-        "Todos os campos são obrigatórios!",
+        "Todos os campos que tem * são obrigatórios!",
         [{ text: "OK" }],
         { cancelable: false }
       );
@@ -172,7 +188,10 @@ export default class AddClients extends Component {
 
 
   render() {
-    const { name, cell, dayValue1, dayValue2, dayValue3, description, car, adressWork, neighborhoodWork, adressHouse, neighborhoodHouse } = this.state;
+    const { 
+      Check, speakerIcon, name, cell, dayValue1, dayValue2, dayValue3, description, car1,
+      car2, adressWork, neighborhoodWork, adressHouse, neighborhoodHouse
+    } = this.state;
 
     return (
       <View style={styles.container}>
@@ -180,7 +199,7 @@ export default class AddClients extends Component {
         <View style={styles.header}>
           <TouchableOpacity style={styles.back}>
             <Ionicons
-              name={this.state.speakerIcon}
+              name={speakerIcon}
               size={RFValue(40)}
               onPress={() => this.props.navigation.navigate("Home")}
             />
@@ -194,7 +213,7 @@ export default class AddClients extends Component {
         <ScrollView style={styles.body}>
 
           <View style={styles.margin}>
-            <Text style={styles.bodyText}>Nome</Text>
+            <Text style={styles.bodyText}>Nome*</Text>
             <TextInput
               placeholder="Digite o nome do seu cliente aqui"
               placeholderStyle={{
@@ -208,7 +227,7 @@ export default class AddClients extends Component {
           </View>
 
           <View style={styles.margin}>
-            <Text style={styles.bodyText}>Telefone</Text>
+            <Text style={styles.bodyText}>Telefone*</Text>
 
             <TextInputMask
               style={styles.textInputName}
@@ -228,9 +247,9 @@ export default class AddClients extends Component {
           <View style={styles.margin}>
             <Text style={styles.bodyText}>Data de Nascimento</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-              <Text style={{ fontSize: RFValue(16) }}>Dia</Text>
-              <Text style={{ fontSize: RFValue(16) }}>Mês</Text>
-              <Text style={{ fontSize: RFValue(16) }}>Ano</Text>
+              <Text style={{ fontSize: RFValue(16) }}>Dia*</Text>
+              <Text style={{ fontSize: RFValue(16) }}>Mês*</Text>
+              <Text style={{ fontSize: RFValue(16) }}>Ano*</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
               <TextInput
@@ -292,7 +311,7 @@ export default class AddClients extends Component {
               />
               <TouchableOpacity onPress={Keyboard.dismiss}>
                 <Ionicons
-                  name={this.state.Check}
+                  name={Check}
                   size={RFValue(40)}
                 />
               </TouchableOpacity>
@@ -308,14 +327,35 @@ export default class AddClients extends Component {
               fontWeight: 'bold',
               fontSize: RFValue(19),
               // paddingBottom:RFValue(10)
-            }}>Carro</Text>
+            }}>Carro 1*</Text>
             <TextInput
               placeholder="Digite o nome do carro"
               placeholderStyle={{
                 justifyContent: "center"
               }}
-              onChangeText={this.handleSearchTextChange6}
-              value={car}
+              onChangeText={this.handleCar1}
+              value={car1}
+              style={styles.textInputName}
+              maxLength={40}
+            />
+          </View>
+
+          <View style={{
+            marginTop: RFValue(10),
+            marginBottom: RFValue(15),
+          }}>
+            <Text style={{
+              fontWeight: 'bold',
+              fontSize: RFValue(19),
+              // paddingBottom:RFValue(10)
+            }}>Carro 2</Text>
+            <TextInput
+              placeholder="Digite o nome do carro"
+              placeholderStyle={{
+                justifyContent: "center"
+              }}
+              onChangeText={this.handleCar2}
+              value={car2}
               style={styles.textInputName}
               maxLength={40}
             />
@@ -367,7 +407,7 @@ export default class AddClients extends Component {
 
             {/* Endereço Casa */}
             <View style={styles.margin}>
-              <Text style={styles.bodyText2}>Endereço Da casa</Text>
+              <Text style={styles.bodyText2}>Endereço da casa*</Text>
               <TextInput
                 placeholder="Rua Tal, 100"
                 placeholderStyle={{
@@ -382,7 +422,7 @@ export default class AddClients extends Component {
 
             {/* Bairo Casa */}
             <View style={styles.margin}>
-              <Text style={styles.bodyText2}>Bairro da casa</Text>
+              <Text style={styles.bodyText2}>Bairro da casa*</Text>
               <TextInput
                 placeholder="Centro"
                 placeholderStyle={{
@@ -395,8 +435,8 @@ export default class AddClients extends Component {
               />
             </View>
           </View>
+        <View style={styles.space}></View>
         </ScrollView>
-        {/* <View style={styles.space}></View> */}
         <View style={styles.fotter}>
           <TouchableOpacity
             style={styles.fotterTouchableOpacityLeft}
@@ -406,6 +446,7 @@ export default class AddClients extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.fotterTouchableOpacityRight}
+            onPress={() => this.addClient(name, cell, dayValue1, dayValue2, dayValue3, description, car1, car2, adressWork, neighborhoodWork, adressHouse, neighborhoodHouse)}
           >
             <Text style={styles.fotterTextAdvance}>Avancar</Text>
           </TouchableOpacity>

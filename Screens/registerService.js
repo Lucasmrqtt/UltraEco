@@ -35,30 +35,30 @@ export default class RegisterServices extends Component {
       speakerIcon: "chevron-back-outline",
       Check: "checkmark-outline",
       name: '',
+      // money: '',
       // name: ,
     }
   }
 
 
-  // componentDidMount(){
-  //   this.convertToInt()
-  // }
-
-  // convertToInt () {
-  //   let m = this.state.money
-  //   m = m.toString().split("").slice(-3)
-  //   console.log(m)
-  //   // this.setState({ money: m })
-  //   // console.log(this.state.money)
-  // }
+  convertToInt = (money) => {
+    money = money.replace("R$","")
+    money = money.replace(".","")
+    money = money.replace(",",".")
+    money = parseFloat(money)
+    console.log(money)
+    // this.setState({ money: money })
+    return money
+    // console.log(this.state.money)
+  }
 
 
   registerServices = (name, price) => {
-    // console.log(this.convertToInt())
     if (
       this.state.name &&
       this.state.money 
     ) {
+      price = this.convertToInt(price)
       let data = {
         service_ID: "",
         service_Name: name,
@@ -125,7 +125,7 @@ export default class RegisterServices extends Component {
                   precision: 2,
                   separator: ',',
                   delimiter: '.',
-                  // unit: 'R$',
+                  unit: 'R$',
                   suffixUnit: ''
                 }}
                 value={money}
