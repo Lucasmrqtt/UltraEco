@@ -45,7 +45,9 @@ export default class Dashboard extends Component {
       date: new Date().getMonth() + 1,
       list: []
     };
-
+    this.textInputBirth = ""
+    this.textInputMonth = ""
+    this.textInputYear = ""
   }
 
   componentDidMount() {
@@ -67,19 +69,19 @@ export default class Dashboard extends Component {
 
     if (dayValue1 !== '') {
       filteredList = filteredList.filter(
-        (item) => item.dia.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+        (item) => item.dia.toLowerCase().indexOf(dayValue1.toLowerCase()) > -1
       );
     }
 
     if (dayValue2 !== '') {
       filteredList = filteredList.filter(
-        (item) => item.mes.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+        (item) => item.mes.toLowerCase().indexOf(dayValue2.toLowerCase()) > -1
       );
     }
 
     if (dayValue3 !== '') {
       filteredList = filteredList.filter(
-        (item) => item.ano.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+        (item) => item.ano.toLowerCase().indexOf(dayValue3.toLowerCase()) > -1
       );
     }
 
@@ -103,6 +105,15 @@ export default class Dashboard extends Component {
     if (prevState.searchText !== this.state.searchText) {
       this.handleFilterList();
     }
+    if (prevState.dayValue1 !== this.state.dayValue1) {
+      this.handleFilterList();
+    }
+    if (prevState.dayValue2 !== this.state.dayValue2) {
+      this.handleFilterList();
+    }
+    if (prevState.dayValue3 !== this.state.dayValue3) {
+      this.handleFilterList();
+    }
   }
   dateChange = () => {
     let d = this.state.date
@@ -114,10 +125,10 @@ export default class Dashboard extends Component {
     // console.log(d)
     this.setState({ date: d })
   }
-  handleSearchTextChange2 = (text) => {
-    this.setState({ dayValue1: text });
-
+  handleSearchTextChange1 = (text) => {
+    // Remover toLowerCase e usar parseInt
     const parsedValue = parseInt(text, 10);
+
     if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 31) {
       this.setState({ dayValue1: String(parsedValue) });
     } else {
@@ -125,37 +136,40 @@ export default class Dashboard extends Component {
     }
 
     if (text.length >= 2 && parsedValue <= 31) {
-      this.textInputMonth1.focus();
+      this.textInputMonth.focus();
     }
   };
-  handleSearchTextChange3 = (text) => {
-    this.setState({ dayValue2: text });
 
-    const parsedValue = parseInt(text, 10); // Parse the input to an integer
+  handleSearchTextChange2 = (text) => {
+    // Remover toLowerCase e usar parseInt
+    const parsedValue = parseInt(text, 10);
+
     if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 12) {
       this.setState({ dayValue2: String(parsedValue) });
     } else {
-      this.setState({ dayValue2: '' }); // Limpa o valor se não for válido
+      this.setState({ dayValue2: '' });
     }
 
     if (text.length >= 2 && parsedValue <= 12) {
-      this.textInputYear1.focus(); // Move to the year TextInput
+      this.textInputYear.focus();
     }
   };
-  handleSearchTextChange4 = (text) => {
-    this.setState({ dayValue3: text });
 
-    const parsedValue = parseInt(text, 10); // Parse the input to an integer
+  handleSearchTextChange3 = (text) => {
+    // Remover toLowerCase e usar parseInt
+    const parsedValue = parseInt(text, 10);
+
     if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 2100) {
       this.setState({ dayValue3: String(parsedValue) });
     } else {
-      this.setState({ dayValue3: '' }); // Limpa o valor se não for válido
+      this.setState({ dayValue3: '' });
     }
 
     if (text.length >= 4 && parsedValue <= 2100) {
-      this.textInputBirth2.focus(); // Move to the year TextInput
+      Keyboard.dismiss();
     }
   };
+
   renderPlaceholder1 = () => {
     if (this.state.selectedPayment) {
       return this.state.selectedPayment;
@@ -235,7 +249,7 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    const { searchText } = this.state;
+    const { searchText, dayValue1, dayValue2, dayValue3 } = this.state;
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
@@ -277,6 +291,55 @@ export default class Dashboard extends Component {
             </View>
 
             <View style={styles.filter}>
+              <View style={styles.OpenCloseFilterAndSearch}>
+                <Text style={[styles.fromTxt, { fontSize: RFValue(20), marginVertical: 6 }]}>Filtro Data</Text>
+                <View style={styles.from}>
+                  <View style={styles.textInput}>
+                    <TextInput
+                      placeholder="Dia"
+                      placeholderStyle={{
+                        justifyContent: "center",
+                        alignItems: "center"
+                      }}
+                      onChangeText={this.handleSearchTextChange1}
+                      value={dayValue1}
+                      keyboardType='numeric'
+                      style={styles.textInputBirth}
+                      maxLength={2}
+                      ref={(input) => (this.textInputBirth = input)}
+                    />
+                    <TextInput
+                      placeholder="Mês"
+                      placeholderStyle={{
+                        justifyContent: "center",
+                        alignItems: "center"
+                      }}
+                      onChangeText={this.handleSearchTextChange2}
+                      value={this.state.dayValue2}
+                      keyboardType='numeric'
+                      style={styles.textInputBirth}
+                      maxLength={2}
+                      ref={(input) => (this.textInputMonth = input)}
+
+                    />
+
+                    <TextInput
+                      placeholder="Ano"
+                      placeholderStyle={{
+                        justifyContent: "center",
+                        alignItems: "center"
+                      }}
+                      onChangeText={this.handleSearchTextChange3}
+                      value={this.state.dayValue3}
+                      keyboardType='numeric'
+                      style={[styles.textInputBirth, { width: RFValue(60) }]}
+                      maxLength={4}
+                      ref={(input) => (this.textInputYear = input)}
+
+                    />
+                  </View>
+                </View>
+              </View>
               <View style={styles.clientFilter}>
                 <Text style={styles.filterText}> Filtro Cliente</Text>
                 <View>
@@ -403,60 +466,7 @@ export default class Dashboard extends Component {
               </View>
 
 
-              <View style={styles.dateFilter}>
-                <Text style={[styles.fromTxt, { fontSize: RFValue(20), marginVertical: 6 }]}>Filtro Data</Text>
-                <View style={styles.from}>
-                  <Text style={[styles.fromTxt, { paddingRight: RFValue(11) }]}>De:</Text>
-                  <View style={styles.textInput}>
-                    <TextInput
-                      placeholder="Dia"
-                      placeholderStyle={{
-                        justifyContent: "center",
-                        alignItems: "center"
-                      }}
-                      onChangeText={this.handleSearchTextChange2}
-                      value={this.state.dayValue1}
-                      keyboardType='numeric'
-                      style={styles.textInputBirth}
-                      maxLength={2}
 
-                    />
-                    <TextInput
-                      placeholder="Mês"
-                      placeholderStyle={{
-                        justifyContent: "center",
-                        alignItems: "center"
-                      }}
-                      onChangeText={this.handleSearchTextChange3}
-                      value={this.state.dayValue2}
-                      keyboardType='numeric'
-                      style={styles.textInputBirth}
-                      maxLength={2}
-
-                    />
-
-                    <TextInput
-                      placeholder="Ano"
-                      placeholderStyle={{
-                        justifyContent: "center",
-                        alignItems: "center"
-                      }}
-                      onChangeText={this.handleSearchTextChange4}
-                      value={this.state.dayValue3}
-                      keyboardType='numeric'
-                      style={[styles.textInputBirth, { width: RFValue(60) }]}
-                      maxLength={4}
-
-                    />
-                  </View>
-                </View>
-              </View>
-            </View>
-
-            <View style={styles.OpenCloseFilterSearch}>
-              <TouchableOpacity style={styles.OpenCloseFilterSearchButton}>
-                <Text style={styles.OpenCloseFilterSearchText}> Buscar </Text>
-              </TouchableOpacity>
             </View>
           </View>
           {/* <View style={{width:"100%", paddingVertical:20}}></View> */}
@@ -569,7 +579,7 @@ const styles = StyleSheet.create({
     marginTop: RFValue(10),
     // backgroundColor: "green",
     width: "100%",
-    height: Platform.OS === 'ios' ? RFValue(460) : RFValue(540),
+    height: Platform.OS === 'ios' ? RFValue(360) : RFValue(440),
   },
   invoicingAndCash: {
     // backgroundColor: "gray",
@@ -700,19 +710,12 @@ const styles = StyleSheet.create({
     padding: RFValue(2)
   },
 
-  dateFilter: {
-    // backgroundColor: "purple",
-    flexDirection: 'column',
-    borderWidth: RFValue(3),
-    alignSelf: 'center',
-    borderRadius: RFValue(10),
-    width: "100%"
-  },
   from: {
     // backgroundColor: "blue",
     marginBottom: RFValue(10),
     flexDirection: 'row',
     alignItems: 'center',
+    paddingStart: RFValue(10)
   },
   textInput: {
     flexDirection: 'row',
