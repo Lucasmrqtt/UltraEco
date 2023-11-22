@@ -1,24 +1,24 @@
 [
-  {
-    "codigo": 2,
-    "data": "11-04-2023",
-    "nome": "Maria da Gloria Karan Marquetti",
-    "profissional": "Pedro",
-    "servico": "Lavagem",
-    "valor": 70.00,
-    "desconto": 5,
-    "total": 135 ,
-    "formaDePagamento": "Dinheiro"
-  },
-  {
-    "codigo": 1,
-    "data": "10-04-2023",
-    "nome": "Lucas Marquetti",
-    "profissional": "Leonardo",
-    "servico": "Polimento",
-    "valor": 150.00,
-    "desconto": 10,
-    "total": 135 ,
-    "formaDePagamento": "Crédito"
-  }
-]
+    {
+      "codigo": 2,
+      "data": "11-04-2023",
+      "nome": "Maria da Gloria Karan Marquetti",
+      "profissional": "Pedro",
+      "servico": "Lavagem",
+      "valor": 70.00,
+      "desconto": 5,
+      "total": 135 ,
+      "formaDePagamento": "Dinheiro"
+    },
+    {
+      "codigo": 1,
+      "data": "10-04-2023",
+      "nome": "Lucas Marquetti",
+      "profissional": "Leonardo",
+      "servico": "Polimento",
+      "valor": 150.00,
+      "desconto": 10,
+      "total": 135 ,
+      "formaDePagamento": "Crédito"
+    }
+  ]

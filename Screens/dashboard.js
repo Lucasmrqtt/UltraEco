@@ -49,9 +49,8 @@ export default class Dashboard extends Component {
       dayValue6: '',
       dropDownHeight1: 40,
       dropDownHeight2: 40,
-      selectedValue1: null,
-      selectedValue2: null,
-      payment: "Din",
+      payment: "",
+      status: "",
       date: new Date().getMonth() + 1
     };
     this.textInputBirth1 = null
@@ -66,8 +65,8 @@ export default class Dashboard extends Component {
     // console.log(date)
     this.dateChange()
   }
-  
-  dateChange = () =>{
+
+  dateChange = () => {
     let d = this.state.date
     for (const key in meses) {
       if (d == key) {
@@ -77,21 +76,16 @@ export default class Dashboard extends Component {
     // console.log(d)
     this.setState({ date: d })
   }
-
-  handleValueChange1 = (itemValue) => {
-    this.setState({ selectedValue1: itemValue });
-  };
-
   handleSearchTextChange2 = (text) => {
     this.setState({ searchText2: text });
-  
+
     const parsedValue = parseInt(text, 10);
     if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 31) {
       this.setState({ dayValue1: String(parsedValue) });
     } else {
       this.setState({ dayValue1: '' });
     }
-  
+
     if (text.length >= 2 && parsedValue <= 31) {
       this.textInputMonth1.focus();
     }
@@ -124,7 +118,6 @@ export default class Dashboard extends Component {
       this.textInputBirth2.focus(); // Move to the year TextInput
     }
   };
-
   handleSearchTextChange5 = (text) => {
     this.setState({ searchText5: text });
 
@@ -167,23 +160,42 @@ export default class Dashboard extends Component {
       Keyboard.dismiss()
     }
   };
-
   renderPlaceholder1 = () => {
-    const { selectedValue1 } = this.state;
-    if (selectedValue1) {
-      return selectedValue1;
+    if (this.state.payment) {
+      return this.state.payment;
     } else {
-      return 'Din / Nub / Sic / Déb / Créd';
+      return 'Din / Nub / Pix / Créd';
     }
   };
   renderPlaceholder2 = () => {
-    const { selectedValue2 } = this.state;
-    if (selectedValue2) {
-      return selectedValue2;
+    if (this.state.status) {
+      return this.state.status;
     } else {
-      return 'A/F';
+      return 'Aberto/Fechado';
     }
-  };
+  }
+  verification() {
+    if (this.state.dropDownHeight2 == 170) {
+      this.setState({ dropDownHeight2: 40 })
+      return 170 
+    } else {
+      return 170
+    }
+  }
+  zIndex1() {
+    if (this.state.dropDownHeight1 == 170) {
+      return 9
+    } else {
+      return 0
+    }
+  }
+  zIndex2() {
+    if (this.state.dropDownHeight2 == 170) {
+      return 9
+    } else {
+      return 0
+    }
+  }
 
   renderItem = ({ item }) => {
     // nome = item.nome
@@ -224,7 +236,7 @@ export default class Dashboard extends Component {
       </View>
     )
   }
-  
+
   handleSearchTextChange = text => {
     this.setState({ searchText: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
@@ -286,16 +298,16 @@ export default class Dashboard extends Component {
                 </View>
               </View>
 
-              <View style={styles.moneyFilter}>
+
+              <View style={[styles.moneyFilter, { zIndex: this.zIndex1(), }]}>
                 <Text style={styles.filterText}> Filtro </Text>
-                <View style={{zIndex: 99,}} >
+                <View  >
                   <DropDownPicker
                     items={[
-                      { label: "Dinheiro", value: "Din" },
-                      { label: "Nubank", value: "Nub" },
-                      { label: "Sicrédi", value: "Sic" },
-                      { label: "Débito", value: "Déb" },
-                      { label: "Crédito", value: "Créd" },
+                      { label: "Dinheiro", value: "Dinheiro" },
+                      { label: "Pix", value: "Pix" },
+                      { label: "Débito", value: "Débito" },
+                      { label: "Crédito", value: "Crédito" },
                     ]}
                     placeholder={this.renderPlaceholder1()}
                     placeholderStyle={{
@@ -304,7 +316,7 @@ export default class Dashboard extends Component {
                     }}
                     defaultValue={this.state.payment}
                     open={this.state.dropDownHeight1 == 170}
-                    onOpen={() => this.setState({ dropDownHeight1: 170 })}
+                    onOpen={() => this.setState({ dropDownHeight1: this.verification() })}
                     onClose={() => this.setState({ dropDownHeight1: 40 })}
                     style={{
                       backgroundColor: "white",
@@ -324,17 +336,69 @@ export default class Dashboard extends Component {
                       // backgroundColor: "pink",
                       width: RFValue(250),
                     }}
-                  // zIndexInverse={1000}
-                  // zIndex={1000}
                   />
                 </View>
               </View>
 
+              <View style={[styles.OpenCloseFilterAndSearch, { zIndex: this.zIndex2(), }]}>
+                <View style={styles.OpenCloseFilter}>
+                  <Text style={{
+                    fontWeight: 'bold',
+                    fontSize: RFValue(14),
+                    marginRight: RFValue(8)
+                  }}>Filtro</Text>
+                  <View>
+                    <DropDownPicker
+                      items={[
+                        { label: "Aberto", value: "Aberto" },
+                        { label: "Fechado", value: "Fechado" },
+                      ]}
+                      placeholder={this.renderPlaceholder2()}
+                      defaultValue={this.state.status}
+                      open={this.state.dropDownHeight2 == 170}
+                      onOpen={() => this.setState({ dropDownHeight2: 170 })}
+                      onClose={() => this.setState({ dropDownHeight2: 40 })}
+                      style={{
+                        // backgroundColor: "green",
+                        borderWidth: RFValue(2),
+                        borderColor: "black",
+                        width: RFValue(160),
+                        // marginRight:RFValue()
+                        // height:RFValue(50)
+                      }}
+                      placeholderStyle={{
+                        alignSelf: 'center',
+                        textAlign: 'center',
+
+
+                      }}
+                      textStyle={{
+                        color: "black",
+                        fontWeight: 'bold'
+                        // backgroundColor: "red",
+                      }}
+                      onSelectItem={(item) => {
+                        this.setState({ status: item.value })
+                      }}
+                      dropDownContainerStyle={{
+                        backgroundColor: "white",
+                        width: RFValue(160),
+                        // alignItems:'center'
+                        // padding:RFValue(1)
+                        height: RFValue(70)
+
+                      }}
+                    />
+                  </View>
+                </View>
+              </View>
+
+
               <View style={styles.dateFilter}>
-                <Text style={[styles.fromTxt, {fontSize:RFValue(20), marginVertical:6}]}>Filtro Data</Text>
+                <Text style={[styles.fromTxt, { fontSize: RFValue(20), marginVertical: 6 }]}>Filtro Data</Text>
                 <View style={styles.from}>
-                  <Text style={[styles.fromTxt, {paddingRight:RFValue(11)}]}>De:</Text>
-                  <View  style={styles.textInput}>
+                  <Text style={[styles.fromTxt, { paddingRight: RFValue(11) }]}>De:</Text>
+                  <View style={styles.textInput}>
                     <TextInput
                       placeholder="Dia"
                       placeholderStyle={{
@@ -380,7 +444,7 @@ export default class Dashboard extends Component {
 
                 <View style={styles.from}>
                   <Text style={styles.fromTxt}>Até:</Text>
-                  <View  style={styles.textInput}>
+                  <View style={styles.textInput}>
                     <TextInput
                       placeholder="Dia"
                       placeholderStyle={{
@@ -424,61 +488,15 @@ export default class Dashboard extends Component {
                   </View>
                 </View>
               </View>
+            </View>
 
-              <View style={styles.OpenCloseFilterAndSearch}>
-                <View style={[styles.OpenCloseFilter, {zIndex: 99,}]}>
-                  <Text style={{
-                    fontWeight: 'bold',
-                    fontSize: RFValue(14),
-                    marginRight: RFValue(8)
-                  }}>Filtro</Text>
-                  <DropDownPicker
-                    items={[
-                      { label: "Aberto", value: "Open" },
-                      { label: "Fechado", value: "Close" },
-                    ]}
-                    placeholder={this.renderPlaceholder2()}
-                    defaultValue={this.state.payment}
-                    open={this.state.dropDownHeight2 == 170}
-                    onOpen={() => this.setState({ dropDownHeight2: 170 })}
-                    onClose={() => this.setState({ dropDownHeight2: 40 })}
-                    style={{
-                      // backgroundColor: "green",
-                      borderWidth: RFValue(2),
-                      borderColor: "black",
-                      width: RFValue(150),
-                      // marginRight:RFValue()
-                      // height:RFValue(10)
-                    }}
-                    placeholderStyle={{
-                      alignSelf: 'center',
-                      textAlign: 'center'
-                    }}
-                    textStyle={{
-                      color: "black",
-                      fontWeight: 'bold'
-                      // backgroundColor: "red",
-                    }}
-                    onSelectItem={(item) => {
-                      this.setState({ payment: item.value })
-                    }}
-                    dropDownContainerStyle={{
-                      // backgroundColor: "pink",
-                      width: RFValue(150),
-                      // alignItems:'center'
-                      // height:RFValue(10)
-                    }}
-                  // zIndexInverse={3000}
-                  />
-                </View>
-                <View style={styles.OpenCloseFilterSearch}>
-                  <TouchableOpacity style={styles.OpenCloseFilterSearchButton}>
-                    <Text style={styles.OpenCloseFilterSearchText}> Buscar </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+            <View style={styles.OpenCloseFilterSearch}>
+              <TouchableOpacity style={styles.OpenCloseFilterSearchButton}>
+                <Text style={styles.OpenCloseFilterSearchText}> Buscar </Text>
+              </TouchableOpacity>
             </View>
           </View>
+          {/* <View style={{width:"100%", paddingVertical:20}}></View> */}
 
           <ScrollView horizontal={true} >
             <View style={styles.fotter}>
@@ -564,8 +582,8 @@ const styles = StyleSheet.create({
     borderWidth: RFValue(2),
     borderRadius: RFValue(5),
     marginTop: RFValue(10),
-    paddingHorizontal:RFValue(15),
-    paddingVertical:RFValue(2),
+    paddingHorizontal: RFValue(15),
+    paddingVertical: RFValue(2),
     left: RFValue(20)
   },
   cashFlow: {
@@ -719,28 +737,28 @@ const styles = StyleSheet.create({
   dateFilter: {
     // backgroundColor: "purple",
     flexDirection: 'column',
-    borderWidth:RFValue(3),
-    alignSelf:'center',
-    borderRadius:RFValue(10),
-    width:"100%"
+    borderWidth: RFValue(3),
+    alignSelf: 'center',
+    borderRadius: RFValue(10),
+    width: "100%"
   },
   from: {
     // backgroundColor: "blue",
-    marginBottom:RFValue(10),
+    marginBottom: RFValue(10),
     flexDirection: 'row',
     alignItems: 'center',
   },
-  textInput:{
-    flexDirection:'row',
+  textInput: {
+    flexDirection: 'row',
     // backgroundColor: "#f1f",
-    justifyContent:'space-between',
-    width:RFValue(180)
+    justifyContent: 'space-between',
+    width: RFValue(180)
   },
-  fromTxt:{
-    fontSize:RFValue(16),
-    fontWeight:'bold',
-    paddingStart:RFValue(6),
-    paddingRight:RFValue(6),
+  fromTxt: {
+    fontSize: RFValue(16),
+    fontWeight: 'bold',
+    paddingStart: RFValue(6),
+    paddingRight: RFValue(6),
   },
 
   textInputBirth: {
@@ -768,7 +786,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "yellow",
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: RFValue(10)
+    marginBottom: RFValue(10)
   },
   OpenCloseFilter: {
     // backgroundColor: "purple",
@@ -788,7 +806,13 @@ const styles = StyleSheet.create({
   },
   OpenCloseFilterSearch: {
     // backgroundColor: "red",
-    top: RFValue(10),
+    // top: RFValue(10),
+    width: "100%",
+    height: RFValue(50),
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // paddingStart:RFValue(15)
     // right: RFValue(30),
     // bottom: RFValue(30),
   },
@@ -798,7 +822,14 @@ const styles = StyleSheet.create({
     // borderColor: "green"
     backgroundColor: "green",
     // backgroundColor: "pink",
-    padding: RFValue(4)
+    // padding: RFValue(6),
+    paddingHorizontal: RFValue(70),
+    // paddingVertical: RFValue(9),
+    height:RFValue(40),
+    marginTop:RFValue(5),
+    alignItems:'center',
+    justifyContent:'center'
+
   },
   OpenCloseFilterSearchText: {
     fontWeight: 'bold',
@@ -812,7 +843,7 @@ const styles = StyleSheet.create({
   // FOTTER----------------------------------------------------
   fotter: {
     flex: 0.4,
-    marginTop: RFValue(1),
+    marginTop: RFValue(30),
     // backgroundColor: "orange",
     width: "100%",
     // justifyContent: 'flex-start',

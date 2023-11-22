@@ -36,36 +36,57 @@ export default class CashFlow extends Component {
     this.state = {
       speakerIcon: "chevron-back-outline",
       searchText: '',
-      selectedValue1: null,
-      selectedValue2: null,
       valorAntigo: 0,
       dropDownHeight1: 40,
       dropDownHeight2: 40,
-      payment: "Din",
+      payment: "",
+      payment2: "",
       date: new Date().getMonth() + 1
     };
   }
   componentDidMount() {
     // console.log(date)
     this.dateChange()
+    // this.verification()
+
   }
-  handleValueChange1 = (itemValue) => {
-    this.setState({ selectedValue1: itemValue });
-  };
-
-  handleValueChange2 = (itemValue) => {
-    this.setState({ selectedValue2: itemValue });
-  };
-
   renderPlaceholder1 = () => {
-    const { selectedValue1 } = this.state;
-    if (selectedValue1) {
-      return selectedValue1;
+    if (this.state.payment) {
+      return this.state.payment;
     } else {
-      return 'Din / Nub / Sic / Déb / Créd';
+      return 'Din / Pix / Deb / Créd';
     }
   };
-  dateChange = () =>{
+  renderPlaceholder2 = () => {
+    if (this.state.payment2) {
+      return this.state.payment2;
+    } else {
+      return 'Receita/Despesa';
+    }
+  };
+  verification() {
+    if (this.state.dropDownHeight2 == 170) {
+      this.setState({ dropDownHeight2: 40 })
+      return 170 
+    } else {
+      return 170
+    }
+  }
+  zIndex1() {
+    if (this.state.dropDownHeight1 == 170) {
+      return 9
+    } else {
+      return 0
+    }
+  }
+  zIndex2() {
+    if (this.state.dropDownHeight2 == 170) {
+      return 9
+    } else {
+      return 0
+    }
+  }
+  dateChange = () => {
     let d = this.state.date
     for (const key in meses) {
       if (d == key) {
@@ -75,14 +96,6 @@ export default class CashFlow extends Component {
     // console.log(d)
     this.setState({ date: d })
   }
-  renderPlaceholder2 = () => {
-    const { selectedValue2 } = this.state;
-    if (selectedValue2) {
-      return selectedValue2;
-    } else {
-      return 'Receita/Despesa';
-    }
-  };
 
   handleSearchTextChange = text => {
     this.setState({ searchText: text });
@@ -165,9 +178,9 @@ export default class CashFlow extends Component {
               <View style={styles.expensesContainer}>
                 <Text style={styles.revenuesAndExpensesPrice}> R$ ******** </Text>
                 <View style={styles.addExpense}>
-                  <TouchableOpacity 
-                  style={styles.addExpenseButton}
-                  onPress={() => this.props.navigation.navigate("Expenses")}
+                  <TouchableOpacity
+                    style={styles.addExpenseButton}
+                    onPress={() => this.props.navigation.navigate("Expenses")}
                   >
                     <Text style={styles.revenuesAndExpensesButtonTxt}> Adc. Despesas</Text>
                   </TouchableOpacity>
@@ -179,25 +192,24 @@ export default class CashFlow extends Component {
               <Text style={styles.textMonth}>{this.state.date}</Text>
             </View>
             <View style={styles.filter}>
-              <View style={styles.moneyFilter}>
+              <View style={[styles.moneyFilter, { zIndex: this.zIndex1() }]}>
                 <Text style={styles.filterText}> Filtro Pgmt </Text>
-                <View style={[styles.textInputName, {zIndex: 99,}]}>
+                <View style={styles.textInputName}>
                   <DropDownPicker
                     items={[
-                      { label: "Dinheiro", value: "Din" },
-                      { label: "Nubank", value: "Nub" },
-                      { label: "Sicrédi", value: "Sic" },
-                      { label: "Débito", value: "Déb" },
-                      { label: "Crédito", value: "Créd" },
+                      { label: "Dinheiro", value: "Dinheiro" },
+                      { label: "Pix", value: "Pix" },
+                      { label: "Débito", value: "Débito" },
+                      { label: "Crédito", value: "Crédito" },
                     ]}
                     placeholder={this.renderPlaceholder1()}
                     placeholderStyle={{
                       alignSelf: 'center',
                       textAlign: 'center'
                     }}
-                    defaultValue={payment}
+                    defaultValue={this.state.payment}
                     open={dropDownHeight1 == 170}
-                    onOpen={() => this.setState({ dropDownHeight1: 170 })}
+                    onOpen={() => this.setState({ dropDownHeight1: this.verification()})}
                     onClose={() => this.setState({ dropDownHeight1: 40 })}
                     style={{
                       backgroundColor: "white",
@@ -205,6 +217,7 @@ export default class CashFlow extends Component {
                       borderColor: "black",
                       width: RFValue(250),
                     }}
+                    // onPress={Alert.alert()}
                     textStyle={{
                       color: "black",
                       fontWeight: 'bold'
@@ -217,27 +230,25 @@ export default class CashFlow extends Component {
                       // backgroundColor: "pink",
                       width: RFValue(250),
                     }}
-                    listMode='SCROLLVIEW'
-                  // zIndexInverse={1000}
-                  // zIndex={1000}
+                  // listMode='SCROLLVIEW'
                   />
                 </View>
               </View>
 
-              <View style={styles.moneyFilter}>
+              <View style={[styles.moneyFilter, { zIndex: this.zIndex2() }]}>
                 <Text style={styles.filterText}> Filtro Pgmt </Text>
-                <View style={[styles.textInputName, {zIndex: 99,}]}>
+                <View style={styles.textInputName}>
                   <DropDownPicker
                     items={[
-                      { label: "Receita", value: "Rec" },
-                      { label: "Despesa", value: "Desp" },
+                      { label: "Receita", value: "Receita" },
+                      { label: "Despesa", value: "Despesa" },
                     ]}
                     placeholder={this.renderPlaceholder2()}
                     placeholderStyle={{
                       alignSelf: 'center',
                       textAlign: 'center'
                     }}
-                    defaultValue={payment}
+                    defaultValue={this.state.payment2}
                     open={dropDownHeight2 == 170}
                     onOpen={() => this.setState({ dropDownHeight2: 170 })}
                     onClose={() => this.setState({ dropDownHeight2: 40 })}
@@ -253,7 +264,7 @@ export default class CashFlow extends Component {
                       // backgroundColor: "red",
                     }}
                     onSelectItem={(item) => {
-                      this.setState({ payment: item.value })
+                      this.setState({ payment2: item.value })
                     }}
                     dropDownContainerStyle={{
                       // backgroundColor: "pink",
