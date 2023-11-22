@@ -35,37 +35,75 @@ export default class Dashboard extends Component {
     super(props);
     this.state = {
       searchText: '',
-      searchText2: '',
-      searchText3: '',
-      searchText4: '',
-      searchText5: '',
-      searchText6: '',
-      searchText7: '',
       dayValue1: '',
       dayValue2: '',
       dayValue3: '',
-      dayValue4: '',
-      dayValue5: '',
-      dayValue6: '',
       dropDownHeight1: 40,
       dropDownHeight2: 40,
-      payment: "",
-      status: "",
-      date: new Date().getMonth() + 1
+      selectedPayment: null,
+      selectedStatus: null,
+      date: new Date().getMonth() + 1,
+      list: []
     };
-    this.textInputBirth1 = null
-    this.textInputMonth1 = null
-    this.textInputYear1 = null
-    this.textInputBirth2 = null
-    this.textInputMonth2 = null
-    this.textInputYear2 = null
+
   }
 
   componentDidMount() {
     // console.log(date)
     this.dateChange()
+    this.handleFilterList()
   }
+  handleFilterList() {
+    const { searchText, selectedPayment, selectedStatus, dayValue1, dayValue2, dayValue3 } = this.state;
 
+    let filteredList = clients;
+
+    // Aplicar filtro de pesquisa por nome
+    if (searchText !== '') {
+      filteredList = filteredList.filter(
+        (item) => item.nome.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+      );
+    }
+
+    if (dayValue1 !== '') {
+      filteredList = filteredList.filter(
+        (item) => item.dia.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+      );
+    }
+
+    if (dayValue2 !== '') {
+      filteredList = filteredList.filter(
+        (item) => item.mes.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+      );
+    }
+
+    if (dayValue3 !== '') {
+      filteredList = filteredList.filter(
+        (item) => item.ano.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+      );
+    }
+
+    // Aplicar filtro de forma de pagamento
+    if (selectedPayment && selectedPayment !== 'Todos') {
+      filteredList = filteredList.filter(
+        (item) => item.formaDePagamento === selectedPayment
+      );
+    }
+
+    // Aplicar filtro de status
+    if (selectedStatus && selectedStatus !== 'Todos') {
+      filteredList = filteredList.filter(
+        (item) => item.status === selectedStatus
+      );
+    }
+
+    this.setState({ list: filteredList });
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.searchText !== this.state.searchText) {
+      this.handleFilterList();
+    }
+  }
   dateChange = () => {
     let d = this.state.date
     for (const key in meses) {
@@ -77,7 +115,7 @@ export default class Dashboard extends Component {
     this.setState({ date: d })
   }
   handleSearchTextChange2 = (text) => {
-    this.setState({ searchText2: text });
+    this.setState({ dayValue1: text });
 
     const parsedValue = parseInt(text, 10);
     if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 31) {
@@ -91,7 +129,7 @@ export default class Dashboard extends Component {
     }
   };
   handleSearchTextChange3 = (text) => {
-    this.setState({ searchText3: text });
+    this.setState({ dayValue2: text });
 
     const parsedValue = parseInt(text, 10); // Parse the input to an integer
     if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 12) {
@@ -105,7 +143,7 @@ export default class Dashboard extends Component {
     }
   };
   handleSearchTextChange4 = (text) => {
-    this.setState({ searchText4: text });
+    this.setState({ dayValue3: text });
 
     const parsedValue = parseInt(text, 10); // Parse the input to an integer
     if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 2100) {
@@ -118,66 +156,24 @@ export default class Dashboard extends Component {
       this.textInputBirth2.focus(); // Move to the year TextInput
     }
   };
-  handleSearchTextChange5 = (text) => {
-    this.setState({ searchText5: text });
-
-    const parsedValue = parseInt(text, 10); // Parse the input to an integer
-    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 31) {
-      this.setState({ dayValue4: String(parsedValue) });
-    } else {
-      this.setState({ dayValue4: '' }); // Limpa o valor se não for válido
-    }
-
-    if (text.length >= 2 && parsedValue <= 31) {
-      this.textInputMonth2.focus(); // Move to the month TextInput
-    }
-  };
-  handleSearchTextChange6 = (text) => {
-    this.setState({ searchText6: text });
-
-    const parsedValue = parseInt(text, 10); // Parse the input to an integer
-    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 12) {
-      this.setState({ dayValue5: String(parsedValue) });
-    } else {
-      this.setState({ dayValue5: '' }); // Limpa o valor se não for válido
-    }
-
-    if (text.length >= 2 && parsedValue <= 12) {
-      this.textInputYear2.focus(); // Move to the year TextInput
-    }
-  };
-  handleSearchTextChange7 = (text) => {
-    this.setState({ searchText7: text });
-
-    const parsedValue = parseInt(text, 10); // Parse the input to an integer
-    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 2100) {
-      this.setState({ dayValue6: String(parsedValue) });
-    } else {
-      this.setState({ dayValue6: '' }); // Limpa o valor se não for válido
-    }
-
-    if (text.length >= 4 && parsedValue <= 2100) {
-      Keyboard.dismiss()
-    }
-  };
   renderPlaceholder1 = () => {
-    if (this.state.payment) {
-      return this.state.payment;
+    if (this.state.selectedPayment) {
+      return this.state.selectedPayment;
     } else {
       return 'Din / Nub / Pix / Créd';
     }
   };
   renderPlaceholder2 = () => {
-    if (this.state.status) {
-      return this.state.status;
+    if (this.state.selectedStatus) {
+      return this.state.selectedStatus;
     } else {
-      return 'Aberto/Fechado';
+      return 'Pago / Não pago';
     }
   }
   verification() {
     if (this.state.dropDownHeight2 == 170) {
       this.setState({ dropDownHeight2: 40 })
-      return 170 
+      return 170
     } else {
       return 170
     }
@@ -196,20 +192,14 @@ export default class Dashboard extends Component {
       return 0
     }
   }
-
   renderItem = ({ item }) => {
-    // nome = item.nome
-    // if (nome.lenght > 15) {
-    //   nome = nome.nome.split('')
-
-    // }
     return (
       <View style={styles.fotterValues}>
         <View style={styles.containerFotterValues}>
           <Text style={styles.fotterTextValue}>{item.codigo}</Text>
         </View>
         <View style={styles.containerFotterValues}>
-          <Text style={styles.fotterTextValue}>{item.data}</Text>
+          <Text style={styles.fotterTextValue}>{item.dia}-{item.mes}-{item.ano}</Text>
         </View>
         <View style={styles.containerFotterValues}>
           <Text style={styles.fotterTextValue}>{item.servico}</Text>
@@ -233,10 +223,12 @@ export default class Dashboard extends Component {
         <View style={styles.containerFotterValues}>
           <Text style={styles.fotterTextValue}>R${item.valor - item.desconto} {item.formaDePagamento}</Text>
         </View>
+        <View style={styles.containerFotterValues}>
+          <Text style={styles.fotterTextValue}>{item.status}</Text>
+        </View>
       </View>
     )
   }
-
   handleSearchTextChange = text => {
     this.setState({ searchText: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
@@ -304,6 +296,7 @@ export default class Dashboard extends Component {
                 <View  >
                   <DropDownPicker
                     items={[
+                      { label: "Todos", value: "Todos" },
                       { label: "Dinheiro", value: "Dinheiro" },
                       { label: "Pix", value: "Pix" },
                       { label: "Débito", value: "Débito" },
@@ -314,7 +307,7 @@ export default class Dashboard extends Component {
                       alignSelf: 'center',
                       textAlign: 'center'
                     }}
-                    defaultValue={this.state.payment}
+                    defaultValue={this.state.selectedPayment}
                     open={this.state.dropDownHeight1 == 170}
                     onOpen={() => this.setState({ dropDownHeight1: this.verification() })}
                     onClose={() => this.setState({ dropDownHeight1: 40 })}
@@ -330,8 +323,17 @@ export default class Dashboard extends Component {
                       // backgroundColor: "red",
                     }}
                     onSelectItem={(item) => {
-                      this.setState({ payment: item.value })
+                      if (item.value === "Todos") {
+                        this.setState({ selectedPayment: null }, () => {
+                          this.handleFilterList();
+                        });
+                      } else {
+                        this.setState({ selectedPayment: item.value }, () => {
+                          this.handleFilterList();
+                        });
+                      }
                     }}
+
                     dropDownContainerStyle={{
                       // backgroundColor: "pink",
                       width: RFValue(250),
@@ -350,11 +352,12 @@ export default class Dashboard extends Component {
                   <View>
                     <DropDownPicker
                       items={[
-                        { label: "Aberto", value: "Aberto" },
-                        { label: "Fechado", value: "Fechado" },
+                        { label: "Todos", value: "Todos" },
+                        { label: "Pago", value: "Pago" },
+                        { label: "Não Pago", value: "Não pago" },
                       ]}
                       placeholder={this.renderPlaceholder2()}
-                      defaultValue={this.state.status}
+                      defaultValue={this.state.selectedStatus}
                       open={this.state.dropDownHeight2 == 170}
                       onOpen={() => this.setState({ dropDownHeight2: 170 })}
                       onClose={() => this.setState({ dropDownHeight2: 40 })}
@@ -369,8 +372,6 @@ export default class Dashboard extends Component {
                       placeholderStyle={{
                         alignSelf: 'center',
                         textAlign: 'center',
-
-
                       }}
                       textStyle={{
                         color: "black",
@@ -378,14 +379,22 @@ export default class Dashboard extends Component {
                         // backgroundColor: "red",
                       }}
                       onSelectItem={(item) => {
-                        this.setState({ status: item.value })
+                        if (item.value === "Todos") {
+                          this.setState({ selectedStatus: null }, () => {
+                            this.handleFilterList();
+                          });
+                        } else {
+                          this.setState({ selectedStatus: item.value }, () => {
+                            this.handleFilterList();
+                          });
+                        }
                       }}
                       dropDownContainerStyle={{
                         backgroundColor: "white",
                         width: RFValue(160),
                         // alignItems:'center'
                         // padding:RFValue(1)
-                        height: RFValue(70)
+                        // height: RFValue(70)
 
                       }}
                     />
@@ -410,7 +419,7 @@ export default class Dashboard extends Component {
                       keyboardType='numeric'
                       style={styles.textInputBirth}
                       maxLength={2}
-                      ref={(input) => (this.textInputBirth1 = input)}
+
                     />
                     <TextInput
                       placeholder="Mês"
@@ -423,7 +432,7 @@ export default class Dashboard extends Component {
                       keyboardType='numeric'
                       style={styles.textInputBirth}
                       maxLength={2}
-                      ref={(input) => (this.textInputMonth1 = input)}
+
                     />
 
                     <TextInput
@@ -437,53 +446,7 @@ export default class Dashboard extends Component {
                       keyboardType='numeric'
                       style={[styles.textInputBirth, { width: RFValue(60) }]}
                       maxLength={4}
-                      ref={(input) => (this.textInputYear1 = input)}
-                    />
-                  </View>
-                </View>
 
-                <View style={styles.from}>
-                  <Text style={styles.fromTxt}>Até:</Text>
-                  <View style={styles.textInput}>
-                    <TextInput
-                      placeholder="Dia"
-                      placeholderStyle={{
-                        justifyContent: "center",
-                        alignItems: "center"
-                      }}
-                      onChangeText={this.handleSearchTextChange5}
-                      value={this.state.dayValue4}
-                      keyboardType='numeric'
-                      style={styles.textInputBirth}
-                      maxLength={2}
-                      ref={(input) => (this.textInputBirth2 = input)}
-                    />
-                    <TextInput
-                      placeholder="Mês"
-                      placeholderStyle={{
-                        justifyContent: "center",
-                        alignItems: "center"
-                      }}
-                      onChangeText={this.handleSearchTextChange6}
-                      value={this.state.dayValue5}
-                      keyboardType='numeric'
-                      style={styles.textInputBirth}
-                      maxLength={2}
-                      ref={(input) => (this.textInputMonth2 = input)}
-                    />
-
-                    <TextInput
-                      placeholder="Ano"
-                      placeholderStyle={{
-                        justifyContent: "center",
-                        alignItems: "center"
-                      }}
-                      onChangeText={this.handleSearchTextChange7}
-                      value={this.state.dayValue6}
-                      keyboardType='numeric'
-                      style={[styles.textInputBirth, { width: RFValue(60) }]}
-                      maxLength={4}
-                      ref={(input) => (this.textInputYear2 = input)}
                     />
                   </View>
                 </View>
@@ -529,12 +492,15 @@ export default class Dashboard extends Component {
                 <View style={styles.containerFotterValues}>
                   <Text style={styles.fotterText}>Pagamento</Text>
                 </View>
+                <View style={styles.containerFotterValues}>
+                  <Text style={styles.fotterText}>Status</Text>
+                </View>
               </View>
               <View style={styles.fotterValuesContainer}>
                 <FlatList
-                  style={styles.list}
-                  data={clients}
+                  data={this.state.list}
                   renderItem={this.renderItem}
+                  style={styles.list}
                   keyExtractor={(item, index) => index.toString()}
                 />
               </View>
@@ -825,10 +791,10 @@ const styles = StyleSheet.create({
     // padding: RFValue(6),
     paddingHorizontal: RFValue(70),
     // paddingVertical: RFValue(9),
-    height:RFValue(40),
-    marginTop:RFValue(5),
-    alignItems:'center',
-    justifyContent:'center'
+    height: RFValue(40),
+    marginTop: RFValue(5),
+    alignItems: 'center',
+    justifyContent: 'center'
 
   },
   OpenCloseFilterSearchText: {
