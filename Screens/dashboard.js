@@ -255,13 +255,16 @@ export default class Dashboard extends Component {
         <SafeAreaView style={styles.droidSafeArea} />
         <ScrollView>
           <View style={styles.header}>
+            <View></View>
             <View style={styles.title}>
               <Text style={styles.textTitle}>Dashboard</Text>
               <Text style={styles.textMonth}>{this.state.date}</Text>
             </View>
+
             <TouchableOpacity style={styles.cashFlow} onPress={() => this.props.navigation.navigate("CashFlow")}
             >
-              <Text style={styles.cashFlowText}> Acessar fluxo de caixa </Text>
+              <Text style={styles.cashFlowText}> Acessar </Text>
+              <Text style={styles.cashFlowText}> fluxo de caixa </Text>
             </TouchableOpacity>
           </View>
 
@@ -271,10 +274,10 @@ export default class Dashboard extends Component {
                 <Text style={styles.invoicingText}> Faturamento </Text>
                 <Text style={styles.invoicingPrice}> R$ ******** </Text>
                 <View style={styles.invoicingMoney}>
-                  <Text style={styles.invoicingPix}> Pix: </Text>
-                  <Text style={styles.invoicingDin}> Din: </Text>
-                  <Text style={styles.invoicingCred}> Créd: </Text>
-                  <Text style={styles.invoicingDeb}> Déb: </Text>
+                  <Text style={styles.paymentTxt}> Pix: </Text>
+                  <Text style={styles.paymentTxt}> Din: </Text>
+                  <Text style={styles.paymentTxt}> Créd: </Text>
+                  <Text style={styles.paymentTxt}> Déb: </Text>
                 </View>
               </View>
 
@@ -282,81 +285,21 @@ export default class Dashboard extends Component {
                 <Text style={styles.cashText}> Valor em caixa </Text>
                 <Text style={styles.cashPrice}> R$ ******** </Text>
                 <View style={styles.cashMoney}>
-                  <Text style={styles.cashPix}> Pix: </Text>
-                  <Text style={styles.cashDin}> Din: </Text>
-                  <Text style={styles.cashCred}> Créd: </Text>
-                  <Text style={styles.cashDeb}> Déb: </Text>
+                  <Text style={styles.paymentTxt}> Pix: </Text>
+                  <Text style={styles.paymentTxt}> Din: </Text>
+                  <Text style={styles.paymentTxt}> Créd: </Text>
+                  <Text style={styles.paymentTxt}> Déb: </Text>
                 </View>
               </View>
             </View>
 
             <View style={styles.filter}>
-              <View style={styles.OpenCloseFilterAndSearch}>
-                <Text style={[styles.fromTxt, { fontSize: RFValue(20), marginVertical: 6 }]}>Filtro Data</Text>
-                <View style={styles.from}>
-                  <View style={styles.textInput}>
-                    <TextInput
-                      placeholder="Dia"
-                      placeholderStyle={{
-                        justifyContent: "center",
-                        alignItems: "center"
-                      }}
-                      onChangeText={this.handleSearchTextChange1}
-                      value={dayValue1}
-                      keyboardType='numeric'
-                      style={styles.textInputBirth}
-                      maxLength={2}
-                      ref={(input) => (this.textInputBirth = input)}
-                    />
-                    <TextInput
-                      placeholder="Mês"
-                      placeholderStyle={{
-                        justifyContent: "center",
-                        alignItems: "center"
-                      }}
-                      onChangeText={this.handleSearchTextChange2}
-                      value={this.state.dayValue2}
-                      keyboardType='numeric'
-                      style={styles.textInputBirth}
-                      maxLength={2}
-                      ref={(input) => (this.textInputMonth = input)}
 
-                    />
 
-                    <TextInput
-                      placeholder="Ano"
-                      placeholderStyle={{
-                        justifyContent: "center",
-                        alignItems: "center"
-                      }}
-                      onChangeText={this.handleSearchTextChange3}
-                      value={this.state.dayValue3}
-                      keyboardType='numeric'
-                      style={[styles.textInputBirth, { width: RFValue(60) }]}
-                      maxLength={4}
-                      ref={(input) => (this.textInputYear = input)}
 
-                    />
-                  </View>
-                </View>
-              </View>
-              <View style={styles.clientFilter}>
-                <Text style={styles.filterText}> Filtro Cliente</Text>
+              <View style={[styles.containerFilters, { zIndex: this.zIndex1(), right:4}]}>
+                <Text style={styles.filterText}> Filtro forma de pag </Text>
                 <View>
-                  <TextInput
-                    placeholder="Digite aqui para pesquisar"
-                    onChangeText={this.handleSearchTextChange}
-                    value={searchText}
-                    style={styles.filterTextInput}
-                    maxLength={40}
-                  />
-                </View>
-              </View>
-
-
-              <View style={[styles.moneyFilter, { zIndex: this.zIndex1(), }]}>
-                <Text style={styles.filterText}> Filtro </Text>
-                <View  >
                   <DropDownPicker
                     items={[
                       { label: "Todos", value: "Todos" },
@@ -378,7 +321,7 @@ export default class Dashboard extends Component {
                       backgroundColor: "white",
                       borderWidth: RFValue(2),
                       borderColor: "black",
-                      width: RFValue(250),
+                      width: RFValue(200),
                     }}
                     textStyle={{
                       color: "black",
@@ -399,19 +342,14 @@ export default class Dashboard extends Component {
 
                     dropDownContainerStyle={{
                       // backgroundColor: "pink",
-                      width: RFValue(250),
+                      width: RFValue(200),
                     }}
                   />
                 </View>
               </View>
 
-              <View style={[styles.OpenCloseFilterAndSearch, { zIndex: this.zIndex2(), }]}>
-                <View style={styles.OpenCloseFilter}>
-                  <Text style={{
-                    fontWeight: 'bold',
-                    fontSize: RFValue(14),
-                    marginRight: RFValue(8)
-                  }}>Filtro</Text>
+              <View style={[styles.containerFilters, { zIndex: this.zIndex2(), }]}>
+                  <Text style={styles.filterText}>Filtro pago</Text>
                   <View>
                     <DropDownPicker
                       items={[
@@ -462,9 +400,69 @@ export default class Dashboard extends Component {
                       }}
                     />
                   </View>
+                
+              </View>
+
+              <View style={styles.containerFilters}>
+                <Text style={styles.filterText}>Filtro Data</Text>
+                <View style={styles.textInput}>
+                  <TextInput
+                    placeholder="Dia"
+                    placeholderStyle={{
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                    onChangeText={this.handleSearchTextChange1}
+                    value={dayValue1}
+                    keyboardType='numeric'
+                    style={styles.textInputBirth}
+                    maxLength={2}
+                    ref={(input) => (this.textInputBirth = input)}
+                  />
+                  <TextInput
+                    placeholder="Mês"
+                    placeholderStyle={{
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                    onChangeText={this.handleSearchTextChange2}
+                    value={this.state.dayValue2}
+                    keyboardType='numeric'
+                    style={styles.textInputBirth}
+                    maxLength={2}
+                    ref={(input) => (this.textInputMonth = input)}
+
+                  />
+
+                  <TextInput
+                    placeholder="Ano"
+                    placeholderStyle={{
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                    onChangeText={this.handleSearchTextChange3}
+                    value={this.state.dayValue3}
+                    keyboardType='numeric'
+                    style={[styles.textInputBirth, { width: RFValue(60) }]}
+                    maxLength={4}
+                    ref={(input) => (this.textInputYear = input)}
+
+                  />
                 </View>
               </View>
 
+              <View style={styles.containerFilters}>
+                <Text style={styles.filterText}> Filtro Cliente</Text>
+                <View>
+                  <TextInput
+                    placeholder="Digite aqui para pesquisar"
+                    onChangeText={this.handleSearchTextChange}
+                    value={searchText}
+                    style={styles.filterTextInput}
+                    maxLength={40}
+                  />
+                </View>
+              </View>
 
 
             </View>
@@ -540,35 +538,44 @@ const styles = StyleSheet.create({
     flex: 0.1,
     // backgroundColor: "pink",
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
     alignItems: 'center'
   },
   title: {
-    left: RFValue(40),
+    left: RFValue(20),
+    // backgroundColor: "red",
+    alignItems: 'center',
+
   },
   textTitle: {
     fontSize: RFValue(30),
-    fontWeight: "bold",
-    alignSelf: 'center',
+    // backgroundColor: "orange",
+    // fontWeight: "bold",
+    // alignSelf: 'center',
   },
   textMonth: {
     fontSize: RFValue(15),
-    // fontWeight:"bold",
-    alignSelf: 'center',
+    fontWeight: "bold",
+    // backgroundColor: "red",
+    // alignSelf: 'center',
     borderWidth: RFValue(2),
     borderRadius: RFValue(5),
     marginTop: RFValue(10),
     paddingHorizontal: RFValue(15),
     paddingVertical: RFValue(2),
-    left: RFValue(20)
+    // left: RFValue(30)
   },
   cashFlow: {
     borderWidth: RFValue(2),
     borderRadius: RFValue(8),
     alignItems: 'center',
+    // paddingHorizontal: RFValue(15),
+    // paddingVertical: RFValue(4),
+    // backgroundColor: "red",
     justifyContent: 'center',
     width: RFValue(77),
     height: Platform.OS === 'ios' ? RFValue(40) : 55,
+    marginEnd: RFValue(-35)
   },
   cashFlowText: {
     justifyContent: 'center'
@@ -579,7 +586,7 @@ const styles = StyleSheet.create({
     marginTop: RFValue(10),
     // backgroundColor: "green",
     width: "100%",
-    height: Platform.OS === 'ios' ? RFValue(360) : RFValue(440),
+    height: Platform.OS === 'ios' ? RFValue(330) : RFValue(420),
   },
   invoicingAndCash: {
     // backgroundColor: "gray",
@@ -611,25 +618,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     // backgroundColor: "purple",
   },
-  invoicingPix: {
+  paymentTxt: {
     fontWeight: 'bold',
-    // backgroundColor:"yellow"
     marginBottom: RFValue(5)
-  },
-  invoicingDin: {
-    fontWeight: 'bold',
-    // backgroundColor:"yellow"
-    marginBottom: RFValue(5)
-  },
-  invoicingCred: {
-    fontWeight: 'bold',
-    // backgroundColor:"yellow"
-    marginBottom: RFValue(5)
-  },
-  invoicingDeb: {
-    fontWeight: 'bold',
-    // backgroundColor:"yellow"
-    // marginBottom:RFValue(5)
   },
   cashContainer: {
     // backgroundColor: "red",
@@ -651,36 +642,11 @@ const styles = StyleSheet.create({
     // backgroundColor: "purple",
     marginLeft: RFValue(4)
   },
-  cashPix: {
-    fontWeight: 'bold',
-    // backgroundColor:"yellow"
-    marginBottom: RFValue(5)
-  },
-  cashDin: {
-    fontWeight: 'bold',
-    // backgroundColor:"yellow"
-    marginBottom: RFValue(5)
-  },
-  cashCred: {
-    fontWeight: 'bold',
-    // backgroundColor:"yellow"
-    marginBottom: RFValue(5)
-  },
-  cashDeb: {
-    fontWeight: 'bold',
-    // backgroundColor:"yellow"
-    // marginBottom:RFValue(2)
-  },
   filter: {
     // backgroundColor:"pink",
     // borderTopWidth:RFValue(2),
-    marginTop: RFValue(20)
-  },
-  clientFilter: {
-    // backgroundColor:"yellow",
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: RFValue(15)
+    marginTop: RFValue(20),
+    paddingStart:10
   },
   filterTextInput: {
     borderWidth: RFValue(1.5),
@@ -690,46 +656,17 @@ const styles = StyleSheet.create({
     height: RFValue(30),
     width: RFValue(200),
   },
-  moneyFilter: {
-    // backgroundColor: "red",
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: RFValue(14),
-    marginLeft: RFValue(10)
-  },
-  moneyFilterButton: {
-    // backgroundColor: "yellow",
-    borderWidth: RFValue(2),
-    borderRadius: RFValue(4),
-    padding: RFValue(4),
-    marginLeft: RFValue(2)
-  },
-  moneyText: {
-    //  backgroundColor:"purple"
-    // fontWeight: 'bold'
-    padding: RFValue(2)
-  },
-
-  from: {
-    // backgroundColor: "blue",
-    marginBottom: RFValue(10),
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingStart: RFValue(10)
-  },
   textInput: {
     flexDirection: 'row',
     // backgroundColor: "#f1f",
     justifyContent: 'space-between',
     width: RFValue(180)
   },
-  fromTxt: {
-    fontSize: RFValue(16),
+  filterText: {
     fontWeight: 'bold',
-    paddingStart: RFValue(6),
-    paddingRight: RFValue(6),
+    fontSize: RFValue(14),
+    marginRight: RFValue(8)
   },
-
   textInputBirth: {
     borderWidth: RFValue(1.5),
     borderRadius: RFValue(4),
@@ -737,77 +674,19 @@ const styles = StyleSheet.create({
     height: RFValue(40),
     width: RFValue(50),
     backgroundColor: "white",
-    marginTop: RFValue(3),
+    // marginTop: RFValue(3),
+    // backgroundColor: "#f1f",
     // fontWeight:'bold',
     fontSize: RFValue(16),
     justifyContent: 'center',
     alignItems: 'center'
     // width: 10
   },
-  date: {
-    borderWidth: RFValue(1.5),
-    borderRadius: RFValue(4),
-    // fontWeight: 'bold',
-    fontSize: RFValue(13),
-    padding: RFValue(4)
-  },
-  OpenCloseFilterAndSearch: {
+  containerFilters: {
     // backgroundColor: "yellow",
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: RFValue(10)
-  },
-  OpenCloseFilter: {
-    // backgroundColor: "purple",
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: RFValue(200),
-    marginRight: RFValue(20),
-    marginLeft: RFValue(9),
-  },
-  OpenCloseFilterButon: {
-    // backgroundColor: "blue",
-    borderWidth: RFValue(2),
-    borderRadius: RFValue(4),
-    marginLeft: RFValue(10),
-    width: RFValue(50),
-    alignItems: 'center'
-  },
-  OpenCloseFilterSearch: {
-    // backgroundColor: "red",
-    // top: RFValue(10),
-    width: "100%",
-    height: RFValue(50),
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // paddingStart:RFValue(15)
-    // right: RFValue(30),
-    // bottom: RFValue(30),
-  },
-  OpenCloseFilterSearchButton: {
-    borderWidth: RFValue(3),
-    borderRadius: RFValue(8),
-    // borderColor: "green"
-    backgroundColor: "green",
-    // backgroundColor: "pink",
-    // padding: RFValue(6),
-    paddingHorizontal: RFValue(70),
-    // paddingVertical: RFValue(9),
-    height: RFValue(40),
-    marginTop: RFValue(5),
-    alignItems: 'center',
-    justifyContent: 'center'
-
-  },
-  OpenCloseFilterSearchText: {
-    fontWeight: 'bold',
-    fontSize: RFValue(20),
-    // marginRight: RFValue(2)
-  },
-  filterText: {
-    fontWeight: 'bold',
-    fontSize: RFValue(14)
+    marginBottom: RFValue(14)
   },
   // FOTTER----------------------------------------------------
   fotter: {
