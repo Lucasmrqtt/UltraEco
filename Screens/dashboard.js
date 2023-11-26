@@ -169,7 +169,6 @@ export default class Dashboard extends Component {
       Keyboard.dismiss();
     }
   };
-
   renderPlaceholder1 = () => {
     if (this.state.selectedPayment) {
       return this.state.selectedPayment;
@@ -298,7 +297,7 @@ export default class Dashboard extends Component {
 
 
               <View style={[styles.containerFilters, { zIndex: this.zIndex1(), right:4}]}>
-                <Text style={styles.filterText}> Filtro forma de pag </Text>
+                <Text style={styles.filterText}> Filtro pgmt </Text>
                 <View>
                   <DropDownPicker
                     items={[
@@ -426,7 +425,7 @@ export default class Dashboard extends Component {
                       alignItems: "center"
                     }}
                     onChangeText={this.handleSearchTextChange2}
-                    value={this.state.dayValue2}
+                    value={dayValue2}
                     keyboardType='numeric'
                     style={styles.textInputBirth}
                     maxLength={2}
@@ -441,7 +440,7 @@ export default class Dashboard extends Component {
                       alignItems: "center"
                     }}
                     onChangeText={this.handleSearchTextChange3}
-                    value={this.state.dayValue3}
+                    value={dayValue3}
                     keyboardType='numeric'
                     style={[styles.textInputBirth, { width: RFValue(60) }]}
                     maxLength={4}

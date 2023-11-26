@@ -36,19 +36,92 @@ export default class CashFlow extends Component {
     this.state = {
       speakerIcon: "chevron-back-outline",
       searchText: '',
+      dayValue1: '',
+      dayValue2: '',
+      dayValue3: '',
       valorAntigo: 0,
       dropDownHeight1: 40,
       dropDownHeight2: 40,
       payment: "",
       payment2: "",
-      date: new Date().getMonth() + 1
+      date: new Date().getMonth() + 1,
+      list: []
     };
   }
   componentDidMount() {
     // console.log(date)
     this.dateChange()
     // this.verification()
+    this.handleFilterList()
+  }
+  handleFilterList() {
+    const { searchText, payment, payment2, dayValue1, dayValue2, dayValue3 } = this.state;
 
+    let filteredList = cashFlow;
+
+    // Aplicar filtro de pesquisa por nome
+    if (searchText !== '') {
+      filteredList = filteredList.filter(
+        (item) => item.nome.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+      );
+    }
+
+    // Aplicar filtro de forma de pagamento
+    if (payment && payment !== 'Todos') {
+      filteredList = filteredList.filter(
+        (item) => item.formaDePagamento === payment
+      );
+    }
+
+    if (dayValue1 !== '') {
+      filteredList = filteredList.filter(
+        (item) => item.dia.toLowerCase().indexOf(dayValue1.toLowerCase()) > -1
+      );
+    }
+
+    if (dayValue2 !== '') {
+      filteredList = filteredList.filter(
+        (item) => item.mes.toLowerCase().indexOf(dayValue2.toLowerCase()) > -1
+      );
+    }
+
+    if (dayValue3 !== '') {
+      filteredList = filteredList.filter(
+        (item) => item.ano.toLowerCase().indexOf(dayValue3.toLowerCase()) > -1
+      );
+    }
+
+    // Aplicar filtro de valor
+    // Aplicar filtro de valor (receitas ou despesas)
+    if (payment2 && payment2 !== 'Todos') {
+      if (payment2 === 'Receita') {
+        // Mostrar apenas os itens com valor maior ou igual a 0 (receitas)
+        filteredList = filteredList.filter(
+          (item) => parseFloat(item.valor) >= 0
+        );
+      } else if (payment2 === 'Despesa') {
+        // Mostrar apenas os itens com valor menor que 0 (despesas)
+        filteredList = filteredList.filter(
+          (item) => parseFloat(item.valor) < 0
+        );
+      }
+    }
+
+    this.setState({ list: filteredList });
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.searchText !== this.state.searchText) {
+      this.handleFilterList();
+    }
+    if (prevState.dayValue1 !== this.state.dayValue1) {
+      this.handleFilterList();
+    }
+    if (prevState.dayValue2 !== this.state.dayValue2) {
+      this.handleFilterList();
+    }
+    if (prevState.dayValue3 !== this.state.dayValue3) {
+      this.handleFilterList();
+    }
   }
   renderPlaceholder1 = () => {
     if (this.state.payment) {
@@ -61,13 +134,13 @@ export default class CashFlow extends Component {
     if (this.state.payment2) {
       return this.state.payment2;
     } else {
-      return 'Receita/Despesa';
+      return 'Receita / Despesa';
     }
   };
   verification() {
     if (this.state.dropDownHeight2 == 170) {
       this.setState({ dropDownHeight2: 40 })
-      return 170 
+      return 170
     } else {
       return 170
     }
@@ -94,13 +167,57 @@ export default class CashFlow extends Component {
       }
     }
     // console.log(d)
-    this.setState({ date: d })
+    this.setState((prevState) => ({ date: meses[prevState.date] }))
   }
 
   handleSearchTextChange = text => {
     this.setState({ searchText: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
+  handleSearchTextChange1 = (text) => {
+    // Remover toLowerCase e usar parseInt
+    const parsedValue = parseInt(text, 10);
+
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 31) {
+      this.setState({ dayValue1: String(parsedValue) });
+    } else {
+      this.setState({ dayValue1: '' });
+    }
+
+    if (text.length >= 2 && parsedValue <= 31) {
+      this.textInputMonth.focus();
+    }
+  };
+
+  handleSearchTextChange2 = (text) => {
+    // Remover toLowerCase e usar parseInt
+    const parsedValue = parseInt(text, 10);
+
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 12) {
+      this.setState({ dayValue2: String(parsedValue) });
+    } else {
+      this.setState({ dayValue2: '' });
+    }
+
+    if (text.length >= 2 && parsedValue <= 12) {
+      this.textInputYear.focus();
+    }
+  };
+
+  handleSearchTextChange3 = (text) => {
+    // Remover toLowerCase e usar parseInt
+    const parsedValue = parseInt(text, 10);
+
+    if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 2100) {
+      this.setState({ dayValue3: String(parsedValue) });
+    } else {
+      this.setState({ dayValue3: '' });
+    }
+
+    if (text.length >= 4 && parsedValue <= 2100) {
+      Keyboard.dismiss();
+    }
+  };
 
   renderItem = ({ item }) => {
     // nome = item.nome
@@ -108,6 +225,7 @@ export default class CashFlow extends Component {
     //   nome = nome.nome.split('')
 
     // }
+    const novoValorAntigo = item.valorCx + this.state.valorAntigo;
     return (
       <View style={styles.fotterValues}>
         <View style={styles.containerFotterValues}>
@@ -131,15 +249,15 @@ export default class CashFlow extends Component {
           alignItems: 'center',
           // backgroundColor:"purple"
         }}>
-          <Text style={styles.fotterTextValue}>{item.valorCx + this.state.valorAntigo}</Text>
+          <Text style={styles.fotterTextValue}>{novoValorAntigo}</Text>
         </View>
       </View>
     )
-    this.setState({ valorAntigo: item.valorCx })
+    // this.setState({ valorAntigo: item.valorCx })
   }
 
   render() {
-    const { speakerIcon, searchText, dropDownHeight1, dropDownHeight2, payment } = this.state;
+    const { speakerIcon, searchText, dayValue1, dayValue2, dayValue3, dropDownHeight1, dropDownHeight2, payment } = this.state;
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
@@ -192,11 +310,12 @@ export default class CashFlow extends Component {
               <Text style={styles.textMonth}>{this.state.date}</Text>
             </View>
             <View style={styles.filter}>
-              <View style={[styles.moneyFilter, { zIndex: this.zIndex1() }]}>
+              <View style={[styles.containerFilters, { zIndex: this.zIndex1() }]}>
                 <Text style={styles.filterText}> Filtro Pgmt </Text>
                 <View style={styles.textInputName}>
                   <DropDownPicker
                     items={[
+                      { label: "Todos", value: "Todos" },
                       { label: "Dinheiro", value: "Dinheiro" },
                       { label: "Pix", value: "Pix" },
                       { label: "Débito", value: "Débito" },
@@ -209,7 +328,7 @@ export default class CashFlow extends Component {
                     }}
                     defaultValue={this.state.payment}
                     open={dropDownHeight1 == 170}
-                    onOpen={() => this.setState({ dropDownHeight1: this.verification()})}
+                    onOpen={() => this.setState({ dropDownHeight1: this.verification() })}
                     onClose={() => this.setState({ dropDownHeight1: 40 })}
                     style={{
                       backgroundColor: "white",
@@ -224,7 +343,15 @@ export default class CashFlow extends Component {
                       // backgroundColor: "red",
                     }}
                     onSelectItem={(item) => {
-                      this.setState({ payment: item.value })
+                      if (item.value === "Todos") {
+                        this.setState({ payment: null }, () => {
+                          this.handleFilterList();
+                        });
+                      } else {
+                        this.setState({ payment: item.value }, () => {
+                          this.handleFilterList();
+                        });
+                      }
                     }}
                     dropDownContainerStyle={{
                       // backgroundColor: "pink",
@@ -235,11 +362,12 @@ export default class CashFlow extends Component {
                 </View>
               </View>
 
-              <View style={[styles.moneyFilter, { zIndex: this.zIndex2() }]}>
+              <View style={[styles.containerFilters, { zIndex: this.zIndex2() }]}>
                 <Text style={styles.filterText}> Filtro Pgmt </Text>
                 <View style={styles.textInputName}>
                   <DropDownPicker
                     items={[
+                      { label: "Todos", value: "Todos" },
                       { label: "Receita", value: "Receita" },
                       { label: "Despesa", value: "Despesa" },
                     ]}
@@ -264,7 +392,15 @@ export default class CashFlow extends Component {
                       // backgroundColor: "red",
                     }}
                     onSelectItem={(item) => {
-                      this.setState({ payment2: item.value })
+                      if (item.value === "Todos") {
+                        this.setState({ payment2: null }, () => {
+                          this.handleFilterList();
+                        });
+                      } else {
+                        this.setState({ payment2: item.value }, () => {
+                          this.handleFilterList();
+                        });
+                      }
                     }}
                     dropDownContainerStyle={{
                       // backgroundColor: "pink",
@@ -276,7 +412,7 @@ export default class CashFlow extends Component {
                 </View>
               </View>
 
-              <View style={styles.clientFilter}>
+              <View style={styles.containerFilters}>
                 <Text style={styles.filterText}> Filtro Descrição</Text>
                 <View style={styles.textInputName}>
                   <TextInput
@@ -284,6 +420,54 @@ export default class CashFlow extends Component {
                     onChangeText={this.handleSearchTextChange}
                     value={searchText}
                     style={styles.filterTextInput}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.containerFilters}>
+                <Text style={styles.filterText}>Filtro Data</Text>
+                <View style={styles.textInput}>
+                  <TextInput
+                    placeholder="Dia"
+                    placeholderStyle={{
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                    onChangeText={this.handleSearchTextChange1}
+                    value={dayValue1}
+                    keyboardType='numeric'
+                    style={styles.textInputBirth}
+                    maxLength={2}
+                    ref={(input) => (this.textInputBirth = input)}
+                  />
+                  <TextInput
+                    placeholder="Mês"
+                    placeholderStyle={{
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                    onChangeText={this.handleSearchTextChange2}
+                    value={dayValue2}
+                    keyboardType='numeric'
+                    style={styles.textInputBirth}
+                    maxLength={2}
+                    ref={(input) => (this.textInputMonth = input)}
+
+                  />
+
+                  <TextInput
+                    placeholder="Ano"
+                    placeholderStyle={{
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                    onChangeText={this.handleSearchTextChange3}
+                    value={dayValue3}
+                    keyboardType='numeric'
+                    style={[styles.textInputBirth, { width: RFValue(60) }]}
+                    maxLength={4}
+                    ref={(input) => (this.textInputYear = input)}
+
                   />
                 </View>
               </View>
@@ -319,7 +503,7 @@ export default class CashFlow extends Component {
               </View>
               <View style={styles.fotterValuesContainer}>
                 <FlatList
-                  data={cashFlow}
+                  data={this.state.list}
                   renderItem={this.renderItem}
                   keyExtractor={(item, index) => index.toString()}
                 />
@@ -436,12 +620,6 @@ const styles = StyleSheet.create({
     // borderTopWidth:RFValue(2),
     marginTop: RFValue(20)
   },
-  clientFilter: {
-    // backgroundColor:"yellow",
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: RFValue(15)
-  },
   filterTextInput: {
     borderWidth: RFValue(1.5),
     borderRadius: RFValue(4),
@@ -452,29 +630,38 @@ const styles = StyleSheet.create({
     width: RFValue(150)
     // alignItems:'center'
   },
-  moneyFilter: {
-    // backgroundColor: "red",
+  textInput: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: RFValue(14),
-    // marginLeft: RFValue(10)
+    // backgroundColor: "#f1f",
+    justifyContent: 'space-between',
+    width: RFValue(180),
+    left:RFValue(3)
   },
-  moneyFilterButton: {
-    // backgroundColor: "yellow",
-    borderWidth: RFValue(2),
+  textInputBirth: {
+    borderWidth: RFValue(1.5),
     borderRadius: RFValue(4),
-    padding: RFValue(4),
-    marginLeft: RFValue(2)
-  },
-  moneyText: {
-    //  backgroundColor:"purple",
-    // fontWeight: 'bold'
-    padding: RFValue(2)
+    paddingLeft: RFValue(10),
+    height: RFValue(40),
+    width: RFValue(50),
+    backgroundColor: "white",
+    // marginTop: RFValue(3),
+    // backgroundColor: "#f1f",
+    // fontWeight:'bold',
+    fontSize: RFValue(16),
+    justifyContent: 'center',
+    alignItems: 'center'
+    // width: 10
   },
   filterText: {
     fontWeight: 'bold',
     fontSize: RFValue(14),
     marginLeft: RFValue(10)
+  },
+  containerFilters: {
+    // backgroundColor: "yellow",
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: RFValue(14)
   },
   fotter: {
     flex: 0.4,
