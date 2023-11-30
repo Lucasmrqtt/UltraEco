@@ -249,8 +249,8 @@ export default class Dashboard extends Component {
   cashValue = () => {
     const { list } = this.state;
     const totalRevenue = list.reduce((sum, item) => sum + item.total, 0)
-    .toFixed(2)
-    .replace('.', ',')
+      .toFixed(2)
+      .replace('.', ',')
     return totalRevenue;
   };
   invoicing = () => {
@@ -269,33 +269,33 @@ export default class Dashboard extends Component {
       .reduce((sum, item) => sum + item.total, 0)
       .toFixed(2)
       .replace('.', ',');
-  
+
     return pixTotal;
   }
   din = () => {
     const { list } = this.state;
     const dinTotal = list
-      .filter(item => item.formaDePagamento.toLowerCase() === 'Dinheiro')
+      .filter(item => item.formaDePagamento.toLowerCase() === 'dinheiro')
       .reduce((sum, item) => sum + item.total, 0)
       .toFixed(2)
       .replace('.', ',');
-  
+
     return dinTotal;
   }
   cred = () => {
     const { list } = this.state;
     const credTotal = list
-      .filter(item => item.formaDePagamento.toLowerCase() === 'Crédito')
+      .filter(item => item.formaDePagamento.toLowerCase() === 'crédito')
       .reduce((sum, item) => sum + item.total, 0)
       .toFixed(2)
       .replace('.', ',');
-  
+
     return credTotal;
   }
   deb = () => {
     const { list } = this.state;
     const debTotal = list
-      .filter(item => item.formaDePagamento.toLowerCase() === 'Débito')
+      .filter(item => item.formaDePagamento.toLowerCase() === 'débito')
       .reduce((sum, item) => sum + item.total, 0)
       .toFixed(2)
       .replace('.', ',');
@@ -304,43 +304,44 @@ export default class Dashboard extends Component {
   pixV = () => {
     const { list } = this.state;
     const pixTotal = list
-      .filter(item => item.formaDePagamento.toLowerCase() === 'pix' || item.formaDePagamento > 0)
+      .filter(item => item.formaDePagamento.toLowerCase() === "pix" && item.total > 0)
       .reduce((sum, item) => sum + item.total, 0)
       .toFixed(2)
       .replace('.', ',');
-  
+
     return pixTotal;
   }
   dinV = () => {
     const { list } = this.state;
     const dinTotal = list
-      .filter(item => item.formaDePagamento.toLowerCase() === 'Dinheiro' || item.formaDePagamento > 0)
+      .filter(item => item.formaDePagamento.toLowerCase() === "dinheiro" && item.total > 0)
       .reduce((sum, item) => sum + item.total, 0)
       .toFixed(2)
       .replace('.', ',');
-  
+
     return dinTotal;
   }
   credV = () => {
     const { list } = this.state;
     const credTotal = list
-      .filter(item => item.formaDePagamento.toLowerCase() === 'Crédito' || item.formaDePagamento > 0)
+      .filter(item => item.formaDePagamento.toLowerCase() === 'crédito' && item.total > 0)
       .reduce((sum, item) => sum + item.total, 0)
       .toFixed(2)
       .replace('.', ',');
-  
+
     return credTotal;
   }
+
   debV = () => {
     const { list } = this.state;
     const debTotal = list
-      .filter(item => item.formaDePagamento.toLowerCase() === 'Débito' || item.formaDePagamento > 0)
+      .filter(item => item.formaDePagamento.toLowerCase() === "débito" && item.total > 0)
       .reduce((sum, item) => sum + item.total, 0)
       .toFixed(2)
       .replace('.', ',');
     return debTotal;
   }
-  
+
   render() {
     const { searchText, dayValue1, dayValue2, dayValue3 } = this.state;
     // const totalRevenue = this.calculateTotalRevenue();
@@ -368,10 +369,19 @@ export default class Dashboard extends Component {
                 <Text style={styles.invoicingText}> Faturamento </Text>
                 <Text style={styles.invoicingPrice}> R$ {this.invoicing()} </Text>
                 <View style={styles.invoicingMoney}>
-                  <Text style={styles.paymentTxt}> Pix: R$ {this.pix()}</Text>
-                  <Text style={styles.paymentTxt}> Din: R$ {this.din()}</Text>
-                  <Text style={styles.paymentTxt}> Créd: R$ {this.cred()}</Text>
-                  <Text style={styles.paymentTxt}> Déb: R$ {this.deb()}</Text>
+                  <Text style={styles.paymentTxt}>
+                    Pix: <Text style={{ fontWeight: 'normal' }}>R${this.pixV()}</Text>
+                  </Text>
+                  <Text style={styles.paymentTxt}>
+                    Din: <Text style={{ fontWeight: 'normal' }}>R${this.dinV()}</Text>
+                  </Text>
+                  <Text style={styles.paymentTxt}>
+                    Créd: <Text style={{ fontWeight: 'normal' }}>R${this.credV()}</Text>
+                  </Text>
+                  <Text style={styles.paymentTxt}>
+                    Déb: <Text style={{ fontWeight: 'normal' }}>R${this.debV()}</Text>
+                  </Text>
+
                 </View>
               </View>
 
@@ -379,10 +389,18 @@ export default class Dashboard extends Component {
                 <Text style={styles.cashText}> Valor em caixa </Text>
                 <Text style={styles.cashPrice}> R$ {this.cashValue()} </Text>
                 <View style={styles.cashMoney}>
-                  <Text style={styles.paymentTxt}> Pix: R$ {this.pixV()}</Text>
-                  <Text style={styles.paymentTxt}> Din: R$ {this.dinV()}</Text>
-                  <Text style={styles.paymentTxt}> Créd: R$ {this.credV()}</Text>
-                  <Text style={styles.paymentTxt}> Déb: R$ {this.debV()}</Text>
+                  <Text style={styles.paymentTxt}>
+                    Pix: <Text style={{ fontWeight: 'normal' }}>R${this.pix()}</Text>
+                  </Text>
+                  <Text style={styles.paymentTxt}>
+                    Din: <Text style={{ fontWeight: 'normal' }}>R${this.din()}</Text>
+                  </Text>
+                  <Text style={styles.paymentTxt}>
+                    Créd: <Text style={{ fontWeight: 'normal' }}>R${this.cred()}</Text>
+                  </Text>
+                  <Text style={styles.paymentTxt}>
+                    Déb: <Text style={{ fontWeight: 'normal' }}>R${this.deb()}</Text>
+                  </Text>
                 </View>
               </View>
             </View>
@@ -391,7 +409,7 @@ export default class Dashboard extends Component {
 
 
 
-              <View style={[styles.containerFilters, { zIndex: this.zIndex1(), right:4}]}>
+              <View style={[styles.containerFilters, { zIndex: this.zIndex1(), right: 4 }]}>
                 <Text style={styles.filterText}> Filtro pgmt </Text>
                 <View>
                   <DropDownPicker
@@ -443,58 +461,58 @@ export default class Dashboard extends Component {
               </View>
 
               <View style={[styles.containerFilters, { zIndex: this.zIndex2(), }]}>
-                  <Text style={styles.filterText}>Filtro pago</Text>
-                  <View>
-                    <DropDownPicker
-                      items={[
-                        { label: "Todos", value: "Todos" },
-                        { label: "Pago", value: "Pago" },
-                        { label: "Não Pago", value: "Não pago" },
-                      ]}
-                      placeholder={this.renderPlaceholder2()}
-                      defaultValue={this.state.selectedStatus}
-                      open={this.state.dropDownHeight2 == 170}
-                      onOpen={() => this.setState({ dropDownHeight2: 170 })}
-                      onClose={() => this.setState({ dropDownHeight2: 40 })}
-                      style={{
-                        // backgroundColor: "green",
-                        borderWidth: RFValue(2),
-                        borderColor: "black",
-                        width: RFValue(160),
-                        // marginRight:RFValue()
-                        // height:RFValue(50)
-                      }}
-                      placeholderStyle={{
-                        alignSelf: 'center',
-                        textAlign: 'center',
-                      }}
-                      textStyle={{
-                        color: "black",
-                        fontWeight: 'bold'
-                        // backgroundColor: "red",
-                      }}
-                      onSelectItem={(item) => {
-                        if (item.value === "Todos") {
-                          this.setState({ selectedStatus: null }, () => {
-                            this.handleFilterList();
-                          });
-                        } else {
-                          this.setState({ selectedStatus: item.value }, () => {
-                            this.handleFilterList();
-                          });
-                        }
-                      }}
-                      dropDownContainerStyle={{
-                        backgroundColor: "white",
-                        width: RFValue(160),
-                        // alignItems:'center'
-                        // padding:RFValue(1)
-                        // height: RFValue(70)
+                <Text style={styles.filterText}>Filtro pago</Text>
+                <View>
+                  <DropDownPicker
+                    items={[
+                      { label: "Todos", value: "Todos" },
+                      { label: "Pago", value: "Pago" },
+                      { label: "Não Pago", value: "Não pago" },
+                    ]}
+                    placeholder={this.renderPlaceholder2()}
+                    defaultValue={this.state.selectedStatus}
+                    open={this.state.dropDownHeight2 == 170}
+                    onOpen={() => this.setState({ dropDownHeight2: 170 })}
+                    onClose={() => this.setState({ dropDownHeight2: 40 })}
+                    style={{
+                      // backgroundColor: "green",
+                      borderWidth: RFValue(2),
+                      borderColor: "black",
+                      width: RFValue(160),
+                      // marginRight:RFValue()
+                      // height:RFValue(50)
+                    }}
+                    placeholderStyle={{
+                      alignSelf: 'center',
+                      textAlign: 'center',
+                    }}
+                    textStyle={{
+                      color: "black",
+                      fontWeight: 'bold'
+                      // backgroundColor: "red",
+                    }}
+                    onSelectItem={(item) => {
+                      if (item.value === "Todos") {
+                        this.setState({ selectedStatus: null }, () => {
+                          this.handleFilterList();
+                        });
+                      } else {
+                        this.setState({ selectedStatus: item.value }, () => {
+                          this.handleFilterList();
+                        });
+                      }
+                    }}
+                    dropDownContainerStyle={{
+                      backgroundColor: "white",
+                      width: RFValue(160),
+                      // alignItems:'center'
+                      // padding:RFValue(1)
+                      // height: RFValue(70)
 
-                      }}
-                    />
-                  </View>
-                
+                    }}
+                  />
+                </View>
+
               </View>
 
               <View style={styles.containerFilters}>
@@ -740,7 +758,7 @@ const styles = StyleSheet.create({
     // backgroundColor:"pink",
     // borderTopWidth:RFValue(2),
     marginTop: RFValue(20),
-    paddingStart:10
+    paddingStart: 10
   },
   filterTextInput: {
     borderWidth: RFValue(1.5),
