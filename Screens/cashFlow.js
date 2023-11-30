@@ -47,6 +47,9 @@ export default class CashFlow extends Component {
       date: new Date().getMonth() + 1,
       list: []
     };
+    this.textInputBirth = ""
+    this.textInputMonth = ""
+    this.textInputYear = ""
   }
   componentDidMount() {
     // console.log(date)
@@ -66,33 +69,26 @@ export default class CashFlow extends Component {
       );
     }
 
-    // Aplicar filtro de forma de pagamento
-    if (payment && payment !== 'Todos') {
-      filteredList = filteredList.filter(
-        (item) => item.formaDePagamento === payment
-      );
-    }
+    
 
     if (dayValue1 !== '') {
       filteredList = filteredList.filter(
-        (item) => item.dia.toLowerCase().indexOf(dayValue1.toLowerCase()) > -1
+        (item) => item.dia.indexOf(dayValue1.toLowerCase()) > -1
       );
     }
 
     if (dayValue2 !== '') {
       filteredList = filteredList.filter(
-        (item) => item.mes.toLowerCase().indexOf(dayValue2.toLowerCase()) > -1
+        (item) => item.mes.indexOf(dayValue2.toLowerCase()) > -1
       );
     }
 
     if (dayValue3 !== '') {
       filteredList = filteredList.filter(
-        (item) => item.ano.toLowerCase().indexOf(dayValue3.toLowerCase()) > -1
+        (item) => item.ano.indexOf(dayValue3.toLowerCase()) > -1
       );
     }
 
-    // Aplicar filtro de valor
-    // Aplicar filtro de valor (receitas ou despesas)
     if (payment2 && payment2 !== 'Todos') {
       if (payment2 === 'Receita') {
         // Mostrar apenas os itens com valor maior ou igual a 0 (receitas)
@@ -106,6 +102,16 @@ export default class CashFlow extends Component {
         );
       }
     }
+    // Aplicar filtro de forma de pagamento
+    if (payment && payment !== 'Todos') {
+      filteredList = filteredList.filter(
+        (item) => item.formaDePagamento === payment
+      );
+    }
+
+    // Aplicar filtro de valor
+    // Aplicar filtro de valor (receitas ou despesas)
+    
 
     this.setState({ list: filteredList });
   }
@@ -253,7 +259,7 @@ export default class CashFlow extends Component {
           <Text style={styles.fotterTextValue}>{item.nome}</Text>
         </View>
         <View style={styles.containerFotterValues}>
-          <Text style={styles.fotterTextValue}>{item.data}</Text>
+          <Text style={styles.fotterTextValue}>{item.dia}-{item.mes}-{item.ano}</Text>
         </View>
         <View style={styles.containerFotterValues}>
           <Text style={styles.fotterTextValue}>{item.formaDePagamento}</Text>
@@ -428,12 +434,13 @@ export default class CashFlow extends Component {
 
               <View style={styles.containerFilters}>
                 <Text style={styles.filterText}> Filtro Descrição</Text>
-                <View style={styles.textInputName}>
-                  <TextInput
+                <View>
+                <TextInput
                     placeholder="Buscar"
                     onChangeText={this.handleSearchTextChange}
                     value={searchText}
                     style={styles.filterTextInput}
+                    maxLength={40}
                   />
                 </View>
               </View>

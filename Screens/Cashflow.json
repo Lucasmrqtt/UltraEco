@@ -2,21 +2,27 @@
   {
     "valor": -200,
     "nome": "Concerto de carro",
-    "data": "11-05-2023",
+    "dia": "10",
+    "mes": "04",
+    "ano": "2023",
     "formaDePagamento": "Dinheiro",
     "valorCx": -95
   },
   {
     "valor": -30,
     "nome": "Produto",
-    "data": "11-04-2023",
+    "dia": "10",
+    "mes": "04",
+    "ano": "2023",
     "formaDePagamento": "Crédito",
     "valorCx": 105
   },
   {
     "valor": 135,
     "nome": "Lucas Marquetti",
-    "data": "10-04-2023",
+    "dia": "10",
+    "mes": "04",
+    "ano": "2023",
     "formaDePagamento": "Dinheiro",
     "valorCx": 135
   }

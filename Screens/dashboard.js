@@ -15,6 +15,7 @@ import {
 import { RFValue } from 'react-native-responsive-fontsize';
 import DropDownPicker from 'react-native-dropdown-picker';
 
+
 var clients = require("./Dashboard.json")
 var meses = {
   "1": "Janeiro", //31
@@ -55,6 +56,15 @@ export default class Dashboard extends Component {
     // console.log(date)
     this.dateChange()
     this.handleFilterList()
+    this.pix()
+    this.din()
+    this.deb()
+    this.cred()
+    this.pixV()
+    this.dinV()
+    this.debV()
+    this.credV()
+    // this.handleKeyDown()
   }
   handleFilterList() {
     const { searchText, selectedPayment, selectedStatus, dayValue1, dayValue2, dayValue3 } = this.state;
@@ -70,19 +80,19 @@ export default class Dashboard extends Component {
 
     if (dayValue1 !== '') {
       filteredList = filteredList.filter(
-        (item) => item.dia.toLowerCase().indexOf(dayValue1.toLowerCase()) > -1
+        (item) => item.dia.indexOf(dayValue1.toLowerCase()) > -1
       );
     }
 
     if (dayValue2 !== '') {
       filteredList = filteredList.filter(
-        (item) => item.mes.toLowerCase().indexOf(dayValue2.toLowerCase()) > -1
+        (item) => item.mes.indexOf(dayValue2.toLowerCase()) > -1
       );
     }
 
     if (dayValue3 !== '') {
       filteredList = filteredList.filter(
-        (item) => item.ano.toLowerCase().indexOf(dayValue3.toLowerCase()) > -1
+        (item) => item.ano.indexOf(dayValue3.toLowerCase()) > -1
       );
     }
 
@@ -135,10 +145,14 @@ export default class Dashboard extends Component {
     } else {
       this.setState({ dayValue1: '' });
     }
-
+    if (text == "" && nativeEvent.keyCode === 8) {
+      Keyboard.dismiss();
+    }
     if (text.length >= 2 && parsedValue <= 31) {
       this.textInputMonth.focus();
     }
+
+    
   };
   handleSearchTextChange2 = (text) => {
     // Remover toLowerCase e usar parseInt
@@ -149,7 +163,9 @@ export default class Dashboard extends Component {
     } else {
       this.setState({ dayValue2: '' });
     }
-
+    if (text == "" && nativeEvent.keyCode === "Backspace") {
+      this.textInputBirth.focus();
+    }
     if (text.length >= 2 && parsedValue <= 12) {
       this.textInputYear.focus();
     }
@@ -163,7 +179,9 @@ export default class Dashboard extends Component {
     } else {
       this.setState({ dayValue3: '' });
     }
-
+    if (text == "" && nativeEvent.keyCode === 8) {
+      this.textInputMonth.focus();
+    }
     if (text.length >= 4 && parsedValue <= 2100) {
       Keyboard.dismiss();
     }
@@ -204,6 +222,7 @@ export default class Dashboard extends Component {
       return 0
     }
   }
+
   renderItem = ({ item }) => {
     item.total = item.valor - item.desconto
     return (
@@ -241,10 +260,6 @@ export default class Dashboard extends Component {
         </View>
       </View>
     )
-  }
-  handleSearchTextChange = text => {
-    this.setState({ searchText: text });
-    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
   cashValue = () => {
     const { list } = this.state;
@@ -331,7 +346,6 @@ export default class Dashboard extends Component {
 
     return credTotal;
   }
-
   debV = () => {
     const { list } = this.state;
     const debTotal = list
@@ -530,6 +544,7 @@ export default class Dashboard extends Component {
                     style={styles.textInputBirth}
                     maxLength={2}
                     ref={(input) => (this.textInputBirth = input)}
+
                   />
                   <TextInput
                     placeholder="Mês"
