@@ -9,7 +9,7 @@
       "servico": "Lavagem",
       "valor": 70.00,
       "desconto": 5,
-      "total": 135 ,
+      "total": 0 ,
       "formaDePagamento": "Dinheiro",
       "status": "Não pago"
     },
@@ -23,7 +23,21 @@
       "servico": "Polimento",
       "valor": 150.00,
       "desconto": 10,
-      "total": 135 ,
+      "total": 0 ,
+      "formaDePagamento": "Crédito",
+      "status": "Pago"
+    },
+    {
+      "codigo": 1,
+      "dia": "10",
+      "mes": "04",
+      "ano": "2023",
+      "nome": "Lucas Marquetti",
+      "profissional": "Leonardo",
+      "servico": "Polimento",
+      "valor": -150.00,
+      "desconto": 0,
+      "total": 0 ,
       "formaDePagamento": "Crédito",
       "status": "Pago"
 

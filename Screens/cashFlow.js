@@ -169,7 +169,6 @@ export default class CashFlow extends Component {
     // console.log(d)
     this.setState((prevState) => ({ date: meses[prevState.date] }))
   }
-
   handleSearchTextChange = text => {
     this.setState({ searchText: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
@@ -188,7 +187,6 @@ export default class CashFlow extends Component {
       this.textInputMonth.focus();
     }
   };
-
   handleSearchTextChange2 = (text) => {
     // Remover toLowerCase e usar parseInt
     const parsedValue = parseInt(text, 10);
@@ -203,7 +201,6 @@ export default class CashFlow extends Component {
       this.textInputYear.focus();
     }
   };
-
   handleSearchTextChange3 = (text) => {
     // Remover toLowerCase e usar parseInt
     const parsedValue = parseInt(text, 10);
@@ -218,7 +215,24 @@ export default class CashFlow extends Component {
       Keyboard.dismiss();
     }
   };
-
+  revenue = () => {
+    const { list } = this.state;
+    const totalRevenue = list
+      .filter(item => item.valor > 0)
+      .reduce((sum, item) => sum + item.valor, 0)
+      .toFixed(2)
+      .replace('.', ',')
+    return totalRevenue;
+  };
+  expense = () => {
+    const { list } = this.state;
+    const totalRevenue = list
+      .filter(item => item.valor < 0)
+      .reduce((sum, item) => sum + item.valor, 0)
+      .toFixed(2)
+      .replace('.', ',')
+    return totalRevenue;
+  };
   renderItem = ({ item }) => {
     // nome = item.nome
     // if (nome.lenght > 15) {
@@ -282,7 +296,7 @@ export default class CashFlow extends Component {
 
             <View style={styles.revenuesAndExpenses}>
               <View style={styles.revenuesContainer}>
-                <Text style={styles.revenuesAndExpensesPrice}>R$***** </Text>
+                <Text style={styles.revenuesAndExpensesPrice}>R${this.revenue()} </Text>
                 <View style={styles.addRevenues}>
                   <TouchableOpacity
                     style={styles.addRevenuesButton}
@@ -294,7 +308,7 @@ export default class CashFlow extends Component {
               </View>
 
               <View style={styles.expensesContainer}>
-                <Text style={styles.revenuesAndExpensesPrice}> R$ ******** </Text>
+                <Text style={styles.revenuesAndExpensesPrice}> R$ {this.expense()} </Text>
                 <View style={styles.addExpense}>
                   <TouchableOpacity
                     style={styles.addExpenseButton}

@@ -43,7 +43,8 @@ export default class Dashboard extends Component {
       selectedPayment: null,
       selectedStatus: null,
       date: new Date().getMonth() + 1,
-      list: []
+      list: [],
+      cashValue: ""
     };
     this.textInputBirth = ""
     this.textInputMonth = ""
@@ -139,7 +140,6 @@ export default class Dashboard extends Component {
       this.textInputMonth.focus();
     }
   };
-
   handleSearchTextChange2 = (text) => {
     // Remover toLowerCase e usar parseInt
     const parsedValue = parseInt(text, 10);
@@ -154,7 +154,6 @@ export default class Dashboard extends Component {
       this.textInputYear.focus();
     }
   };
-
   handleSearchTextChange3 = (text) => {
     // Remover toLowerCase e usar parseInt
     const parsedValue = parseInt(text, 10);
@@ -206,6 +205,7 @@ export default class Dashboard extends Component {
     }
   }
   renderItem = ({ item }) => {
+    item.total = item.valor - item.desconto
     return (
       <View style={styles.fotterValues}>
         <View style={styles.containerFotterValues}>
@@ -234,7 +234,7 @@ export default class Dashboard extends Component {
           <Text style={styles.fotterTextValue}>R${item.desconto}</Text>
         </View>
         <View style={styles.containerFotterValues}>
-          <Text style={styles.fotterTextValue}>R${item.valor - item.desconto} {item.formaDePagamento}</Text>
+          <Text style={styles.fotterTextValue}>R${item.total} {item.formaDePagamento}</Text>
         </View>
         <View style={styles.containerFotterValues}>
           <Text style={styles.fotterTextValue}>{item.status}</Text>
@@ -246,9 +246,104 @@ export default class Dashboard extends Component {
     this.setState({ searchText: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-
+  cashValue = () => {
+    const { list } = this.state;
+    const totalRevenue = list.reduce((sum, item) => sum + item.total, 0)
+    .toFixed(2)
+    .replace('.', ',')
+    return totalRevenue;
+  };
+  invoicing = () => {
+    const { list } = this.state;
+    const totalRevenue = list
+      .filter(item => item.total > 0)
+      .reduce((sum, item) => sum + item.total, 0)
+      .toFixed(2)
+      .replace('.', ',')
+    return totalRevenue;
+  };
+  pix = () => {
+    const { list } = this.state;
+    const pixTotal = list
+      .filter(item => item.formaDePagamento.toLowerCase() === 'pix')
+      .reduce((sum, item) => sum + item.total, 0)
+      .toFixed(2)
+      .replace('.', ',');
+  
+    return pixTotal;
+  }
+  din = () => {
+    const { list } = this.state;
+    const dinTotal = list
+      .filter(item => item.formaDePagamento.toLowerCase() === 'Dinheiro')
+      .reduce((sum, item) => sum + item.total, 0)
+      .toFixed(2)
+      .replace('.', ',');
+  
+    return dinTotal;
+  }
+  cred = () => {
+    const { list } = this.state;
+    const credTotal = list
+      .filter(item => item.formaDePagamento.toLowerCase() === 'Crédito')
+      .reduce((sum, item) => sum + item.total, 0)
+      .toFixed(2)
+      .replace('.', ',');
+  
+    return credTotal;
+  }
+  deb = () => {
+    const { list } = this.state;
+    const debTotal = list
+      .filter(item => item.formaDePagamento.toLowerCase() === 'Débito')
+      .reduce((sum, item) => sum + item.total, 0)
+      .toFixed(2)
+      .replace('.', ',');
+    return debTotal;
+  }
+  pixV = () => {
+    const { list } = this.state;
+    const pixTotal = list
+      .filter(item => item.formaDePagamento.toLowerCase() === 'pix' || item.formaDePagamento > 0)
+      .reduce((sum, item) => sum + item.total, 0)
+      .toFixed(2)
+      .replace('.', ',');
+  
+    return pixTotal;
+  }
+  dinV = () => {
+    const { list } = this.state;
+    const dinTotal = list
+      .filter(item => item.formaDePagamento.toLowerCase() === 'Dinheiro' || item.formaDePagamento > 0)
+      .reduce((sum, item) => sum + item.total, 0)
+      .toFixed(2)
+      .replace('.', ',');
+  
+    return dinTotal;
+  }
+  credV = () => {
+    const { list } = this.state;
+    const credTotal = list
+      .filter(item => item.formaDePagamento.toLowerCase() === 'Crédito' || item.formaDePagamento > 0)
+      .reduce((sum, item) => sum + item.total, 0)
+      .toFixed(2)
+      .replace('.', ',');
+  
+    return credTotal;
+  }
+  debV = () => {
+    const { list } = this.state;
+    const debTotal = list
+      .filter(item => item.formaDePagamento.toLowerCase() === 'Débito' || item.formaDePagamento > 0)
+      .reduce((sum, item) => sum + item.total, 0)
+      .toFixed(2)
+      .replace('.', ',');
+    return debTotal;
+  }
+  
   render() {
     const { searchText, dayValue1, dayValue2, dayValue3 } = this.state;
+    // const totalRevenue = this.calculateTotalRevenue();
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
@@ -271,23 +366,23 @@ export default class Dashboard extends Component {
             <View style={styles.invoicingAndCash}>
               <View style={styles.invoicingContainer}>
                 <Text style={styles.invoicingText}> Faturamento </Text>
-                <Text style={styles.invoicingPrice}> R$ ******** </Text>
+                <Text style={styles.invoicingPrice}> R$ {this.invoicing()} </Text>
                 <View style={styles.invoicingMoney}>
-                  <Text style={styles.paymentTxt}> Pix: </Text>
-                  <Text style={styles.paymentTxt}> Din: </Text>
-                  <Text style={styles.paymentTxt}> Créd: </Text>
-                  <Text style={styles.paymentTxt}> Déb: </Text>
+                  <Text style={styles.paymentTxt}> Pix: R$ {this.pix()}</Text>
+                  <Text style={styles.paymentTxt}> Din: R$ {this.din()}</Text>
+                  <Text style={styles.paymentTxt}> Créd: R$ {this.cred()}</Text>
+                  <Text style={styles.paymentTxt}> Déb: R$ {this.deb()}</Text>
                 </View>
               </View>
 
               <View style={styles.cashContainer}>
                 <Text style={styles.cashText}> Valor em caixa </Text>
-                <Text style={styles.cashPrice}> R$ ******** </Text>
+                <Text style={styles.cashPrice}> R$ {this.cashValue()} </Text>
                 <View style={styles.cashMoney}>
-                  <Text style={styles.paymentTxt}> Pix: </Text>
-                  <Text style={styles.paymentTxt}> Din: </Text>
-                  <Text style={styles.paymentTxt}> Créd: </Text>
-                  <Text style={styles.paymentTxt}> Déb: </Text>
+                  <Text style={styles.paymentTxt}> Pix: R$ {this.pixV()}</Text>
+                  <Text style={styles.paymentTxt}> Din: R$ {this.dinV()}</Text>
+                  <Text style={styles.paymentTxt}> Créd: R$ {this.credV()}</Text>
+                  <Text style={styles.paymentTxt}> Déb: R$ {this.debV()}</Text>
                 </View>
               </View>
             </View>
