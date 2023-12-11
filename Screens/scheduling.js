@@ -20,7 +20,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar, Calendar, CalendarList } from 'react-native-calendars';
+import { CalendarProvider, Calendar, } from 'react-native-calendars';
 
 var date = new Date()
 var meses = {
@@ -52,7 +52,7 @@ export default class Scheduling extends Component {
       date: new Date().getDay(),
       hour: "",
       duration: "30min",
-      dropDownHeight: 40 ,
+      dropDownHeight: 40,
       employeeModal: "",
       discount: "R$0,00",
       description: "",
@@ -187,30 +187,25 @@ export default class Scheduling extends Component {
           visible={this.state.calendarModal}
           transparent={true}
           onRequestClose={this.calendarModalFalse}
-          // animationType="slide"
           onPress={this.calendarModalTrue}
           animationType="fade"
-
         >
-          <CalendarProvider>
-            <Calendar
-              style={{
-                borderRadius: RFValue(10),
-                elevation: 4,
-                marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
-              }}
-              value={this.state.date}
-              monthFormat={'dd-MM-yyyy'}
-              onDayPress={(day) => {
-                this.calendarModalFalse()
-                day = new Date(day.timestamp)
-                this.convertDate(day)
-              }}
-
-            ></Calendar>
-
-          </CalendarProvider>
+          <View style={styles.calendarModalContainer}>
+            <View style={styles.calendarModal}>
+              <Calendar
+                style={{ flex: 1 }}
+                value={this.state.date}
+                monthFormat={'dd-MM-yyyy'}
+                onDayPress={(day) => {
+                  this.calendarModalFalse();
+                  day = new Date(day.timestamp);
+                  this.convertDate(day);
+                }}
+              />
+            </View>
+          </View>
         </Modal>
+
 
         <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.header}>
@@ -439,6 +434,21 @@ const styles = StyleSheet.create({
   droidSafeArea: {
     marginTop:
       Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
+  },
+  calendarModalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Fundo escuro transparente
+  },
+  calendarModal: {
+    width: '80%',
+    borderRadius: RFValue(10),
+    backgroundColor: '#fff',
+    paddingHorizontal: RFValue(20),  // Margem horizontal
+    paddingVertical: RFValue(20),    // Margem vertical
+    borderWidth: RFValue(2),          // Borda
+    borderColor: '#000',            // Cor da borda
   },
   header: {
     // backgroundColor: "brown",

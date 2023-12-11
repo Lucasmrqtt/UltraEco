@@ -96,7 +96,7 @@ export default class TabNavigator extends Component {
             tabBarVisible: this.isTabBarVisible(route),
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
-              let iconSize = RFValue(24);
+              let iconSize = RFValue(20);
               let iconColor = color;
 
               if (route.name === "Clientes") {

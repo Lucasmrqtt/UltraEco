@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
+// import { collection, getDocs } from 'firebase/firestore/lite';
 import firebase from "firebase"
 import { db } from "../Config";
 
@@ -76,11 +77,11 @@ export default class Search extends Component {
       // console.log(clientList)
       // this.getClients():
       const filteredList = clientList.filter(
-        
+
         (item) => item.client_Name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
       );
       // console.log(filteredList),
-        this.setState({ clientList: filteredList });
+      this.setState({ clientList: filteredList });
     }
   }
 

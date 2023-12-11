@@ -10,15 +10,15 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar, Calendar, CalendarList } from 'react-native-calendars';
+import { CalendarProvider, ExpandableCalendar } from 'react-native-calendars';
 
 export default class WeekCalendarScreen extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       visibleModal: false,
       markedDay: ""
-    }
+    };
   }
 
   visibleModalTrue = () => {
@@ -38,51 +38,43 @@ export default class WeekCalendarScreen extends Component {
           style={{
             backgroundColor: "#000",
             borderRadius: RFValue(10),
-            // top: "10%",
             margin: RFValue(40),
             padding: RFValue(10),
             width: RFValue(200),
             alignItems: 'center'
-
-          }}>
+          }}
+        >
           <Text
             style={{
               color: "#FFF",
               fontSize: 22
             }}
-          > Mostrar Calendario</Text>
+          > Mostrar Calendário</Text>
         </TouchableOpacity>
 
         <Modal
           visible={this.state.visibleModal}
           transparent={true}
           onRequestClose={this.visibleModalFalse}
-          // animationType="slide"
-          onPress={this.visibleModalTrue}
           animationType="fade"
-
         >
           <CalendarProvider>
-
-            <Calendar
+            <ExpandableCalendar
               style={{
                 marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
                 borderRadius: RFValue(10),
                 elevation: 4,
                 margin: 10
               }}
-
               initialDate={this.state.markedDay}
-              monthFormat={'dd-MM-yyyy'}
               onDayPress={(day) => {
                 this.setState({ markedDay: day })
               }}
-            ></Calendar>
-
+            />
           </CalendarProvider>
         </Modal>
       </View>
-    )
+    );
   }
 }
 
@@ -91,7 +83,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
   droidSafeArea: {
-    marginTop:
-      Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
   },
-})
+});

@@ -136,7 +136,27 @@ export default class Dashboard extends Component {
     // console.log(d)
     this.setState({ date: d })
   }
-  handleSearchTextChange1 = (text) => {
+  handleKeyPress1 = (text, e) => {
+    // Verifica se a tecla pressionada é o Backspace e o campo está vazio
+    if (text === "" && e.nativeEvent.key === 'Backspace') {
+      Keyboard.dismiss(); // Fecha o teclado
+    }
+  }
+  handleKeyPress2 = (text, e) => {
+    // Verifica se a tecla pressionada é o Backspace e o campo está vazio
+    if (text === "" && e.nativeEvent.key === 'Backspace') {
+      this.textInputBirth.focus();
+    }
+  }
+  handleKeyPress3 = (text, e) => {
+    // Verifica se a tecla pressionada é o Backspace e o campo está vazio
+    if (text === "" && e.nativeEvent.key === 'Backspace') {
+      this.textInputMonth.focus();
+    }
+  }
+  
+
+  handleSearchTextChange1 = (text, e) => {
     // Remover toLowerCase e usar parseInt
     const parsedValue = parseInt(text, 10);
 
@@ -145,14 +165,12 @@ export default class Dashboard extends Component {
     } else {
       this.setState({ dayValue1: '' });
     }
-    if (text == "" && nativeEvent.keyCode === 8) {
-      Keyboard.dismiss();
-    }
+
     if (text.length >= 2 && parsedValue <= 31) {
       this.textInputMonth.focus();
     }
 
-    
+
   };
   handleSearchTextChange2 = (text) => {
     // Remover toLowerCase e usar parseInt
@@ -163,13 +181,11 @@ export default class Dashboard extends Component {
     } else {
       this.setState({ dayValue2: '' });
     }
-    if (text == "" && nativeEvent.keyCode === "Backspace") {
-      this.textInputBirth.focus();
-    }
     if (text.length >= 2 && parsedValue <= 12) {
       this.textInputYear.focus();
     }
   };
+
   handleSearchTextChange3 = (text) => {
     // Remover toLowerCase e usar parseInt
     const parsedValue = parseInt(text, 10);
@@ -178,9 +194,6 @@ export default class Dashboard extends Component {
       this.setState({ dayValue3: String(parsedValue) });
     } else {
       this.setState({ dayValue3: '' });
-    }
-    if (text == "" && nativeEvent.keyCode === 8) {
-      this.textInputMonth.focus();
     }
     if (text.length >= 4 && parsedValue <= 2100) {
       Keyboard.dismiss();
@@ -222,7 +235,10 @@ export default class Dashboard extends Component {
       return 0
     }
   }
-
+  handleSearchTextChange = text => {
+    this.setState({ searchText: text });
+    // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
+  }
   renderItem = ({ item }) => {
     item.total = item.valor - item.desconto
     return (
@@ -544,6 +560,7 @@ export default class Dashboard extends Component {
                     style={styles.textInputBirth}
                     maxLength={2}
                     ref={(input) => (this.textInputBirth = input)}
+                    onKeyPress={(e) => this.handleKeyPress1(dayValue1, e)} // Adiciona o evento onKeyPress
 
                   />
                   <TextInput
@@ -558,6 +575,7 @@ export default class Dashboard extends Component {
                     style={styles.textInputBirth}
                     maxLength={2}
                     ref={(input) => (this.textInputMonth = input)}
+                    onKeyPress={(e) => this.handleKeyPress2(dayValue2, e)} // Adiciona o evento onKeyPress
 
                   />
 
@@ -573,6 +591,7 @@ export default class Dashboard extends Component {
                     style={[styles.textInputBirth, { width: RFValue(60) }]}
                     maxLength={4}
                     ref={(input) => (this.textInputYear = input)}
+                    onKeyPress={(e) => this.handleKeyPress3(dayValue3, e)} // Adiciona o evento onKeyPress
 
                   />
                 </View>
@@ -713,7 +732,7 @@ const styles = StyleSheet.create({
     marginTop: RFValue(10),
     // backgroundColor: "green",
     width: "100%",
-    height: Platform.OS === 'ios' ? RFValue(330) : RFValue(420),
+    height: RFValue(330)
   },
   invoicingAndCash: {
     // backgroundColor: "gray",
@@ -877,6 +896,6 @@ const styles = StyleSheet.create({
   space: {
     width: "100%",
     // backgroundColor: "pink",
-    height: RFValue(80)
+    height: RFValue(80),
   },
 })

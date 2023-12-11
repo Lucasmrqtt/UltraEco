@@ -362,7 +362,7 @@ export default class AddClients extends Component {
           </View>
 
           {/* Trabalho */}
-          <View style={styles.work}>
+          <View style={styles.border}>
             <View style={{ paddingLeft: RFValue(7), paddingTop: (7) }}>
               <Text style={styles.txt}>Trabalho</Text>
             </View>
@@ -400,7 +400,7 @@ export default class AddClients extends Component {
           <View style={{ height: RFValue(20) }}></View>
 
           {/* Casa */}
-          <View style={styles.house}>
+          <View style={styles.border}>
             <View style={{ paddingLeft: RFValue(7), paddingTop: (7) }}>
               <Text style={styles.txt}>Casa</Text>
             </View>
@@ -484,21 +484,13 @@ const styles = StyleSheet.create({
     fontSize: RFValue(15)
 
   },
-  work: {
+  border: {
     // backgroundColor: "pink",
     borderWidth: RFValue(3),
     borderRadius: RFValue(8),
     paddingBottom: RFValue(10),
-    marginStart: RFValue(-15),
-    paddingStart: RFValue(15),
-  },
-  house: {
-    // backgroundColor: "blue",
-    borderWidth: RFValue(3),
-    borderRadius: RFValue(8),
-    paddingBottom: RFValue(10),
-    marginBottom: RFValue(100),
-    marginStart: RFValue(-15),
+    marginStart: Platform.OS === 'android' ? RFValue(-2) : RFValue(-15),
+    // width:"100%",
     paddingStart: RFValue(15),
   },
   title: {
