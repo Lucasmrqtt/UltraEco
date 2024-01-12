@@ -9,6 +9,7 @@ import RegisterServices from './Screens/registerService';
 import AddClients from './Screens/addClients';
 import Historic from './Screens/historic';
 import CashFlow from './Screens/cashFlow';
+import EcoMonitor from './Screens/ecoMonitor';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // import firebase from 'firebase';
@@ -33,6 +34,7 @@ const StackNav = () => {
         <Stack.Screen name="AddClients" component={AddClients}/>
         <Stack.Screen name="Historic" component={Historic}/>
         <Stack.Screen name="CashFlow" component={CashFlow}/>
+        <Stack.Screen name="EcoMonitor" component={EcoMonitor}/>
     </Stack.Navigator>
   )
 }

@@ -27,10 +27,10 @@ export default class Revenue extends Component {
       speakerIcon: "chevron-back-outline",
       Check: "checkmark-outline",
       money: 'R$0,00',
-      name:'',
+      name: '',
       selectedValue: null,
       dropDownHeight: 40,
-      payment: "Din",
+      selectedPayment: null,
       birthTxt: '',
       monthTxt: '',
       yearTxt: '',
@@ -47,11 +47,10 @@ export default class Revenue extends Component {
     this.setState({ name: itemValue });
   };
   renderPlaceholder1 = () => {
-    const { selectedValue } = this.state;
-    if (selectedValue) {
-      return selectedValue;
+    if (this.state.selectedPayment) {
+      return this.state.selectedPayment;
     } else {
-      return "Selecionar";
+      return 'Din / Nub / Pix / Créd';
     }
   };
   handleSearchTextChange1 = (text) => {
@@ -98,14 +97,14 @@ export default class Revenue extends Component {
   };
 
   render() {
-    const { money, name, dayValue1, dayValue2,dayValue3,} = this.state;
+    const { money, name, dayValue1, dayValue2, dayValue3, } = this.state;
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
 
         <View style={styles.header}>
-          <TouchableOpacity 
-          style={styles.back}
+          <TouchableOpacity
+            style={styles.back}
           >
             <Ionicons
               name={this.state.speakerIcon}
@@ -158,22 +157,21 @@ export default class Revenue extends Component {
             placeholder={"Nome da receita"}
           />
 
-          <View style={{zIndex: 99,}} >
+          <View style={{ zIndex: 99, }} >
             <Text style={styles.title}>Forma de pagamento</Text>
             <DropDownPicker
-              items={[
-                { label: "Dinheiro", value: "Din" },
-                { label: "Nubank", value: "Nub" },
-                { label: "Sicrédi", value: "Sic" },
-                { label: "Débito", value: "Déb" },
-                { label: "Crédito", value: "Créd" },
+              items={[     
+                { label: "Dinheiro", value: "Dinheiro" },
+                { label: "Pix", value: "Pix" },
+                { label: "Débito", value: "Débito" },
+                { label: "Crédito", value: "Crédito" },
               ]}
               placeholder={this.renderPlaceholder1()}
               placeholderStyle={{
                 alignSelf: 'center',
                 textAlign: 'center',
               }}
-              defaultValue={this.state.payment}
+              defaultValue={this.state.selectedPayment}
               open={this.state.dropDownHeight == 170}
               onOpen={() => this.setState({ dropDownHeight: 170 })}
               onClose={() => this.setState({ dropDownHeight: 40 })}
@@ -187,23 +185,20 @@ export default class Revenue extends Component {
               textStyle={{
                 color: "black",
                 fontWeight: 'bold'
-                // backgroundColor: "red",
               }}
               onSelectItem={(item) => {
-                this.setState({ payment: item.value })
+                this.setState({ selectedPayment: item.value})
+                // Função para adicionar ao banco de dados "item.value"
               }}
               dropDownContainerStyle={{
-                // backgroundColor: "pink",
                 width: RFValue(250),
                 marginTop: RFValue(10),
               }}
-            // zIndexInverse={1000}
-            // zIndex={1000}
             />
           </View>
 
           <View style={styles.date}>
-            <Text style={[styles.title, {marginBottom:RFValue(10)}]}>Data da entrada</Text>
+            <Text style={[styles.title, { marginBottom: RFValue(10) }]}>Data da entrada</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
               <Text style={{ fontSize: RFValue(16) }}>Dia</Text>
               <Text style={{ fontSize: RFValue(16) }}>Mês</Text>
@@ -350,7 +345,7 @@ const styles = StyleSheet.create({
     width: "60%",
     alignSelf: "center",
     // bottom: "-40%",
-    marginTop:RFValue(70),
+    marginTop: RFValue(70),
     alignItems: "center",
     justifyContent: "center"
   },

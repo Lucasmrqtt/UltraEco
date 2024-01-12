@@ -380,7 +380,13 @@ export default class Dashboard extends Component {
         <SafeAreaView style={styles.droidSafeArea} />
         <ScrollView>
           <View style={styles.header}>
-            <View></View>
+            
+            <TouchableOpacity style={styles.cashFlow} onPress={() => this.props.navigation.navigate("EcoMonitor")}
+            >
+              <Text style={styles.cashFlowText}> Acessar </Text>
+              <Text style={styles.cashFlowText}> EcoMonitor </Text>
+            </TouchableOpacity>
+
             <View style={styles.title}>
               <Text style={styles.textTitle}>Dashboard</Text>
               <Text style={styles.textMonth}>{this.state.date}</Text>
@@ -684,11 +690,11 @@ const styles = StyleSheet.create({
     flex: 0.1,
     // backgroundColor: "pink",
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-around',
     alignItems: 'center'
   },
   title: {
-    left: RFValue(20),
+    // left: RFValue(20),
     // backgroundColor: "red",
     alignItems: 'center',
 
@@ -721,7 +727,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: RFValue(77),
     height: Platform.OS === 'ios' ? RFValue(40) : 55,
-    marginEnd: RFValue(-35)
+    // marginEnd: RFValue(-35)
   },
   cashFlowText: {
     justifyContent: 'center'

@@ -28,8 +28,8 @@ export default class Historic extends Component {
       <View style={styles.container}>
         <Text style={styles.text}>
           Tela em manutenção (Historic)
-        </Text> 
-        <TouchableOpacity style={{flexDirection:'row', alignItems:'center'}} onPress={() => this.props.navigation.navigate("Home")}>
+        </Text>
+        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => this.props.navigation.navigate("Home")}>
           <Ionicons
             name={this.state.speakerIcon}
             size={RFValue(40)}

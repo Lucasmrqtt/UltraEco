@@ -14,6 +14,8 @@ import Revenue from "../Screens/revenue";
 import Expenses from "../Screens/expenses";
 import Service from "../Screens/service";
 import ProfileClient from "../Screens/profileClient";
+import EcoMonitor from "../Screens/ecoMonitor";
+// import Dashboard from "../Screens/dashboard";
 
 const Stack = createStackNavigator()
 
@@ -31,7 +33,9 @@ export default class StackNavigator extends Component {
         <Stack.Screen name="Revenue" component={Revenue} />
         <Stack.Screen name="RegisterServices" component={RegisterServices} />
         <Stack.Screen name="Historic" component={Historic} />
+        {/* <Stack.Screen name="Dashboard" component={Dashboard} /> */}
         <Stack.Screen name="CashFlow" component={CashFlow} />
+        <Stack.Screen name="EcoMonitor" component={EcoMonitor} />
         <Stack.Screen name="Login" component={Login} />
       </Stack.Navigator>
     )
