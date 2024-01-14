@@ -14,8 +14,9 @@ import {
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 // import { collection, getDocs } from 'firebase/firestore/lite';
-import firebase from "firebase"
+// import firebase from "firebase"
 import { db } from "../Config";
+import { collection, getDocs } from "firebase/firestore";
 
 export default class Search extends Component {
   constructor(props) {
@@ -43,10 +44,14 @@ export default class Search extends Component {
 
   getClients = async () => {
     const clients = collection(db, "clients")
+    // const docSnap = await getDoc(clients);
     const clientSnapshot = await getDocs(clients)
-    const clientList = clientSnapshot.docs.map(doc => doc.data());
-    // console.log(clientList)
-    this.setState({ clientList: [...clientList] })
+    clientSnapshot.forEach((doc) => {
+      this.state.clientList.push(doc.data())
+    })
+    // const clientList = clientSnapshot.docs.map(doc => doc.data());
+    this.setState({ clientList: this.state.clientList })
+
   }
 
   renderItem = ({ item }) => {
@@ -96,7 +101,6 @@ export default class Search extends Component {
 
     this.setState({ clientList: newList });
   }
-
 
 
   render() {

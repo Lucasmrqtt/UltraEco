@@ -14,7 +14,7 @@ import {
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
-import firebase from "firebase"
+// import firebase from "firebase"
 import { db } from "../Config";
 // import { initializeApp } from 'firebase/app'
 // import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
