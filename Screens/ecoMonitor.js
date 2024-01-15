@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, SafeArea
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { LineChart, Grid, XAxis, YAxis } from 'react-native-svg-charts';
+import { Circle, G, Line } from 'react-native-svg';
 
 export default class WaterSavingsChart extends Component {
   constructor(props) {
@@ -13,9 +14,29 @@ export default class WaterSavingsChart extends Component {
   }
 
   render() {
-    const data = [0.3, 0.8 , 0.5 , 1 ,   ];
+    const data = [0, 0.4, 0.8, 1.2];
     const xLabels = ['Lavagem Carro', 'Lavagem Van', 'Lavagem Caminhão', 'Total Geral'];
-    const yLabels = ['0', '0.2', '0.4', '0.6', '0.8', '1'];
+    const yLabels = ['0', '0.2', '0.4', '0.6', '0.8', '1', '1.2'];
+    const Decorator = ({ x, y, data }) => {
+      return data.map((value, index) => (
+        <G key={index}>
+          <Line
+            x1={x(index)}
+            y1={y(0)}
+            x2={x(index)}
+            y2={y(value)}
+            stroke={'rgb(134, 65, 244)'}
+          />
+          <Circle
+            cx={x(index)}
+            cy={y(value)}
+            r={4} // Raio da bolinha
+            fill={'rgb(134, 65, 244)'}
+            stroke={'rgb(134, 65, 244)'}
+          />
+        </G>
+      ));
+    };
 
     return (
       <View style={styles.container}>
@@ -30,33 +51,44 @@ export default class WaterSavingsChart extends Component {
         </View>
 
         <Text style={styles.chartTitle}>Litros de Água economizados</Text>
+        <View style={{ height: 250, flexDirection: 'row' ,}}>
+          <YAxis
+            data={yLabels}
+            contentInset={{ top: 10, bottom: 10 }}
+            style={{ height: 250 }}
+            svg={{
+              // fill: 'grey',
+              fontSize: 10,
+              fontWeight: 'bold'
+            }}
+            numberOfTicks={7}
+            formatLabel={(value) => `${value}L`}
+          />
+          <LineChart
+            style={{ marginLeft: 20, height: 250, flex: 0.9 }}
+            data={data}
+            svg={{ stroke: 'rgb(134, 65, 244)' }}
+            contentInset={{ top: 10, bottom: 10 }}
+            numberOfTicks={7}
+          >
+            <Grid />
+            <Decorator />
+          </LineChart>
+        </View>
+        <View style={{ height: 200, padding: 20 }}>
+          <XAxis
+            data={xLabels}
+            contentInset={{ left: 10, right: 10 }}
+            svg={{
+              fontSize: 12,
+              fontWeight: 'bold',
+            }}
+            numberOfTicks={xLabels.length}
+            style={{ width: 500, marginLeft: 16 }}
+            formatLabel={(value, index) => xLabels[index]}
+          />
+        </View>
 
-        <LineChart
-          style={{
-            height: RFValue(300), // Ajuste o tamanho do gráfico conforme necessário
-            width: '90%',
-          }}
-          data={data}
-          svg={{ stroke: 'rgb(134, 65, 244)' }}
-          contentInset={{ top: 30, bottom: 30 }} // Ajuste conforme necessário
-          xAccessor={({ index }) => index}
-        >
-          <Grid />
-        </LineChart>
-
-        <XAxis
-          style={{ marginTop: 10 }}
-          data={data}
-          formatLabel={(value, index) => xLabels[index]}
-          contentInset={{ left: 10, right: 10 }}
-        />
-
-        <YAxis
-          style={{ position: 'absolute', top: 0, bottom: 0 }}
-          data={data}
-          contentInset={{ top: 20, bottom: 20 }} // Ajuste conforme necessário
-          formatLabel={(value, index) => yLabels[index]}
-        />
       </View>
     );
   }
