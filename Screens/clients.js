@@ -13,9 +13,7 @@ import {
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-// import { collection, getDocs } from 'firebase/firestore/lite';
-// import firebase from "firebase"
-import { db } from "../Config";
+import db from "../config";
 import { collection, getDocs } from "firebase/firestore";
 
 export default class Search extends Component {
@@ -43,14 +41,25 @@ export default class Search extends Component {
   }
 
   getClients = async () => {
-    const clients = collection(db, "clients")
-    // const docSnap = await getDoc(clients);
-    const clientSnapshot = await getDocs(clients)
+    const { clientList } = this.state;
+    const clientSnapshot = await getDocs(collection(db, "clients"));
     clientSnapshot.forEach((doc) => {
-      this.state.clientList.push(doc.data())
+      clientList.push(doc.data())
+      // console.log(doc.data())
     })
+    this.setState({
+      clientList: clientList
+    })
+    // .get()
+    // .then((clientSnapshot) => {
+    //   this.setState({ clientList: this.state.clientList })
+    // })
+    // .catch((error) => {
+    //   console.log("Error getting documents: ", error);
+    // });
+    // const clients = db.collection("clients")
+    // const docSnap = await getDoc(clients);
     // const clientList = clientSnapshot.docs.map(doc => doc.data());
-    this.setState({ clientList: this.state.clientList })
 
   }
 

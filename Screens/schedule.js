@@ -13,7 +13,7 @@ import {
   Modal
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar, Calendar, CalendarList } from 'react-native-calendars';
+import { CalendarProvider, Calendar } from 'react-native-calendars';
 
 var schedule = require("./Schedule.json")
 var date = new Date()
@@ -33,19 +33,34 @@ var meses = {
 
 }
 
+const getDaysOfWeek = (calendarValue) => {
+  const daysOfWeek = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
+  const dayIndex = calendarValue.getDay()
+  console.log(calendarValue, "Olá")
+  const result = {};
+  for (let i = 0; i < daysOfWeek.length; i++) {
+    const offset = (i - dayIndex + 7) % 7;
+    const dayValue = new Date(calendarValue);
+    // console.log(dayValue, "OI")
+    dayValue.setDate(dayValue.getDate() + offset);
+    result[daysOfWeek[i]] = dayValue;
+  }
+
+  return result;
+};
+
 export default class Schedule extends Component {
   constructor(props) {
     super(props);
     this.state = {
       status: "",
       visibleModal: false,
-      date: new Date().getDay()
-
+      date: new Date().getDay(),
+      // forceUpdate: false
     };
   }
 
   componentDidMount() {
-    // console.log(date)
     this.convertDateInitial(date)
   }
 
@@ -79,12 +94,8 @@ export default class Schedule extends Component {
   }
 
   convertDateInitial = (day) => {
-    // let d = new Date(day.timestamp)
     let d = day
-    // console.log(d)
-    // d = d.toDateString()
     d = d.toString().split("").slice(0, 15).join("")
-    // d = d.toString().split("")
     d = d.split(" ").slice(1, 4)
     for (const key in meses) {
       if (d[0] == key) {
@@ -95,21 +106,17 @@ export default class Schedule extends Component {
       d[1] = "0" + d[1]
     }
     d = d[1] + "/" + d[0] + "/" + d[2]
-    // console.log(d)
     this.setState({ date: d })
   }
-
+  // handleForceUpdate = () => {
+  //   this.setState((prevState) => ({forceUpdate: !prevState.forceUpdate}))
+  // }
   convertDate = (day) => {
-    // let d = new Date(day.timestamp)
     let d = day
-    // d = d.toDateString()
     d = d.toString().split("").slice(0, 15).join("")
-    // d = d.toString().split("")
     d = d.split(" ").slice(1, 4)
-    // console.log(d)
     for (const key in meses) {
       if (d[0] == key) {
-        // console.log(d[0])
         d[0] = meses[key]
       }
     }
@@ -119,22 +126,19 @@ export default class Schedule extends Component {
       d[1] = "0" + d[1]
     }
     d = d[1] + "/" + d[0] + "/" + d[2]
-    // console.log(d)
     this.setState({ date: d })
   }
-
+ 
   render() {
-
+    const calendarValue = new Date();
+    const daysOfWeek = getDaysOfWeek(calendarValue);
     return (
       <View style={styles.container}>
         <Modal
           visible={this.state.visibleModal}
           transparent={true}
           onRequestClose={this.visibleModalFalse}
-          // animationType="slide"
-          onPress={this.visibleModalTrue}
           animationType="fade"
-
         >
           <CalendarProvider>
             <Calendar
@@ -143,24 +147,25 @@ export default class Schedule extends Component {
                 elevation: 4,
                 marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
               }}
+              // onPress={console.log("MUITO BOM DAIA")}
+              
               value={this.state.date}
               monthFormat={'dd-MM-yyyy'}
               onDayPress={(day) => {
-                this.visibleModalFalse()
-                day = new Date(day.timestamp)
+                this.visibleModalFalse();
+                const selectedDay = new Date(day.timestamp);
+                this.convertDate(selectedDay);
 
-                this.convertDate(day)
+                const daysOfWeek = getDaysOfWeek(selectedDay);
+                this.setState({ selectedDay, daysOfWeek });
               }}
-
             ></Calendar>
-
           </CalendarProvider>
         </Modal>
-        
+
         <SafeAreaView style={styles.droidSafeArea} />
         <ScrollView>
           <View style={styles.header}>
-
             <View style={styles.profile}>
               <TouchableOpacity onPress={this.visibleModalTrue}>
                 <Text style={styles.calendar}>{this.state.date}</Text>
@@ -183,99 +188,33 @@ export default class Schedule extends Component {
                 style={styles.historic}
               />
             </TouchableOpacity>
-
           </View>
 
           <ScrollView style={styles.schedule}>
-
-            <View style={styles.containerWeeks}>
-              <View style={styles.week}>
-                <Text style={styles.weekTxt}>Seg</Text>
-                <Text style={styles.dayTxt}>17/07</Text>
-              </View>
-              <View style={styles.values}>
-                <View style={styles.containerValues}>
-                  {/* flatlist */}
-
-                  <FlatList
-                    horizontal={true}
-                    data={schedule}
-                    renderItem={this.renderItem}
-                    keyExtractor={(item, index) => index.toString()}
-                  />
+            {Object.keys(daysOfWeek).map((day) => (
+              <View key={day} style={styles.containerWeeks}>
+                <View style={styles.week}>
+                  <Text style={styles.weekTxt}>{day}</Text>
+                  <Text style={styles.dayTxt}>
+                    {daysOfWeek[day].toLocaleDateString("pt-BR")}
+                  </Text>
+                </View>
+                <View style={styles.values}>
+                  <View style={styles.containerValues}>
+                    <FlatList
+                      horizontal={true}
+                      data={schedule.filter(item => {
+                        const itemDay = new Date(item.data);
+                        return itemDay.getDay() === daysOfWeek[day].getDay();
+                      })}
+                      renderItem={this.renderItem}
+                      keyExtractor={(item, index) => index.toString()}
+                    />
+                  </View>
                 </View>
               </View>
-            </View>
-            <View style={styles.containerWeeks}>
-              <View style={styles.week}>
-                <Text style={styles.weekTxt}>Ter</Text>
-                <Text style={styles.dayTxt}>18/07</Text>
-              </View>
-              <View style={styles.values}>
-                <View style={styles.containerValues}>
-
-                </View>
-              </View>
-            </View>
-            <View style={styles.containerWeeks}>
-              <View style={styles.week}>
-                <Text style={styles.weekTxt}>Qua</Text>
-                <Text style={styles.dayTxt}>19/07</Text>
-              </View>
-              <View style={styles.values}>
-                <View style={styles.containerValues}>
-
-                </View>
-              </View>
-            </View>
-            <View style={styles.containerWeeks}>
-              <View style={styles.week}>
-                <Text style={styles.weekTxt}>Qui</Text>
-                <Text style={styles.dayTxt}>20/07</Text>
-              </View>
-              <View style={styles.values}>
-                <View style={styles.containerValues}>
-
-                </View>
-              </View>
-            </View>
-            <View style={styles.containerWeeks}>
-              <View style={styles.week}>
-                <Text style={styles.weekTxt}>Sex</Text>
-                <Text style={styles.dayTxt}>21/07</Text>
-              </View>
-              <View style={styles.values}>
-                <View style={styles.containerValues}>
-
-                </View>
-              </View>
-            </View>
-            <View style={styles.containerWeeks}>
-              <View style={styles.week}>
-                <Text style={styles.weekTxt}>Sab</Text>
-                <Text style={styles.dayTxt}>22/07</Text>
-              </View>
-              <View style={styles.values}>
-                <View style={styles.containerValues}>
-
-                </View>
-              </View>
-            </View>
-            <View style={styles.containerWeeks}>
-              <View style={styles.week}>
-                <Text style={styles.weekTxt}>Dom</Text>
-                <Text style={styles.dayTxt}>23/07</Text>
-              </View>
-
-              <View style={styles.values}>
-                <View style={styles.containerValues}>
-
-                </View>
-              </View>
-            </View>
+            ))}
           </ScrollView>
-
-          {/* <View style={styles.space}></View> */}
         </ScrollView>
       </View>
     );
@@ -411,6 +350,6 @@ const styles = StyleSheet.create({
     // fontWeight: 'bold'
   },
   dayTxt: {
-    fontSize: RFValue(9),
+    fontSize: RFValue(8),
   },
 });

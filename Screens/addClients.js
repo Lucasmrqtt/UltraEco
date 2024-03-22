@@ -17,7 +17,8 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
 // import firebase from "firebase"
-import { db } from "../Config";
+import db from "../config";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore"; 
 
 export default class AddClients extends Component {
   constructor(props) {
@@ -140,26 +141,39 @@ export default class AddClients extends Component {
   }
   convertToTimestamp = (day, month, year) => {
     var date = [day, month, year]
+    // console.log(date)
     date = date.join("/")
     date = new Date(date)
-    console.log(date)
     return date
   }
 
 
-  addClient = (name, cell, day, month, year, description, car1, car2, adressWork, neighborhoodWork, adressHouse, neighborhoodHouse) => {
+  addClient = async (name, cell, day, month, year, description, car1, car2, adressWork, neighborhoodWork, adressHouse, neighborhoodHouse) => {
     if (
-      this.state.name &&
-      this.state.cell &&
-      this.state.day &&
-      this.state.month &&
-      this.state.year &&
-      this.state.car1 &&
-      this.state.adressHouse &&
-      this.state.neighborhoodHouse
+      name &&
+      cell &&
+      day &&
+      month &&
+      year &&
+      car1 &&
+      adressHouse &&
+      neighborhoodHouse
     ) {
       var date = this.convertToTimestamp(day, month, year)
-      let data = {
+      console.log(date)
+      console.log(day)
+      console.log(month)
+      console.log(year)
+      console.log(name)
+      console.log(cell)
+      console.log(description)
+      console.log(car1)
+      console.log(car2)
+      console.log(adressWork)
+      console.log(neighborhoodWork)
+      console.log(adressHouse)
+      console.log(neighborhoodHouse)
+      await addDoc(collection(collection(db, "clients"))), {
         client_Name: name,
         client_Phone: cell,
         client_Data: date,
@@ -170,11 +184,16 @@ export default class AddClients extends Component {
         client_Work_Neighborhood: neighborhoodWork,
         client_House_Adress: adressHouse,
         client_House_Neighborhood: neighborhoodHouse,
-      };
-      db.collection("clients")
-        .add(data)
-        .then(() => Alert.alert("Cliente cadastrado com sucesso"))
-      this.props.navigation.navigate("Home");
+      }
+      // db.collection("clients")
+      //   .add(data)
+      //   .then(() => {
+      //     Alert.alert("Cliente cadastrado com sucesso");
+      //     this.props.navigation.navigate("Home");
+      //   })
+      //   .catch(error => {
+      //     Alert.alert("Erro ao adicionar cliente", error.message);
+      //   });
     } else {
       Alert.alert(
         "Error",

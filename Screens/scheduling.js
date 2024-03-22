@@ -38,7 +38,6 @@ var meses = {
   "Dec": "12", //31
 
 }
-
 export default class Scheduling extends Component {
   constructor(props) {
     super(props)
@@ -139,7 +138,30 @@ export default class Scheduling extends Component {
   employeeModalFalse = () => {
     this.setState({ employeeModal: false });
   };
-
+  addSchedule = (discount, obs) => {
+    if (
+      this.state.discount &&
+      this.state.obs
+    ) {
+      var date = this.convertToTimestamp(day, month, year)
+      let data = {
+        client_discount: discount,
+        client_obs: obs,
+      };
+      db.collection("clients")
+        .add(data)
+        .then(() => Alert.alert("Cliente cadastrado com sucesso"))
+      this.props.navigation.navigate("Home");
+    } else {
+      Alert.alert(
+        "Error",
+        "Todos os campos que tem * são obrigatórios!",
+        [{ text: "OK" }],
+        { cancelable: false }
+      );
+    }
+    // .catch(error => {Alert.alert(error.message)})
+  }
   render() {
     const { } = this.state;
     return (
@@ -415,8 +437,9 @@ export default class Scheduling extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.fotterTouchableOpacityRight}
+            onPress={() => this.addSchedule(discount, obs)}
           >
-            <Text style={styles.fotterTextAdvance}>Avancar</Text>
+            <Text style={styles.fotterTextAdvance}>Avançar</Text>
           </TouchableOpacity>
         </View>
       </View>

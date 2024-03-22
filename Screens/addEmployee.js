@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  Alert,
   Text,
   View,
   StyleSheet,
@@ -11,7 +12,7 @@ import {
 } from "react-native";
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { db } from "../Config";
+import { db } from "../config";
 
 export default class Employee extends Component {
   constructor(props) {

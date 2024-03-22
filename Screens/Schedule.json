@@ -5,7 +5,9 @@
     "nome": "Gloria Marquetti",
     "bairro":"Vila A",
     "servico": "Lavagem (SUV)", 
-    "status":"FINALIZADO"
+    "status":"FINALIZADO",
+    "data":"17/01/2024"
+
   },
   {
     "horario1":"13:30",
@@ -13,7 +15,9 @@
     "nome": "Marcelo Técnico",
     "bairro":"Centro",
     "servico": "Lavagem (SUV)",
-    "status":"FINALIZADO"
+    "status":"FINALIZADO",
+    "data":"17/01/2024"
+
   },
   {
     "horario1":"10:00",
@@ -21,6 +25,7 @@
     "nome": "Gloria Marquetti",
     "bairro":"Vila A",
     "servico": "Lavagem (SUV)",
-    "status":"AGENDADO"
+    "status":"AGENDADO",
+    "data":"18/01/2024"
   }
 ]
