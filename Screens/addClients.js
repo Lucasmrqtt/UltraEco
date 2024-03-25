@@ -18,7 +18,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
 // import firebase from "firebase"
 import db from "../config";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore"; 
+import { collection, addDoc, Timestamp } from "firebase/firestore"; 
 
 export default class AddClients extends Component {
   constructor(props) {
@@ -139,13 +139,6 @@ export default class AddClients extends Component {
     this.setState({ neighborhoodHouse: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-  convertToTimestamp = (day, month, year) => {
-    var date = [day, month, year]
-    // console.log(date)
-    date = date.join("/")
-    date = new Date(date)
-    return date
-  }
 
 
   addClient = async (name, cell, day, month, year, description, car1, car2, adressWork, neighborhoodWork, adressHouse, neighborhoodHouse) => {
@@ -159,21 +152,16 @@ export default class AddClients extends Component {
       adressHouse &&
       neighborhoodHouse
     ) {
-      var date = this.convertToTimestamp(day, month, year)
-      console.log(date)
-      console.log(day)
-      console.log(month)
-      console.log(year)
-      console.log(name)
-      console.log(cell)
-      console.log(description)
-      console.log(car1)
-      console.log(car2)
-      console.log(adressWork)
-      console.log(neighborhoodWork)
-      console.log(adressHouse)
-      console.log(neighborhoodHouse)
-      await addDoc(collection(collection(db, "clients"))), {
+      if (month < 10){
+        month = "0" + month
+      } 
+      if  (day < 10){
+        day = "0" + day
+      } 
+      var date = [day, month, year]
+      date = new Date(date[2] , date[1] - 1, date[0])
+
+      await addDoc(collection(db, "clients"), {
         client_Name: name,
         client_Phone: cell,
         client_Data: date,
@@ -184,16 +172,8 @@ export default class AddClients extends Component {
         client_Work_Neighborhood: neighborhoodWork,
         client_House_Adress: adressHouse,
         client_House_Neighborhood: neighborhoodHouse,
-      }
-      // db.collection("clients")
-      //   .add(data)
-      //   .then(() => {
-      //     Alert.alert("Cliente cadastrado com sucesso");
-      //     this.props.navigation.navigate("Home");
-      //   })
-      //   .catch(error => {
-      //     Alert.alert("Erro ao adicionar cliente", error.message);
-      //   });
+      })
+      Alert.alert("Cliente cadastrado com sucesso!")
     } else {
       Alert.alert(
         "Error",
@@ -202,7 +182,6 @@ export default class AddClients extends Component {
         { cancelable: false }
       );
     }
-    // .catch(error => {Alert.alert(error.message)})
   }
 
 
