@@ -16,7 +16,6 @@ import {
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
-// import firebase from "firebase"
 import db from "../config";
 import { collection, addDoc, Timestamp } from "firebase/firestore"; 
 
@@ -43,6 +42,7 @@ export default class AddClients extends Component {
       dayValue3: "",
       value: "",
       formattedValue: "",
+      // id: 0
     }
     this.textInputBirth = null
     this.textInputMonth = null
@@ -162,18 +162,20 @@ export default class AddClients extends Component {
       date = new Date(date[2] , date[1] - 1, date[0])
 
       await addDoc(collection(db, "clients"), {
-        client_Name: name,
-        client_Phone: cell,
-        client_Data: date,
-        client_Obs: description,
-        client_Car1: car1,
-        client_Car2: car2,
-        client_Work_Adress: adressWork,
-        client_Work_Neighborhood: neighborhoodWork,
-        client_House_Adress: adressHouse,
-        client_House_Neighborhood: neighborhoodHouse,
+        client_name: name,
+        client_phone: cell,
+        client_data: date,
+        client_obs: description,
+        client_car1: car1,
+        client_car2: car2,
+        client_work_adress: adressWork,
+        client_work_neighborhood: neighborhoodWork,
+        client_house_adress: adressHouse,
+        client_house_neighborhood: neighborhoodHouse,
+        // clent_id : this.state.id
       })
       Alert.alert("Cliente cadastrado com sucesso!")
+      // this.setState(prevState => ({ id: prevState.id + 1 }))
     } else {
       Alert.alert(
         "Error",

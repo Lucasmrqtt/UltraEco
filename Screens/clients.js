@@ -41,26 +41,9 @@ export default class Search extends Component {
   }
 
   getClients = async () => {
-    const { clientList } = this.state;
     const clientSnapshot = await getDocs(collection(db, "clients"));
-    clientSnapshot.forEach((doc) => {
-      clientList.push(doc.data())
-      // console.log(doc.data())
-    })
-    this.setState({
-      clientList: clientList
-    })
-    // .get()
-    // .then((clientSnapshot) => {
-    //   this.setState({ clientList: this.state.clientList })
-    // })
-    // .catch((error) => {
-    //   console.log("Error getting documents: ", error);
-    // });
-    // const clients = db.collection("clients")
-    // const docSnap = await getDoc(clients);
-    // const clientList = clientSnapshot.docs.map(doc => doc.data());
-
+    const clientsData = clientSnapshot.docs.map(doc => doc.data());
+    this.setState({ clientList: clientsData });
   }
 
   renderItem = ({ item }) => {
@@ -74,8 +57,8 @@ export default class Search extends Component {
           style={styles.itemPhoto}
         />
         <View style={styles.itemInfo}>
-          <Text style={styles.itemP1}>{item.client_Name}</Text>
-          <Text style={styles.itemP2}>{item.client_Phone}</Text>
+          <Text style={styles.itemP1}>{item.client_name}</Text>
+          <Text style={styles.itemP2}>{item.client_phone}</Text>
         </View>
       </TouchableOpacity>
     )
@@ -92,7 +75,7 @@ export default class Search extends Component {
       // this.getClients():
       const filteredList = clientList.filter(
 
-        (item) => item.client_Name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+        (item) => item.client_name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
       );
       // console.log(filteredList),
       this.setState({ clientList: filteredList });
@@ -106,7 +89,7 @@ export default class Search extends Component {
     // console.log(newList)
     // newList.sort((a, b) => {return b.client_Name - a.client_Name});
 
-    newList.sort((a, b) => (a.client_Name > b.client_Name ? 1 : b.client_Name > a.client_Name ? -1 : 0));
+    newList.sort((a, b) => (a.client_name > b.client_name ? 1 : b.client_name > a.client_name ? -1 : 0));
 
     this.setState({ clientList: newList });
   }

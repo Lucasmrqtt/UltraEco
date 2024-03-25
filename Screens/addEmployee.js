@@ -12,7 +12,8 @@ import {
 } from "react-native";
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { db } from "../config";
+import db from "../config";
+import { collection, addDoc, Timestamp } from "firebase/firestore"; 
 
 export default class Employee extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ export default class Employee extends Component {
     this.state = {
       speakerIcon: "chevron-back-outline",
       name: "",
+      // id: 0
     }
   }
 
@@ -27,18 +29,16 @@ export default class Employee extends Component {
     this.setState({ name: text })
   }
 
-  registerEmployee = (name) => {
+  registerEmployee = async (name) => {
     if (
-      this.state.name
+      name
     ) {
-      let data = {
-        employee_Id: "",
+      await addDoc(collection(db, "Employee"), {
+        // employee_Id: this.state.id,
         employee_Name: name
-      }
-      db.collection("Employee")
-        .add(data)
-        .then(() => Alert.alert("Funcionário cadastrado com sucesso"))
-      this.props.navigation.navigate("Home");
+      })
+      // this.setState(prevState => ({ id: prevState.id + 1 }))
+      Alert.alert("Cliente cadastrado com sucesso!")
     } else {
       Alert.alert(
         "Error",
@@ -47,7 +47,6 @@ export default class Employee extends Component {
         { cancelable: false }
       );
     }
-    // .catch(error => {Alert.alert(error.message)})
   }
 
 
