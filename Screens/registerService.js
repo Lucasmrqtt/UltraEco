@@ -14,18 +14,8 @@ import {
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
-// import firebase from "firebase"
-import { db } from "../config";
-// import { initializeApp } from 'firebase/app'
-// import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
-//import db from "../Config"
-// import { firestore } from 'firebase';
-// import { firebaseConfig } from '../Config';
-
-// const app = initializeApp(firebaseConfig);
-// const db = getFirestore(app);
-// firebase.initializeApp(firebaseConfig);
-// const db = firebase.firestore()
+import db from "../config";
+import { collection, addDoc} from "firebase/firestore"; 
 
 
 export default class RegisterServices extends Component {
@@ -35,8 +25,10 @@ export default class RegisterServices extends Component {
       speakerIcon: "chevron-back-outline",
       Check: "checkmark-outline",
       name: '',
-      // money: '',
+      money: '',
       // name: ,
+      // id: 0
+
     }
   }
 
@@ -47,30 +39,23 @@ export default class RegisterServices extends Component {
     money = money.replace(",",".")
     money = parseFloat(money)
     console.log(money)
-    // this.setState({ money: money })
     return money
-    // console.log(this.state.money)
   }
 
 
-  registerServices = (name, price) => {
+  registerServices = async (name, money) => {
     if (
       this.state.name &&
       this.state.money 
     ) {
-      price = this.convertToInt(price)
-      let data = {
-        service_ID: "",
-        service_Name: name,
-        service_Value: price
-      }
-      db.collection("Service")
-        // collection(db, "Service")
-        // .doc("ID")
-        // .set(data)
-        .add(data)
-        .then(() => Alert.alert("Serviço cadastrado com sucesso"))
-      this.props.navigation.navigate("Home");
+      money = this.convertToInt(money)
+      await addDoc(collection(db, "Service"), {
+        // service_id: this.state.id,
+        service_name: name,
+        service_value: money
+      })
+      // this.setState(prevState => ({ id: prevState.id + 1 }))
+      Alert.alert("Serviço cadastrado com sucesso!")
     } else {
       Alert.alert(
         "Error",
@@ -79,7 +64,6 @@ export default class RegisterServices extends Component {
         { cancelable: false }
       );
     }
-    // .catch(error => {Alert.alert(error.message)})
   }
 
   render() {

@@ -13,7 +13,8 @@ import {
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { db } from "../config";
+import db from "../config";
+import { collection, getDocs } from "firebase/firestore";
 
 export default class ModalService extends React.Component {
   constructor(props) {
@@ -22,9 +23,10 @@ export default class ModalService extends React.Component {
       speakerIcon: "chevron-back-outline",
       photo: "person-circle-outline",
       searchText: "",
+      check: "checkmark-outline",
       list: [],
       serviceList: [],
-
+      selectedServices: [], 
     };
   }
 
@@ -39,17 +41,58 @@ export default class ModalService extends React.Component {
     }
   }
 
-  getService = async () => {
-    const service = collection(db, "Service")
-    const serviceSnapshot = await getDocs(service)
-    const serviceList = serviceSnapshot.docs.map(doc => doc.data());
-    this.setState({ serviceList: [...serviceList] })
+  handleFilterList() {
+    const { searchText, serviceList } = this.state;
+
+    if (searchText === '') {
+      this.setState({ serviceList: serviceList });
+      this.getService();
+    } else {
+      const filteredList = serviceList.filter(
+        (item) => item.service_name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+      );
+      this.setState({ serviceList: filteredList });
+    }
   }
 
+  getService = async () => {
+    const serviceSnapshot = await getDocs(collection(db, "Service"));
+    const serviceData = serviceSnapshot.docs.map(doc => doc.data());
+    this.setState({ serviceList: serviceData })
+  }
+
+  handleServiceSelect = (selectedService) => {
+    const { selectedServices } = this.state;
+    const index = selectedServices.findIndex(service => service.service_name === selectedService.service_name);
+    if (index === -1) {
+      // Se o serviço não estiver selecionado, adicione-o aos serviços selecionados
+      this.setState(prevState => ({
+        selectedServices: [...prevState.selectedServices, selectedService]
+      }));
+      // console.log(selectedServices)
+    } else {
+      // Se o serviço já estiver selecionado, remova-o dos serviços selecionados
+      this.setState(prevState => ({
+        selectedServices: prevState.selectedServices.filter(service => service.service_name !== selectedService.service_name)
+      }));
+      // console.log(selectedServices)
+    }
+  }
+  handleOrderClick = (selectedServices) => {
+    // Faça algo com os dados do serviço selecionado
+    console.log(selectedServices);
+    // Chame a função onServiceSelect passando os dados do serviço selecionado
+    this.props.onServiceSelect(selectedServices);
+  }
+  
   renderItem = ({ item }) => {
-    // console.log(item)
+    const isSelected = this.state.selectedServices.some(selected => selected.service_name === item.service_name);
+ 
     return (
-      <TouchableOpacity style={styles.item}>
+      <TouchableOpacity
+        style={[styles.item, isSelected ? {backgroundColor:"#9ecdff"} : null]}
+        onPress={() => this.handleServiceSelect(item)}
+      >
         <Ionicons
           name={this.state.photo}
           size={RFValue(50)}
@@ -57,40 +100,21 @@ export default class ModalService extends React.Component {
           style={styles.itemPhoto}
         />
         <View style={styles.itemInfo}>
-          <Text style={styles.itemP1}>{item.service_Name}</Text>
-          <Text style={styles.itemP2}>R${item.service_Value}</Text>
+          <Text style={styles.itemP1}>{item.service_name}</Text>
+          <Text style={styles.itemP2}>R${item.service_value}</Text>
         </View>
       </TouchableOpacity>
     )
   }
 
-  handleFilterList() {
-    const { searchText, serviceList } = this.state;
-
-    if (searchText === '') {
-      this.setState({ serviceList: serviceList });
-      this.getService()
-    } else {
-      // this.getService():
-      const filteredList = serviceList.filter(
-
-        (item) => item.service_Name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
-      );
-      // console.log(filteredList),
-      this.setState({ serviceList: filteredList });
-    }
-  }
-
-
   render() {
-    const { searchText, allTransactions, serviceList } = this.state;
+    const { searchText, serviceList } = this.state;
     return (
       <View style={styles.container}>
-
-        <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.searchArea}>
           <TouchableOpacity
-            onPress={this.props.handleClose}>
+            onPress={this.props.handleClose}
+          >
             <Ionicons
               name={this.state.speakerIcon}
               size={RFValue(40)}
@@ -103,6 +127,16 @@ export default class ModalService extends React.Component {
             value={searchText}
             onChangeText={(t) => this.setState({ searchText: t })}
           />
+          <TouchableOpacity
+            onPress={() => this.handleOrderClick(this.state.selectedServices)}
+            style={styles.orderButton}
+          >
+            <Ionicons
+              name={this.state.check}
+              size={RFValue(35)}
+              // color="#888"
+            />
+          </TouchableOpacity>
         </View>
 
         <FlatList
@@ -118,15 +152,19 @@ export default class ModalService extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FFF',
+    // height: RFValue(400),
+    flex: 0.7,
+    top: RFValue(220),
+    // width: RFValue(400),
+    backgroundColor: '#fff',
+    borderWidth: RFValue(2), // Updated to RfValue
   },
   droidSafeArea: {
     height: Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
     backgroundColor: '#f5f5f5',
   },
   input: {
-    flex: 1,
+    // flex: 1,
     height: RFValue(50),
     backgroundColor: '#f1f1f1',
     margin: RFValue(30), // 
@@ -172,7 +210,7 @@ const styles = StyleSheet.create({
   itemP1: {
     fontSize: RFValue(19),
     color: '#000',
-    marginBottom: RFValue(5), // Updated to RfValue
+    marginTop: RFValue(7), // Updated to RfValue
   },
   itemP2: {
     fontSize: RFValue(16), // Updated to RfValue

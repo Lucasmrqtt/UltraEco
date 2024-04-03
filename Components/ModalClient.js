@@ -13,7 +13,8 @@ import {
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { db } from "../config";
+import db from "../config";
+import { collection, getDocs } from "firebase/firestore";
 
 export default class ModalClient extends React.Component {
   constructor(props) {
@@ -40,18 +41,34 @@ export default class ModalClient extends React.Component {
     }
   }
 
+  handleFilterList() {
+    const { searchText, clientList } = this.state;
+
+    if (searchText === '') {
+      this.setState({ clientList: clientList });
+      this.getClients();
+
+    } else {
+      const filteredList = clientList.filter(
+        (item) => item.client_name.toLowerCase().includes(searchText.toLowerCase())
+      );
+      this.setState({ clientList: filteredList });
+    }
+  }
+
   getClients = async () => {
-    const clients = collection(db, "clients")
-    const clientSnapshot = await getDocs(clients)
-    const clientList = clientSnapshot.docs.map(doc => doc.data());
-    // console.log(clientList)
-    this.setState({ clientList: [...clientList] })
+    const clientSnapshot = await getDocs(collection(db, "clients"));
+    const clientsData = clientSnapshot.docs.map(doc => doc.data());
+    this.setState({ clientList: clientsData });
   }
 
   renderItem = ({ item }) => {
     // console.log(item)
     return (
-      <TouchableOpacity style={styles.item}>
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => this.handleClientSelect(item)}
+      >
         <Ionicons
           name={this.state.photo}
           size={RFValue(50)}
@@ -59,29 +76,11 @@ export default class ModalClient extends React.Component {
           style={styles.itemPhoto}
         />
         <View style={styles.itemInfo}>
-          <Text style={styles.itemP1}>{item.client_Name}</Text>
-          <Text style={styles.itemP2}>{item.client_Email}</Text>
+          <Text style={styles.itemP1}>{item.client_name}</Text>
+          <Text style={styles.itemP2}>{item.client_phone}</Text>
         </View>
       </TouchableOpacity>
     )
-  }
-
-  handleFilterList() {
-    const { searchText, clientList } = this.state;
-
-    if (searchText === '') {
-      this.setState({ clientList: clientList });
-      this.getClients()
-    } else {
-      // console.log(clientList)
-      // this.getClients():
-      const filteredList = clientList.filter(
-
-        (item) => item.client_Name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
-      );
-      // console.log(filteredList),
-      this.setState({ clientList: filteredList });
-    }
   }
 
   handleOrderClick = () => {
@@ -96,8 +95,12 @@ export default class ModalClient extends React.Component {
     this.setState({ clientList: newList });
   }
 
+  handleClientSelect = (clientData) => {
+    this.props.onClientSelect(clientData);
+  }
+
   render() {
-    const { searchText, allTransactions, clientList } = this.state;
+    const { searchText, clientList } = this.state;
     return (
       <View style={styles.container}>
 
@@ -142,16 +145,20 @@ export default class ModalClient extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FFF',
+    // height: RFValue(400),
+    flex: 0.7,
+    top: RFValue(220),
+    // width: RFValue(400),
+    backgroundColor: '#fff',
+    borderWidth: RFValue(2), // Updated to RfValue
   },
   droidSafeArea: {
-    height: Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
+    // height: Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
     backgroundColor: '#f5f5f5',
   },
   input: {
     flex: 1,
-    height: RFValue(50),
+    height: RFValue(40),
     backgroundColor: '#f1f1f1',
     margin: RFValue(30), // 
     borderWidth: RFValue(2), // Updated to RfValue
@@ -165,6 +172,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
+    height: RFValue(70),
+
   },
   orderButton: {
     width: RFValue(32),

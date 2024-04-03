@@ -45,9 +45,11 @@ export default class Scheduling extends Component {
       speakerIcon: "chevron-back-outline",
       Check: "checkmark-outline",
       add: "add-outline",
-      clientModal: "",
-      serviceModal: "",
-      calendarModal: "false",
+      client: "",
+      clientModal: false,
+      services: "",
+      serviceModal: false,
+      calendarModal: false,
       date: new Date().getDay(),
       hour: "",
       duration: "30min",
@@ -124,7 +126,7 @@ export default class Scheduling extends Component {
     // console.log(d)
     this.setState({ date: d })
   }
-  renderPlaceholder1 = () => {
+  renderPlaceholderDuration = () => {
     const { duration } = this.state;
     if (duration) {
       return duration;
@@ -140,6 +142,9 @@ export default class Scheduling extends Component {
   };
   addSchedule = (discount, obs) => {
     if (
+      this.state.client &&
+      this.state.hour &&
+      this.state.services &&
       this.state.discount &&
       this.state.obs
     ) {
@@ -162,8 +167,34 @@ export default class Scheduling extends Component {
     }
     // .catch(error => {Alert.alert(error.message)})
   }
+  handleClientSelect = (clientData) => {
+    this.setState({ client: clientData });
+    this.clientModalFalse();
+  }
+  renderPlaceholderClient = () => {
+    const { client } = this.state;
+    if (client) {
+      return client.client_name; // Supondo que `client_name` seja o campo que contém o nome do cliente
+    } else {
+      return 'Cliente';
+    }
+  };
+  handleServiceSelect = (serviceData) => {
+    // console.log(serviceData, "HUHUHU")
+    this.setState({ services: serviceData });
+    console.log(this.state.services, "HUHUHU")
+    this.serviceModalFalse();
+  }
+  renderPlaceholderService = () => {
+  const { service } = this.state;
+  if (service && service.service_name) {
+    return service.service_name; 
+  } else {
+    return 'Serviço';
+  }
+};
+
   render() {
-    const { } = this.state;
     return (
       <View style={styles.container}>
         <Modal
@@ -177,6 +208,7 @@ export default class Scheduling extends Component {
           <ModalClient
             navigation={this.props.navigation}
             handleClose={this.clientModalFalse}
+            onClientSelect={this.handleClientSelect}
           />
         </Modal>
         <Modal
@@ -190,6 +222,7 @@ export default class Scheduling extends Component {
           <ModalService
             navigation={this.props.navigation}
             handleClose={this.serviceModalFalse}
+            onServiceSelect={this.handleServiceSelect}
           />
         </Modal>
         <Modal
@@ -246,7 +279,9 @@ export default class Scheduling extends Component {
         <ScrollView style={styles.body}>
           <View style={styles.margin}>
             <TouchableOpacity onPress={this.clientModalTrue} style={styles.touchableOpacity}>
-              <Text style={styles.bodyText}>Cliente</Text>
+              <Text  style={[styles.bodyText, { fontSize: this.state.client ? RFValue(15) : RFValue(20) }]}>
+                {this.renderPlaceholderClient()}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.props.navigation.navigate("AddClients")} style={styles.add}>
               <Ionicons
@@ -257,8 +292,11 @@ export default class Scheduling extends Component {
           </View>
           <View style={styles.margin}>
             <TouchableOpacity onPress={this.serviceModalTrue} style={styles.touchableOpacity}>
-              <Text style={styles.bodyText}>Serviço</Text>
+              <Text style={[styles.bodyText, { fontSize: this.state.services ? RFValue(15) : RFValue(20) }]}>
+                {this.renderPlaceholderService()}
+              </Text>
             </TouchableOpacity>
+
             <TouchableOpacity onPress={() => this.props.navigation.navigate("RegisterServices")} style={styles.add}>
               <Ionicons
                 name={this.state.add}
@@ -294,9 +332,27 @@ export default class Scheduling extends Component {
               marginLeft: RFValue(-55),
               marginTop: Platform.OS === 'android' ? RFValue(25) : RFValue(19),
             }]}>
-              <TouchableOpacity>
-                <Text style={styles.bodyText}>11:00</Text>
-              </TouchableOpacity>
+              <TextInputMask
+                placeholder='00:00'
+                type={'cnpj'}
+                value={this.state.hour}
+                onChangeText={text => {
+                  this.setState({
+                    hour: text
+                  })
+                }}
+                maxLength={5}
+                style={{
+                  height: RFValue(30),
+                  width: RFValue(70),
+                  // borderWidth: RFValue(1),
+                  // borderRadius: RFValue(3),
+                  // fontWeight: 'bold',
+                  fontSize: RFValue(18),
+                  paddingStart: RFValue(15),
+
+                }}
+              />
             </View>
           </View>
 
@@ -322,7 +378,7 @@ export default class Scheduling extends Component {
                 { label: "5h", value: "5h" },
               ]}
               // scrollViewProps={false}
-              placeholder={this.renderPlaceholder1()}
+              placeholder={this.renderPlaceholderDuration()}
               placeholderStyle={{
                 alignSelf: 'center',
                 textAlign: 'center',
@@ -342,7 +398,7 @@ export default class Scheduling extends Component {
               textStyle={{
                 color: "black",
                 fontSize: RFValue(16),
-                fontWeight: 'bold'
+                // fontWeight: 'bold'
                 // backgroundColor: "red",
               }}
               onSelectItem={(item) => {
@@ -359,7 +415,7 @@ export default class Scheduling extends Component {
           <View style={styles.margin}>
             <TouchableOpacity onPress={this.employeeModalTrue} style={styles.touchableOpacity}>
               <Text style={{
-                fontWeight: 'bold',
+                // fontWeight: 'bold',
                 fontSize: RFValue(16)
               }}>Profissional/Equipes</Text>
             </TouchableOpacity>
@@ -522,7 +578,7 @@ const styles = StyleSheet.create({
   calendar: {
     fontSize: RFValue(16),
     margin: RFValue(10),
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     // paddingTop: RFValue(10),
     // backgroundColor:"red",
   },
@@ -555,7 +611,7 @@ const styles = StyleSheet.create({
 
   },
   bodyText: {
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     fontSize: RFValue(20)
   },
   space: {

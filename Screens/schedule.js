@@ -108,9 +108,7 @@ export default class Schedule extends Component {
     d = d[1] + "/" + d[0] + "/" + d[2]
     this.setState({ date: d })
   }
-  // handleForceUpdate = () => {
-  //   this.setState((prevState) => ({forceUpdate: !prevState.forceUpdate}))
-  // }
+
   convertDate = (day) => {
     let d = day
     d = d.toString().split("").slice(0, 15).join("")
@@ -128,14 +126,15 @@ export default class Schedule extends Component {
     d = d[1] + "/" + d[0] + "/" + d[2]
     this.setState({ date: d })
   }
- 
+
   render() {
+    const { selectedDay, visibleModal, date } = this.state;
     const calendarValue = new Date();
     const daysOfWeek = getDaysOfWeek(calendarValue);
     return (
       <View style={styles.container}>
         <Modal
-          visible={this.state.visibleModal}
+          visible={visibleModal}
           transparent={true}
           onRequestClose={this.visibleModalFalse}
           animationType="fade"
@@ -149,13 +148,12 @@ export default class Schedule extends Component {
               }}
               // onPress={console.log("MUITO BOM DAIA")}
               
-              value={this.state.date}
+              value={date}
               monthFormat={'dd-MM-yyyy'}
               onDayPress={(day) => {
                 this.visibleModalFalse();
                 const selectedDay = new Date(day.timestamp);
                 this.convertDate(selectedDay);
-
                 const daysOfWeek = getDaysOfWeek(selectedDay);
                 this.setState({ selectedDay, daysOfWeek });
               }}
@@ -168,7 +166,7 @@ export default class Schedule extends Component {
           <View style={styles.header}>
             <View style={styles.profile}>
               <TouchableOpacity onPress={this.visibleModalTrue}>
-                <Text style={styles.calendar}>{this.state.date}</Text>
+                <Text style={styles.calendar}>{date}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.userEmployee}>

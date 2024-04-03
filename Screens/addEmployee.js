@@ -13,7 +13,7 @@ import {
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import db from "../config";
-import { collection, addDoc, Timestamp } from "firebase/firestore"; 
+import { collection, addDoc} from "firebase/firestore"; 
 
 export default class Employee extends Component {
   constructor(props) {
@@ -38,7 +38,7 @@ export default class Employee extends Component {
         employee_Name: name
       })
       // this.setState(prevState => ({ id: prevState.id + 1 }))
-      Alert.alert("Cliente cadastrado com sucesso!")
+      Alert.alert("Funcionário cadastrado com sucesso!")
     } else {
       Alert.alert(
         "Error",

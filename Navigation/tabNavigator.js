@@ -71,6 +71,7 @@ export default class TabNavigator extends Component {
   render() {
     if (this.state.visibleModal) {
       return (
+        <View >
         <Modal
           visible={this.state.visibleModal}
           transparent={true}
@@ -84,6 +85,7 @@ export default class TabNavigator extends Component {
             handleClose={this.visibleModalFalse}
           />
         </Modal>
+        </View>
       );
     }
     return (
