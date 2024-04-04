@@ -80,7 +80,7 @@ export default class ModalService extends React.Component {
   }
   handleOrderClick = (selectedServices) => {
     // Faça algo com os dados do serviço selecionado
-    console.log(selectedServices);
+    // console.log(selectedServices);
     // Chame a função onServiceSelect passando os dados do serviço selecionado
     this.props.onServiceSelect(selectedServices);
   }

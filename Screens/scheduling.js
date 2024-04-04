@@ -180,19 +180,36 @@ export default class Scheduling extends Component {
     }
   };
   handleServiceSelect = (serviceData) => {
-    // console.log(serviceData, "HUHUHU")
-    this.setState({ services: serviceData });
-    console.log(this.state.services, "HUHUHU")
+    console.log(serviceData, "serviceData")
+    this.setState({ services: serviceData }, () => {
+      console.log(this.state.services, "services"); // Executado após o estado ser atualizado
+    });
     this.serviceModalFalse();
   }
+
   renderPlaceholderService = () => {
-  const { service } = this.state;
-  if (service && service.service_name) {
-    return service.service_name; 
-  } else {
-    return 'Serviço';
-  }
-};
+    const { services } = this.state;
+    if (services && services.length >= 1) {
+      let placeholder = '';
+      for (let i = 0; i < Math.min(services.length, 20); i++) {
+        placeholder += services[i].service_name;
+        if (i < Math.min(services.length, 20) - 1) {
+          placeholder += ', \n';
+        }
+      }
+      if (services.length > 10) {
+        placeholder += ', ...';
+      }
+      return placeholder;
+    } else {
+      return 'Serviço';
+    }
+  };
+  
+
+
+
+
 
   render() {
     return (
@@ -279,7 +296,7 @@ export default class Scheduling extends Component {
         <ScrollView style={styles.body}>
           <View style={styles.margin}>
             <TouchableOpacity onPress={this.clientModalTrue} style={styles.touchableOpacity}>
-              <Text  style={[styles.bodyText, { fontSize: this.state.client ? RFValue(15) : RFValue(20) }]}>
+              <Text style={[styles.bodyText, { fontSize: this.state.client ? RFValue(15) : RFValue(20) }]}>
                 {this.renderPlaceholderClient()}
               </Text>
             </TouchableOpacity>

@@ -96,6 +96,7 @@ export default class ModalClient extends React.Component {
   }
 
   handleClientSelect = (clientData) => {
+    // console.log(clientData);
     this.props.onClientSelect(clientData);
   }
 
