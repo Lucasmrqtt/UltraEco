@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { db } from "../config";
+import db from "../config";
+import { collection, getDocs } from "firebase/firestore";
 
 export default class ProfileClient extends Component {
   constructor(props) {
@@ -23,21 +24,22 @@ export default class ProfileClient extends Component {
   }
 
   componentDidMount() {
-    this.getClients("01")
+    this.getClients()
   }
 
-  getClients = async (clientID) => {
-    const clients = collection(db, "clients")
-    const clientSnapshot = await getDocs(clients)
-    const clientList = clientSnapshot.docs.map(doc => { doc.data().client_ID == clientID? doc.data() : false
-      // doc.data()
-      // if (doc.data().client_ID == clientID) {
-      //   return (doc.data())
-      // }
-    });
-    console.log(clientList)
-    console.log(clientList[2])
-    this.setState({ clientList: [...clientList] })
+  getClients = async () => {
+    const clientSnapshot = await getDocs(collection(db, "clients"));
+    const clientsData = clientSnapshot.docs.map(doc => doc.data());
+    this.setState({ clientList: clientsData });
+  }
+
+  formatTimestamp = (timestamp) => {
+    if (timestamp && timestamp.toDate) {
+      const dateObject = timestamp.toDate();
+      return `0${dateObject.getDate()}/0${dateObject.getMonth() + 1}/${dateObject.getFullYear()}`;
+    } else {
+      return 'Não especificado';
+    }
   }
 
   render() {
@@ -50,12 +52,12 @@ export default class ProfileClient extends Component {
             <Ionicons
               name={speakerIcon}
               size={RFValue(40)}
-              onPress={() => this.props.navigation.navigate("Home")}
+              onPress={() => this.props.navigation.navigate("Client")}
             // onPress={() => this.props.navigation.navigate("Agenda")}
             />
           </TouchableOpacity>
           <View style={styles.title}>
-            <Text style={styles.titleText}>{clientList.client_Name}</Text>
+            <Text style={styles.titleText}>{clientList.client_name}</Text>
           </View>
         </View>
 
@@ -69,25 +71,34 @@ export default class ProfileClient extends Component {
             }}>Perfil</Text>
             <View style={[styles.margin, { marginTop: RFValue(13), }]}>
               <Text style={styles.titleBody}>Nome</Text>
-              <Text style={{ fontSize: 15, color: "#a1a1a1" }}>Maria da Gloria Karam Marquetti</Text>
+              <Text style={styles.infoValue}>
+                {clientList && clientList.length > 0 ? clientList[0].client_name : null}
+              </Text>
+
             </View>
             <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
               <View style={styles.margin}>
                 <Text style={styles.titleBody}>Nascimento</Text>
-                <Text style={{ fontSize: 15, color: "#a1a1a1" }}>04/09/1970</Text>
+                <Text style={styles.infoValue}>{clientList && clientList.length > 0 ?
+                  this.formatTimestamp(clientList[0].client_data) :
+                  'Não especificado'
+                }</Text>
               </View>
               <View style={[styles.margin, { marginEnd: 140, }]}>
-                <Text style={styles.titleBody}>Carro</Text>
-                <Text style={{ fontSize: 15, color: "#a1a1a1" }}>HR-V</Text>
+                <Text style={styles.titleBody}>Carros</Text>
+                {clientList && clientList.length > 0 ?
+                  <Text style={styles.infoValue}>
+                    {clientList[0].client_car1}{"\n"}{clientList[0].client_car2}
+                  </Text>
+                  : null
+                }
               </View>
-            </View>
-            <View style={styles.margin}>
-              <Text style={styles.titleBody}>G-mail</Text>
-              <Text style={{ fontSize: 15, color: "#a1a1a1" }}>Gloriamarquetti@gmail.com</Text>
             </View>
             <View style={styles.margin}>
               <Text style={styles.titleBody}>Telefone</Text>
-              <Text style={{ fontSize: 15, color: "#a1a1a1" }}>(45) 99975-6051</Text>
+              <Text style={styles.infoValue}>
+                {clientList && clientList.length > 0 ? clientList[0].client_phone : null}
+              </Text>
             </View>
           </View>
           <View style={styles.Adress}>
@@ -100,11 +111,15 @@ export default class ProfileClient extends Component {
 
             <View style={[styles.margin, { marginTop: RFValue(13), }]}>
               <Text style={styles.titleBody}>Endereço</Text>
-              <Text style={{ fontSize: 15, color: "#a1a1a1" }}>Rua Trinta Reis, 442</Text>
+              <Text style={styles.infoValue}>
+                {clientList && clientList.length > 0 ? clientList[0].client_house_adress || 'Não especificado' : 'Não especificado'}
+              </Text>
             </View>
             <View style={styles.margin}>
               <Text style={styles.titleBody}>Bairro</Text>
-              <Text style={{ fontSize: 15, color: "#a1a1a1" }}>Vila A</Text>
+              <Text style={styles.infoValue}>
+                {clientList && clientList.length > 0 ? clientList[0].client_house_neighborhood || 'Não especificado' : 'Não especificado'}
+              </Text>
             </View>
           </View>
           <View style={styles.Adress}>
@@ -117,17 +132,20 @@ export default class ProfileClient extends Component {
 
             <View style={[styles.margin, { marginTop: RFValue(13), }]}>
               <Text style={styles.titleBody}>Endereço</Text>
-              <Text style={{ fontSize: 15, color: "#a1a1a1" }}>Rua Trinta Reis, 442</Text>
+              <Text style={styles.infoValue}>
+                {clientList && clientList.length > 0 ? clientList[0].client_work_adress || 'Não especificado' : 'Não especificado'}
+              </Text>
             </View>
             <View style={styles.margin}>
               <Text style={styles.titleBody}>Bairro</Text>
-              <Text style={{ fontSize: 15, color: "#a1a1a1" }}>Vila A</Text>
+              <Text style={styles.infoValue}>
+                {clientList && clientList.length > 0 ? clientList[0].client_work_neighborhood || 'Não especificado' : 'Não especificado'}
+              </Text>
             </View>
           </View>
         </View>
 
         <View style={styles.space}></View>
-
 
       </ScrollView>
     )
@@ -148,12 +166,16 @@ const styles = StyleSheet.create({
   header: {
     // backgroundColor: "pink",
     // backgroundColor: "#bdbdbd",
-    borderBottomWidth: RFValue(1),
-    borderBottomColor: "#bdbdbd",
+    // borderBottomWidth: RFValue(1),
+    // borderBottomColor: "#bdbdbd",
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: RFValue(10),
+  },
+  infoValue: {
+    fontSize: 18,
+    color: "#a1a1a1"
   },
   back: {
     // backgroundColor: "brown",
@@ -184,13 +206,13 @@ const styles = StyleSheet.create({
   profile: {
     // backgroundColor: "pink",
     paddingBottom: RFValue(14),
-    borderWidth: RFValue(1),
+    // borderWidth: RFValue(1),
     paddingStart: RFValue(15),
   },
   Adress: {
     paddingBottom: RFValue(14),
     marginTop: RFValue(10),
-    borderWidth: RFValue(1),
+    // borderWidth: RFValue(1),
     paddingStart: RFValue(15),
   },
   titleBody: {
@@ -205,7 +227,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     // alignItems:'center',
   },
-
   space: {
     width: "100%",
     // backgroundColor: "pink",

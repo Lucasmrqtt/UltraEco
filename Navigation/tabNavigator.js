@@ -18,8 +18,9 @@ import Schedule from "../Screens/schedule";
 import Dashboard from "../Screens/dashboard";
 import ActionModal from "../Components/ActionModal";
 import ButtonStyle from "../Components/ButtonStyle";
-import Clients from "../Screens/clients";
 import Settings from "../Screens/settings";
+import List from '../Screens/list';
+import Clients from "../Screens/clients";
 
 import Welcome from "../Screens/welcome";
 import Login from "../Screens/login";
@@ -101,8 +102,8 @@ export default class TabNavigator extends Component {
               let iconSize = RFValue(20);
               let iconColor = color;
 
-              if (route.name === "Clientes") {
-                iconName = focused ? "people" : "people-outline";
+              if (route.name === "Lista") {
+                iconName = focused ? "list" : "list-outline";
               } else if (route.name === "Agenda") {
                 iconName = focused ? "calendar" : "calendar-outline";
               } else if (route.name === "Dashboard") {
@@ -141,7 +142,7 @@ export default class TabNavigator extends Component {
               tabBarIcon: () => <ButtonStyle />,
             }}
           />
-          <Tab.Screen name="Clientes" component={Clients} />
+          <Tab.Screen name="Lista" component={List} />
           <Tab.Screen name="Config." component={Settings} />
         </Tab.Navigator >
 

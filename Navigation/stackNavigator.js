@@ -3,7 +3,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import TabNavigator from "./tabNavigator";
 
 import AddClients from "../Screens/addClients"; //Feito
-
+import Client from "../Screens/clients";
+import ListService from "../Screens/listService";
 import CashFlow from "../Screens/cashFlow"; //Feito
 import Historic from "../Screens/historic";
 import Employee from "../Screens/addEmployee";
@@ -15,8 +16,8 @@ import Expenses from "../Screens/expenses";
 import Service from "../Screens/service";
 import ProfileClient from "../Screens/profileClient";
 import EcoMonitor from "../Screens/ecoMonitor";
+import List from "../Screens/list";
 // import Dashboard from "../Screens/dashboard";
-
 const Stack = createStackNavigator()
 
 export default class StackNavigator extends Component {
@@ -29,6 +30,9 @@ export default class StackNavigator extends Component {
         <Stack.Screen name="Employee" component={Employee}/>
         <Stack.Screen name="Scheduling" component={Scheduling} />
         <Stack.Screen name="AddClients" component={AddClients} />
+        {/* <Stack.Screen name="List" component={List} />x */}
+        <Stack.Screen name="Client" component={Client} />
+        <Stack.Screen name="ListService" component={ListService} />
         <Stack.Screen name="Expenses" component={Expenses} />
         <Stack.Screen name="Revenue" component={Revenue} />
         <Stack.Screen name="RegisterServices" component={RegisterServices} />

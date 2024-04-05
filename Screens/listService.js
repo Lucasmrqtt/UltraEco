@@ -16,7 +16,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import db from "../config";
 import { collection, getDocs } from "firebase/firestore";
 
-export default class  Client extends Component {
+export default class ListService extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,14 +24,14 @@ export default class  Client extends Component {
       photo: "person-circle-outline",
       back: "chevron-back-outline",
       searchText: "",
-      clientList: [],
+      serviceList: [],
 
     };
   }
 
   componentDidMount() {
     // this.handleFilterList();
-    this.getClients()
+    this.getService()
     this.handleFilterList();
   }
 
@@ -41,19 +41,16 @@ export default class  Client extends Component {
     }
   }
 
-  getClients = async () => {
-    const clientSnapshot = await getDocs(collection(db, "clients"));
-    const clientsData = clientSnapshot.docs.map(doc => doc.data());
-    this.setState({ clientList: clientsData });
+  getService = async () => {
+    const serviceSnapshot = await getDocs(collection(db, "Service"));
+    const serviceData = serviceSnapshot.docs.map(doc => doc.data());
+    this.setState({ serviceList: serviceData })
   }
 
   renderItem = ({ item }) => {
     // console.log(item)
     return (
-      <TouchableOpacity 
-      style={styles.item}
-      onPress={() => this.props.navigation.navigate("ProfileClient")}
-      >
+      <TouchableOpacity style={styles.item}>
         <Ionicons
           name={this.state.photo}
           size={RFValue(50)}
@@ -61,46 +58,44 @@ export default class  Client extends Component {
           style={styles.itemPhoto}
         />
         <View style={styles.itemInfo}>
-          <Text style={styles.itemP1}>{item.client_name}</Text>
-          <Text style={styles.itemP2}>{item.client_phone}</Text>
+          <Text style={styles.itemP1}>{item.service_name}</Text>
+          <Text style={styles.itemP2}>R${item.service_value}</Text>
         </View>
       </TouchableOpacity>
     )
   }
 
   handleFilterList() {
-    const { searchText, clientList } = this.state;
+    const { searchText, serviceList } = this.state;
 
     if (searchText === '') {
-      this.setState({ clientList: clientList });
-      this.getClients()
+      this.setState({ serviceList: serviceList });
+      this.getService()
     } else {
-      // console.log(clientList)
-      // this.getClients():
-      const filteredList = clientList.filter(
+      // console.log(serviceList)
+      const filteredList = serviceList.filter(
 
-        (item) => item.client_name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+        (item) => item.service_name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
       );
       // console.log(filteredList),
-      this.setState({ clientList: filteredList });
+      this.setState({ serviceList: filteredList });
     }
   }
 
   handleOrderClick = () => {
-    const { clientList } = this.state;
+    const { serviceList } = this.state;
 
-    const newList = [...clientList];
-    // console.log(newList)
-    // newList.sort((a, b) => {return b.client_Name - a.client_Name});
+    const newList = [...serviceList];
 
-    newList.sort((a, b) => (a.client_name > b.client_name ? 1 : b.client_name > a.client_name ? -1 : 0));
 
-    this.setState({ clientList: newList });
+    newList.sort((a, b) => (a.service_name > b.service_name ? 1 : b.service_name > a.service_name ? -1 : 0));
+
+    this.setState({ serviceList: newList });
   }
 
 
   render() {
-    const { searchText, allTransactions, clientList } = this.state;
+    const { searchText, allTransactions, serviceList } = this.state;
     return (
       <View style={styles.container}>
 
@@ -118,7 +113,7 @@ export default class  Client extends Component {
           </TouchableOpacity>
           <TextInput
             style={styles.input}
-            placeholder="Pesquise um cliente"
+            placeholder="Pesquise um serviço"
             placeholderTextColor="#888"
             value={searchText}
             onChangeText={(t) => this.setState({ searchText: t })}
@@ -136,7 +131,7 @@ export default class  Client extends Component {
         </View>
 
         <FlatList
-          data={clientList}
+          data={serviceList}
           renderItem={this.renderItem}
           keyExtractor={(item, index) => index.toString()}
           style={styles.list}

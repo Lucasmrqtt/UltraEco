@@ -205,10 +205,6 @@ export default class Scheduling extends Component {
       return 'Serviço';
     }
   };
-  
-
-
-
 
 
   render() {
@@ -309,7 +305,7 @@ export default class Scheduling extends Component {
           </View>
           <View style={styles.margin}>
             <TouchableOpacity onPress={this.serviceModalTrue} style={styles.touchableOpacity}>
-              <Text style={[styles.bodyText, { fontSize: this.state.services ? RFValue(15) : RFValue(20) }]}>
+              <Text style={[styles.bodyText, { fontSize: "Serviço" ? RFValue(20) : RFValue(15) }]}>
                 {this.renderPlaceholderService()}
               </Text>
             </TouchableOpacity>
