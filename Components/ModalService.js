@@ -9,7 +9,8 @@ import {
   TextInput,
   FlatList,
   StatusBar,
-  Alert
+  Alert,
+  Keyboard
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -20,7 +21,7 @@ export default class ModalService extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      speakerIcon: "chevron-back-outline",
+      speakerIcon: "arrow-back",
       photo: "person-circle-outline",
       searchText: "",
       check: "checkmark-outline",
@@ -126,6 +127,8 @@ export default class ModalService extends React.Component {
             placeholderTextColor="#888"
             value={searchText}
             onChangeText={(t) => this.setState({ searchText: t })}
+            returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
           />
           <TouchableOpacity
             onPress={() => this.handleOrderClick(this.state.selectedServices)}

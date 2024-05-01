@@ -10,7 +10,7 @@ import {
   StatusBar,
   Platform,
   SafeAreaView,
-  Modal
+  Modal,
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { CalendarProvider, Calendar } from 'react-native-calendars';
@@ -36,18 +36,40 @@ var meses = {
 const getDaysOfWeek = (calendarValue) => {
   const daysOfWeek = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
   const dayIndex = calendarValue.getDay()
-  console.log(calendarValue, "Olá")
   const result = {};
   for (let i = 0; i < daysOfWeek.length; i++) {
     const offset = (i - dayIndex + 7) % 7;
     const dayValue = new Date(calendarValue);
-    // console.log(dayValue, "OI")
     dayValue.setDate(dayValue.getDate() + offset);
     result[daysOfWeek[i]] = dayValue;
   }
-
   return result;
 };
+
+// Função para obter as próximas 7 datas com o dia da semana alterado para Quarta-feira
+const getNextSevenWednesdays = () => {
+  const currentDate = new Date();
+  const nextSevenWednesdays = [];
+  for (let i = 0; i < 7; i++) {
+    const nextWednesday = new Date(currentDate.getTime());
+    const offset = (3 - currentDate.getDay() + 7) % 7; // 3 representa Quarta-feira
+    nextWednesday.setDate(currentDate.getDate() + offset + (7 * i));
+    nextSevenWednesdays.push(nextWednesday);
+  }
+  return nextSevenWednesdays;
+};
+
+const getNextSevenDays = () => {
+  const currentDate = new Date();
+  const nextSevenDays = [];
+  for (let i = 0; i < 7; i++) {
+    const nextDay = new Date(currentDate.getTime());
+    nextDay.setDate(currentDate.getDate() + i + 1);
+    nextSevenDays.push(nextDay);
+  }
+  return nextSevenDays;
+};
+
 
 export default class Schedule extends Component {
   constructor(props) {
@@ -56,7 +78,7 @@ export default class Schedule extends Component {
       status: "",
       visibleModal: false,
       date: new Date().getDay(),
-      // forceUpdate: false
+      dates: getNextSevenWednesdays() // Armazena as próximas 7 datas com o dia da semana alterado para Quarta-feira
     };
   }
 
@@ -109,26 +131,8 @@ export default class Schedule extends Component {
     this.setState({ date: d })
   }
 
-  convertDate = (day) => {
-    let d = day
-    d = d.toString().split("").slice(0, 15).join("")
-    d = d.split(" ").slice(1, 4)
-    for (const key in meses) {
-      if (d[0] == key) {
-        d[0] = meses[key]
-      }
-    }
-    d[1] = parseInt(d[1]) + 1
-    d[1] = d[1].toString()
-    if (d[1].length == 1) {
-      d[1] = "0" + d[1]
-    }
-    d = d[1] + "/" + d[0] + "/" + d[2]
-    this.setState({ date: d })
-  }
-
   render() {
-    const { selectedDay, visibleModal, date } = this.state;
+    const { selectedDay, visibleModal, date, dates } = this.state;
     const calendarValue = new Date();
     const daysOfWeek = getDaysOfWeek(calendarValue);
     return (
@@ -147,15 +151,13 @@ export default class Schedule extends Component {
                 marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
               }}
               // onPress={console.log("MUITO BOM DAIA")}
-              
               value={date}
               monthFormat={'dd-MM-yyyy'}
               onDayPress={(day) => {
                 this.visibleModalFalse();
-                const selectedDay = new Date(day.timestamp);
-                this.convertDate(selectedDay);
-                const daysOfWeek = getDaysOfWeek(selectedDay);
-                this.setState({ selectedDay, daysOfWeek });
+                day.day < 10 ? day.day = "0"+ day.day : null
+                day.month < 10 ? day.month = "0"+ day.month : null
+                this.setState({date: day.day + "/" + day.month + "/" + day.year})
               }}
             ></Calendar>
           </CalendarProvider>
@@ -189,12 +191,12 @@ export default class Schedule extends Component {
           </View>
 
           <ScrollView style={styles.schedule}>
-            {Object.keys(daysOfWeek).map((day) => (
-              <View key={day} style={styles.containerWeeks}>
+            {dates.map((date, index) => (
+              <View key={index} style={styles.containerWeeks}>
                 <View style={styles.week}>
-                  <Text style={styles.weekTxt}>{day}</Text>
+                  <Text style={styles.weekTxt}>Qua</Text>
                   <Text style={styles.dayTxt}>
-                    {daysOfWeek[day].toLocaleDateString("pt-BR")}
+                    {date.toLocaleDateString("pt-BR")}
                   </Text>
                 </View>
                 <View style={styles.values}>
@@ -203,7 +205,7 @@ export default class Schedule extends Component {
                       horizontal={true}
                       data={schedule.filter(item => {
                         const itemDay = new Date(item.data);
-                        return itemDay.getDay() === daysOfWeek[day].getDay();
+                        return itemDay.getDay() === 3; // Filtra apenas os compromissos de Quarta-feira
                       })}
                       renderItem={this.renderItem}
                       keyExtractor={(item, index) => index.toString()}

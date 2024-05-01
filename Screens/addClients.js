@@ -17,7 +17,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
 import db from "../config";
-import { collection, addDoc, Timestamp } from "firebase/firestore"; 
+import { collection, addDoc, Timestamp, setDoc } from "firebase/firestore";
 
 export default class AddClients extends Component {
   constructor(props) {
@@ -42,7 +42,7 @@ export default class AddClients extends Component {
       dayValue3: "",
       value: "",
       formattedValue: "",
-      // id: 0
+      id: "0"
     }
     this.textInputBirth = null
     this.textInputMonth = null
@@ -139,8 +139,6 @@ export default class AddClients extends Component {
     this.setState({ neighborhoodHouse: text });
     // Você pode adicionar lógica adicional aqui, como filtrar os dados com base no texto de pesquisa.
   }
-
-
   addClient = async (name, cell, day, month, year, description, car1, car2, adressWork, neighborhoodWork, adressHouse, neighborhoodHouse) => {
     if (
       name &&
@@ -152,16 +150,16 @@ export default class AddClients extends Component {
       adressHouse &&
       neighborhoodHouse
     ) {
-      if (month < 10){
+      if (month < 10) {
         month = "0" + month
-      } 
-      if  (day < 10){
+      }
+      if (day < 10) {
         day = "0" + day
-      } 
+      }
       var date = [day, month, year]
-      date = new Date(date[2] , date[1] - 1, date[0])
+      date = new Date(date[2], date[1] - 1, date[0])
 
-      await addDoc(collection(db, "clients"), {
+      await setDoc(collection(db, "clients", this.state.id), {
         client_name: name,
         client_phone: cell,
         client_data: date,
@@ -172,10 +170,11 @@ export default class AddClients extends Component {
         client_work_neighborhood: neighborhoodWork,
         client_house_adress: adressHouse,
         client_house_neighborhood: neighborhoodHouse,
-        // clent_id : this.state.id
+        client_delet: false,
+        clent_id: this.state.id,
       })
       Alert.alert("Cliente cadastrado com sucesso!")
-      // this.setState(prevState => ({ id: prevState.id + 1 }))
+      // this.setState(({ id: this.state.id + 1 }))
     } else {
       Alert.alert(
         "Error",
@@ -188,7 +187,7 @@ export default class AddClients extends Component {
 
 
   render() {
-    const { 
+    const {
       Check, speakerIcon, name, cell, dayValue1, dayValue2, dayValue3, description, car1,
       car2, adressWork, neighborhoodWork, adressHouse, neighborhoodHouse
     } = this.state;
@@ -223,6 +222,8 @@ export default class AddClients extends Component {
               value={name}
               style={styles.textInputName}
               maxLength={40}
+              returnKeyType="done" // Mudei aqui para "done"
+              onSubmitEditing={() => Keyboard.dismiss()}
             />
           </View>
 
@@ -240,6 +241,8 @@ export default class AddClients extends Component {
               }}
               value={cell}
               onChangeText={this.handleSearchTextChangeCell}
+              returnKeyType="done" // Mudei aqui para "done"
+              onSubmitEditing={() => Keyboard.dismiss()}
             />
 
           </View>
@@ -264,6 +267,8 @@ export default class AddClients extends Component {
                 style={styles.textInputBirth}
                 maxLength={2}
                 ref={(input) => (this.textInputDay = input)}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
 
               <TextInput
@@ -278,6 +283,8 @@ export default class AddClients extends Component {
                 style={styles.textInputBirth}
                 maxLength={2}
                 ref={(input) => (this.textInputMonth = input)}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
 
               <TextInput
@@ -292,6 +299,8 @@ export default class AddClients extends Component {
                 style={[styles.textInputBirth, { width: RFValue(60) }]}
                 maxLength={4}
                 ref={(input) => (this.textInputYear = input)}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
             </View>
           </View>
@@ -337,6 +346,8 @@ export default class AddClients extends Component {
               value={car1}
               style={styles.textInputName}
               maxLength={40}
+              returnKeyType="done" // Mudei aqui para "done"
+              onSubmitEditing={() => Keyboard.dismiss()}
             />
           </View>
 
@@ -358,6 +369,8 @@ export default class AddClients extends Component {
               value={car2}
               style={styles.textInputName}
               maxLength={40}
+              returnKeyType="done" // Mudei aqui para "done"
+              onSubmitEditing={() => Keyboard.dismiss()}
             />
           </View>
 
@@ -378,6 +391,8 @@ export default class AddClients extends Component {
                 value={adressWork}
                 style={styles.textInputName}
                 maxLength={40}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
             </View>
 
@@ -393,6 +408,8 @@ export default class AddClients extends Component {
                 value={neighborhoodWork}
                 style={styles.textInputName}
                 maxLength={40}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
             </View>
           </View>
@@ -417,6 +434,8 @@ export default class AddClients extends Component {
                 value={adressHouse}
                 style={styles.textInputName}
                 maxLength={40}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
             </View>
 
@@ -432,10 +451,12 @@ export default class AddClients extends Component {
                 value={neighborhoodHouse}
                 style={styles.textInputName}
                 maxLength={40}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
             </View>
           </View>
-        <View style={styles.space}></View>
+          <View style={styles.space}></View>
         </ScrollView>
         <View style={styles.fotter}>
           <TouchableOpacity

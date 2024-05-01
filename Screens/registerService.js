@@ -15,14 +15,14 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
 import db from "../config";
-import { collection, addDoc} from "firebase/firestore"; 
+import { collection, addDoc } from "firebase/firestore";
 
 
 export default class RegisterServices extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      speakerIcon: "chevron-back-outline",
+      speakerIcon: "arrow-back",
       Check: "checkmark-outline",
       name: '',
       money: '',
@@ -34,9 +34,9 @@ export default class RegisterServices extends Component {
 
 
   convertToInt = (money) => {
-    money = money.replace("R$","")
-    money = money.replace(".","")
-    money = money.replace(",",".")
+    money = money.replace("R$", "")
+    money = money.replace(".", "")
+    money = money.replace(",", ".")
     money = parseFloat(money)
     console.log(money)
     return money
@@ -46,7 +46,7 @@ export default class RegisterServices extends Component {
   registerServices = async (name, money) => {
     if (
       this.state.name &&
-      this.state.money 
+      this.state.money
     ) {
       money = this.convertToInt(money)
       await addDoc(collection(db, "Service"), {
@@ -60,7 +60,7 @@ export default class RegisterServices extends Component {
       Alert.alert(
         "Error",
         "Todos os campos são obrigatórios!",
-        [{ text: "OK"}],
+        [{ text: "OK" }],
         { cancelable: false }
       );
     }
@@ -96,14 +96,16 @@ export default class RegisterServices extends Component {
               value={name}
               style={styles.textInputName}
               maxLength={40}
+              returnKeyType="done" // Mudei aqui para "done"
+              onSubmitEditing={() => Keyboard.dismiss()}
             />
           </View>
           <View style={styles.margin}>
             <Text style={styles.bodyText}>Preço</Text>
             <View style={{ flexDirection: 'row' }}>
               <TextInputMask
-                placeholder = "0,00"
-                placeholderTextColor={"#000"}
+                placeholder="0,00"
+                placeholderTextColor={"#9c9c9c"}
                 type={'money'}
                 options={{
                   precision: 2,
@@ -121,14 +123,9 @@ export default class RegisterServices extends Component {
                 maxLength={20}
                 // autoFocus
                 style={styles.value}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
-              <TouchableOpacity onPress={Keyboard.dismiss}>
-                <Ionicons
-                  name={Check}
-                  size={RFValue(40)}
-                  style={{ color: "#000", marginLeft: RFValue(20) }}
-                />
-              </TouchableOpacity>
             </View>
           </View>
 

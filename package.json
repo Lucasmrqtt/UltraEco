@@ -23,6 +23,7 @@
     "expo-status-bar": "~1.6.0",
     "firebase": "10.7.1",
     "ios": "^0.0.1",
+    "moment": "^2.30.1",
     "pod-install": "^0.1.38",
     "react": "^18.2.0",
     "react-hook-form": "^7.45.1",
@@ -41,6 +42,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "^14.1.0",
     "react-native-svg-charts": "^5.4.0",
+    "react-native-swipe-list-view": "^3.2.9",
     "react-native-vector-icons": "^9.2.0"
   },
   "devDependencies": {

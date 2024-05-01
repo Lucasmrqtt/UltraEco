@@ -9,7 +9,8 @@ import {
   TextInput,
   FlatList,
   StatusBar,
-  Alert
+  Alert,
+  Keyboard
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -22,7 +23,7 @@ export default class ListService extends Component {
     this.state = {
       abc: "text-outline",
       photo: "person-circle-outline",
-      back: "chevron-back-outline",
+      back: "arrow-back",
       searchText: "",
       serviceList: [],
 
@@ -101,14 +102,14 @@ export default class ListService extends Component {
 
         <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.searchArea}>
-        <TouchableOpacity
+          <TouchableOpacity
             onPress={() => this.props.navigation.navigate("Lista")}
-            style={{marginStart:RFValue(3)}}
+            style={{ marginStart: RFValue(3) }}
           >
             <Ionicons
               name={this.state.back}
               size={RFValue(40)}
-              // color="#888"
+            // color="#888"
             />
           </TouchableOpacity>
           <TextInput
@@ -117,6 +118,8 @@ export default class ListService extends Component {
             placeholderTextColor="#888"
             value={searchText}
             onChangeText={(t) => this.setState({ searchText: t })}
+            returnKeyType="done" // Mudei aqui para "done"
+            onSubmitEditing={() => Keyboard.dismiss()}
           />
           <TouchableOpacity
             onPress={this.handleOrderClick}
@@ -156,8 +159,8 @@ const styles = StyleSheet.create({
     height: RFValue(50),
     backgroundColor: '#f1f1f1',
     margin: RFValue(30), //
-    marginStart: RFValue(10), 
-    marginEnd: RFValue(10), 
+    marginStart: RFValue(10),
+    marginEnd: RFValue(10),
     borderWidth: RFValue(2), // Updated to RfValue
     borderRadius: RFValue(5), // Updated to RfValue
     fontSize: RFValue(19), // Updated to RfValue

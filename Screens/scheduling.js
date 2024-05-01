@@ -21,7 +21,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { TextInputMask } from 'react-native-masked-text';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { CalendarProvider, Calendar, } from 'react-native-calendars';
-
+import moment from 'moment';
 var date = new Date()
 var meses = {
   "Jan": "01", //31
@@ -42,7 +42,7 @@ export default class Scheduling extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      speakerIcon: "chevron-back-outline",
+      speakerIcon: "arrow-back",
       Check: "checkmark-outline",
       add: "add-outline",
       client: "",
@@ -50,10 +50,12 @@ export default class Scheduling extends Component {
       services: "",
       serviceModal: false,
       calendarModal: false,
+      datePh: "",
       date: new Date().getDay(),
       hour: "",
       duration: "30min",
       dropDownHeight: 40,
+      employee: "",
       employeeModal: "",
       discount: "R$0,00",
       description: "",
@@ -103,29 +105,6 @@ export default class Scheduling extends Component {
     // console.log(d)
     this.setState({ date: d })
   }
-  convertDate = (day) => {
-    // let d = new Date(day.timestamp)
-    let d = day
-    // d = d.toDateString()
-    d = d.toString().split("").slice(0, 15).join("")
-    // d = d.toString().split("")
-    d = d.split(" ").slice(1, 4)
-    // console.log(d)
-    for (const key in meses) {
-      if (d[0] == key) {
-        // console.log(d[0])
-        d[0] = meses[key]
-      }
-    }
-    d[1] = parseInt(d[1]) + 1
-    d[1] = d[1].toString()
-    if (d[1].length == 1) {
-      d[1] = "0" + d[1]
-    }
-    d = d[1] + "/" + d[0] + "/" + d[2]
-    // console.log(d)
-    this.setState({ date: d })
-  }
   renderPlaceholderDuration = () => {
     const { duration } = this.state;
     if (duration) {
@@ -146,8 +125,10 @@ export default class Scheduling extends Component {
       this.state.hour &&
       this.state.services &&
       this.state.discount &&
+      this.state.employee &&
       this.state.obs
     ) {
+      console.log(hour)
       var date = this.convertToTimestamp(day, month, year)
       let data = {
         client_discount: discount,
@@ -186,7 +167,6 @@ export default class Scheduling extends Component {
     });
     this.serviceModalFalse();
   }
-
   renderPlaceholderService = () => {
     const { services } = this.state;
     if (services && services.length >= 1) {
@@ -205,8 +185,66 @@ export default class Scheduling extends Component {
       return 'Serviço';
     }
   };
+  handleEmployeeSelect = (employeeData) => {
+    console.log(employeeData, "employeeData")
+    this.setState({ employee: employeeData }, () => {
+      console.log(this.state.employee, "employees"); // Executado após o estado ser atualizado
+    });
+    this.employeeModalFalse();
+  }
+  renderPlaceholderEmployee = () => {
+    const { employee } = this.state;
+    if (employee && employee.length >= 1) {
+      let placeholder = '';
+      for (let i = 0; i < Math.min(employee.length, 20); i++) {
+        placeholder += employee[i].employee_name;
+        if (i < Math.min(employee.length, 20) - 1) {
+          placeholder += ', \n';
+        }
+      }
+      if (employee.length > 10) {
+        placeholder += ', ...';
+      }
+      return placeholder;
+    } else {
+      return 'Serviço';
+    }
+  };
+  formatTimestamp = (timestamp) => {
+    if (timestamp && timestamp.toDate) {
+      // console.log(timestamp, "S")
+      const dateObject = timestamp.toDate();
+      return `0${dateObject.getDate()}/0${dateObject.getMonth() + 1}/${dateObject.getFullYear()}`;
+    } else {
+      return 'Não especificado';
+    }
+  }
+  customMask = (text) => {
+    const cleanedText = text.replace(/\D/g, '');
 
-
+    let maskedText = '';
+    let hours = parseInt(cleanedText.substring(0, 2), 10);
+    let minutes = parseInt(cleanedText.substring(2, 4), 10);
+    for (let i = 0; i < cleanedText.length; i++) {
+      if (i === 1 && cleanedText.length > 2) {
+        maskedText += cleanedText[i] + ':';
+      } else {
+        maskedText += cleanedText[i];
+      }
+    }
+    if (hours < 0 || hours > 23) {
+      // Se as horas forem inválidas, defina o estado do horário como "23:59"
+      this.setState({ hour: '' });
+      return;
+  }
+  if (minutes < 0 || minutes > 59) {
+    // Se os minutos forem inválidos, defina o estado do horário como "23:59"
+    this.setState({ hour: '' });
+    return;
+}
+    this.setState({ hour: maskedText });
+    // console.log(this.state.hour)
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -249,6 +287,7 @@ export default class Scheduling extends Component {
           <ModalEmployee
             navigation={this.props.navigation}
             handleClose={this.employeeModalFalse}
+            onEmployeeSelect={this.handleEmployeeSelect}
           />
         </Modal>
         <Modal
@@ -261,14 +300,21 @@ export default class Scheduling extends Component {
           <View style={styles.calendarModalContainer}>
             <View style={styles.calendarModal}>
               <Calendar
-                style={{ flex: 1 }}
+                // style={{  height: RFValue(350) }}
                 value={this.state.date}
                 monthFormat={'dd-MM-yyyy'}
                 onDayPress={(day) => {
                   this.calendarModalFalse();
-                  day = new Date(day.timestamp);
-                  this.convertDate(day);
-                }}
+                  // Add leading zeros to day and month if necessary
+                  const formattedDay = day.day < 10 ? '0' + day.day : day.day;
+                  const formattedMonth = day.month < 10 ? '0' + day.month : day.month;
+                  
+                  const selectedDate = formattedDay + '/' + formattedMonth + '/' + day.year;
+                  const timestamp = moment(selectedDate, "DD/MM/YYYY").valueOf();
+
+                  console.log(selectedDate)
+                  this.setState({ date: selectedDate });
+              }}
               />
             </View>
           </View>
@@ -345,15 +391,13 @@ export default class Scheduling extends Component {
               marginLeft: RFValue(-55),
               marginTop: Platform.OS === 'android' ? RFValue(25) : RFValue(19),
             }]}>
-              <TextInputMask
+              <TextInput
                 placeholder='00:00'
-                type={'cnpj'}
                 value={this.state.hour}
                 onChangeText={text => {
-                  this.setState({
-                    hour: text
-                  })
+                  this.customMask(text);
                 }}
+                // mask= {"[00]:[00]"}
                 maxLength={5}
                 style={{
                   height: RFValue(30),
@@ -363,8 +407,10 @@ export default class Scheduling extends Component {
                   // fontWeight: 'bold',
                   fontSize: RFValue(18),
                   paddingStart: RFValue(15),
-
                 }}
+                keyboardType="phone-pad"
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
             </View>
           </View>
@@ -474,7 +520,7 @@ export default class Scheduling extends Component {
                 // fontWeight: 'bold',
                 fontSize: RFValue(16),
                 paddingStart: RFValue(10),
-
+                
               }}
             />
           </View>
@@ -492,7 +538,8 @@ export default class Scheduling extends Component {
               borderWidth: RFValue(1),
               borderRadius: RFValue(3),
               padding: RFValue(3)
-            }} />
+            }}
+            />
           </View>
           <View style={styles.space}></View>
         </ScrollView>

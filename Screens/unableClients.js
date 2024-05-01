@@ -16,19 +16,18 @@ import {
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-export default class Historic extends Component {
+export default class UnableClients extends Component {
   constructor(props) {
     super(props)
     this.state = {
       speakerIcon: "arrow-back",
-
     }
   }
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.text}>
-          Tela em manutenção (Historic)
+          Tela em manutenção (UnableClients)
         </Text>
         <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => this.props.navigation.navigate("Home")}>
           <Ionicons

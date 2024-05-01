@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   TextInput,
   FlatList,
+  Keyboard
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -34,7 +35,7 @@ export default class CashFlow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      speakerIcon: "chevron-back-outline",
+      speakerIcon: "arrow-back",
       searchText: '',
       dayValue1: '',
       dayValue2: '',
@@ -441,6 +442,8 @@ export default class CashFlow extends Component {
                     value={searchText}
                     style={styles.filterTextInput}
                     maxLength={40}
+                    returnKeyType="done" // Mudei aqui para "done"
+              onSubmitEditing={() => Keyboard.dismiss()}
                   />
                 </View>
               </View>
@@ -460,6 +463,8 @@ export default class CashFlow extends Component {
                     style={styles.textInputBirth}
                     maxLength={2}
                     ref={(input) => (this.textInputBirth = input)}
+                    returnKeyType="done" // Mudei aqui para "done"
+              onSubmitEditing={() => Keyboard.dismiss()}
                   />
                   <TextInput
                     placeholder="Mês"
@@ -473,7 +478,8 @@ export default class CashFlow extends Component {
                     style={styles.textInputBirth}
                     maxLength={2}
                     ref={(input) => (this.textInputMonth = input)}
-
+                    returnKeyType="done" // Mudei aqui para "done"
+              onSubmitEditing={() => Keyboard.dismiss()}
                   />
 
                   <TextInput
@@ -488,7 +494,8 @@ export default class CashFlow extends Component {
                     style={[styles.textInputBirth, { width: RFValue(60) }]}
                     maxLength={4}
                     ref={(input) => (this.textInputYear = input)}
-
+                    returnKeyType="done" // Mudei aqui para "done"
+              onSubmitEditing={() => Keyboard.dismiss()}
                   />
                 </View>
               </View>

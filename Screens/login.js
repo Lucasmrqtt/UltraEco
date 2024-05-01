@@ -1,5 +1,18 @@
 import React, { Component } from "react";
-import { View, StyleSheet, SafeAreaView, Platform, StatusBar, Image, TextInput, Alert, TouchableOpacity, Text, KeyboardAvoidingView } from "react-native";
+import { 
+  View, 
+  StyleSheet, 
+  SafeAreaView, 
+  Platform, 
+  StatusBar, 
+  Image, 
+  TextInput, 
+  Alert, 
+  TouchableOpacity, 
+  Text, 
+  KeyboardAvoidingView,
+  Keyboard
+ } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import * as Animatable from "react-native-animatable"
 
@@ -41,6 +54,8 @@ export default class Login extends Component {
             style={styles.input}
             onChangeText={text => this.setState({ email: text })}
             placeholder={"Digite o e-mail"}
+            returnKeyType="done" // Mudei aqui para "done"
+            onSubmitEditing={() => Keyboard.dismiss()}
           />
 
           <Text style={styles.title}>Senha</Text>
@@ -49,6 +64,8 @@ export default class Login extends Component {
             onChangeText={text => this.setState({ password: text })}
             placeholder={"Digite a senha"}
             secureTextEntry
+            returnKeyType="done" // Mudei aqui para "done"
+            onSubmitEditing={() => Keyboard.dismiss()}
           />
 
           <TouchableOpacity style={styles.button}>
@@ -72,46 +89,46 @@ const styles = StyleSheet.create({
     marginTop:
       Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
   },
-  containerHeader:{
-    marginTop:"14%",
+  containerHeader: {
+    marginTop: "14%",
     marginBottom: "8%",
     paddingStart: "5%"
   },
-  message:{
-    fontSize:RFValue(28),
-    fontWeight:"bold",
-    color:"#FFF"
+  message: {
+    fontSize: RFValue(28),
+    fontWeight: "bold",
+    color: "#FFF"
   },
-  containerForm:{
-    backgroundColor:"#fff",
-    flex:1,
-    borderTopLeftRadius:RFValue(25),
-    borderTopRightRadius:RFValue(25),
-    paddingStart:"5%",
-    paddingEnd:"5%",
+  containerForm: {
+    backgroundColor: "#fff",
+    flex: 1,
+    borderTopLeftRadius: RFValue(25),
+    borderTopRightRadius: RFValue(25),
+    paddingStart: "5%",
+    paddingEnd: "5%",
   },
-  title:{
-    fontSize:RFValue(20),
-    marginTop:RFValue(28)
+  title: {
+    fontSize: RFValue(20),
+    marginTop: RFValue(28)
   },
   input: {
     borderBottomWidth: RFValue(1),
-    height:RFValue(40),
-    marginBottom:RFValue(12),
-    fontSize:RFValue(16)
+    height: RFValue(40),
+    marginBottom: RFValue(12),
+    fontSize: RFValue(16)
   },
   button: {
     backgroundColor: "#2a1074",
     width: "100%",
     borderRadius: RFValue(5),
-    paddingVertical:RFValue(8),
-    marginTop:RFValue(14),
-    justifyContent:"center",
-    alignItems:"center",
+    paddingVertical: RFValue(8),
+    marginTop: RFValue(14),
+    justifyContent: "center",
+    alignItems: "center",
   },
-  buttonText:{
-    color:"#fff",
-    fontSize:RFValue(18),
-    fontWeight:"bold"
+  buttonText: {
+    color: "#fff",
+    fontSize: RFValue(18),
+    fontWeight: "bold"
   },
 });

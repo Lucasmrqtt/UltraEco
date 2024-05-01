@@ -24,10 +24,11 @@ export default class Expenses extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      speakerIcon: "chevron-back-outline",
+      speakerIcon: "arrow-back",
+
       Check: "checkmark-outline",
       money: 'R$0,00',
-      name:'',
+      name: '',
       selectedValue: null,
       dropDownHeight: 40,
       selectedPayment: null,
@@ -149,15 +150,15 @@ export default class Expenses extends Component {
   };
 
   render() {
-    const { money,Check, name, dayValue1, dayValue2,dayValue3, dayValue4, dayValue5,dayValue6,} = this.state;
+    const { money, Check, name, dayValue1, dayValue2, dayValue3, dayValue4, dayValue5, dayValue6, } = this.state;
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
 
         <View style={styles.header}>
-          <TouchableOpacity 
-          style={styles.back}
-          onPress={() => this.props.navigation.navigate("Home")}
+          <TouchableOpacity
+            style={styles.back}
+            onPress={() => this.props.navigation.navigate("Home")}
           >
             <Ionicons
               name={this.state.speakerIcon}
@@ -189,15 +190,10 @@ export default class Expenses extends Component {
                 autoFocus
                 maxLength={20}
                 style={styles.value}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
             </View>
-            <TouchableOpacity onPress={Keyboard.dismiss}>
-              <Ionicons
-                name={Check}
-                size={RFValue(40)}
-                style={{ color: "#fff" }}
-              />
-            </TouchableOpacity>
           </View>
         </View>
 
@@ -208,9 +204,11 @@ export default class Expenses extends Component {
             onChangeText={this.handleValueChange}
             value={name}
             placeholder={"Nome da despesa"}
+            returnKeyType="done" // Mudei aqui para "done"
+            onSubmitEditing={() => Keyboard.dismiss()}
           />
 
-          <View style={{zIndex: 99,}} >
+          <View style={{ zIndex: 99, }} >
             <Text style={styles.title}>Forma de pagamento</Text>
             <DropDownPicker
               items={[
@@ -251,7 +249,7 @@ export default class Expenses extends Component {
           </View>
 
           <View style={styles.date}>
-            <Text style={[styles.title, {marginBottom:RFValue(10)}]}>Data de vencimento</Text>
+            <Text style={[styles.title, { marginBottom: RFValue(10) }]}>Data de vencimento</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
               <Text style={{ fontSize: RFValue(16) }}>Dia</Text>
               <Text style={{ fontSize: RFValue(16) }}>Mês</Text>
@@ -270,6 +268,8 @@ export default class Expenses extends Component {
                 style={styles.textInputBirth}
                 maxLength={2}
                 ref={(input) => (this.textInputDay = input)}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
 
               <TextInput
@@ -284,6 +284,8 @@ export default class Expenses extends Component {
                 style={styles.textInputBirth}
                 maxLength={2}
                 ref={(input) => (this.textInputMonth = input)}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
 
               <TextInput
@@ -298,18 +300,20 @@ export default class Expenses extends Component {
                 style={[styles.textInputBirth, { width: RFValue(60) }]}
                 maxLength={4}
                 ref={(input) => (this.textInputYear = input)}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
             </View>
           </View>
 
           <View style={styles.date}>
-            <Text style={[styles.title, {marginBottom:RFValue(10)}]}>Data do pagamento</Text>
+            <Text style={[styles.title, { marginBottom: RFValue(10) }]}>Data do pagamento</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
               <Text style={{ fontSize: RFValue(16) }}>Dia</Text>
               <Text style={{ fontSize: RFValue(16) }}>Mês</Text>
               <Text style={{ fontSize: RFValue(16) }}>Ano</Text>
             </View>
-            <View style={{flexDirection: 'row', justifyContent: 'space-around' }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
               <TextInput
                 placeholder="Dia"
                 placeholderStyle={{
@@ -322,6 +326,8 @@ export default class Expenses extends Component {
                 style={styles.textInputBirth}
                 maxLength={2}
                 ref={(input) => (this.textInputDay2 = input)}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
 
               <TextInput
@@ -336,6 +342,8 @@ export default class Expenses extends Component {
                 style={styles.textInputBirth}
                 maxLength={2}
                 ref={(input) => (this.textInputMonth2 = input)}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
 
               <TextInput
@@ -350,6 +358,8 @@ export default class Expenses extends Component {
                 style={[styles.textInputBirth, { width: RFValue(60) }]}
                 maxLength={4}
                 ref={(input) => (this.textInputYear2 = input)}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
             </View>
           </View>
@@ -433,7 +443,7 @@ const styles = StyleSheet.create({
     paddingVertical: RFValue(8),
     width: "60%",
     alignSelf: "center",
-    marginTop:RFValue(70),
+    marginTop: RFValue(70),
     alignItems: "center",
     justifyContent: "center"
   },

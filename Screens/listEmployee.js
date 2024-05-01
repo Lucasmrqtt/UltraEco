@@ -9,29 +9,30 @@ import {
   TextInput,
   FlatList,
   StatusBar,
-  Alert
+  Alert,
+  Keyboard
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import db from "../config";
 import { collection, getDocs } from "firebase/firestore";
 
-export default class  Client extends Component {
+export default class ListEmployee extends Component {
   constructor(props) {
     super(props);
     this.state = {
       abc: "text-outline",
       photo: "person-circle-outline",
-      back: "chevron-back-outline",
+      back: "arrow-back",
       searchText: "",
-      clientList: [],
+      employeeList: [],
 
     };
   }
 
   componentDidMount() {
     // this.handleFilterList();
-    this.getClients()
+    this.getEmployee()
     this.handleFilterList();
   }
 
@@ -41,18 +42,18 @@ export default class  Client extends Component {
     }
   }
 
-  getClients = async () => {
-    const clientSnapshot = await getDocs(collection(db, "clients"));
-    const clientsData = clientSnapshot.docs.map(doc => doc.data());
-    this.setState({ clientList: clientsData });
+  getEmployee = async () => {
+    const employeeSnapshot = await getDocs(collection(db, "Employee"));
+    const employeesData = employeeSnapshot.docs.map(doc => doc.data());
+    this.setState({ employeeList: employeesData });
   }
 
   renderItem = ({ item }) => {
     // console.log(item)
     return (
-      <TouchableOpacity 
-      style={styles.item}
-      onPress={() => this.props.navigation.navigate("ProfileClient")}
+      <TouchableOpacity
+        style={styles.item}
+      //   onPress={() => this.props.navigation.navigate("ProfileClient",{item: item})}
       >
         <Ionicons
           name={this.state.photo}
@@ -61,67 +62,67 @@ export default class  Client extends Component {
           style={styles.itemPhoto}
         />
         <View style={styles.itemInfo}>
-          <Text style={styles.itemP1}>{item.client_name}</Text>
-          <Text style={styles.itemP2}>{item.client_phone}</Text>
+          <Text style={styles.itemP1}>{item.employee_name}</Text>
+          <Text style={styles.itemP2}>{item.employee_cpf}</Text>
         </View>
       </TouchableOpacity>
     )
   }
 
   handleFilterList() {
-    const { searchText, clientList } = this.state;
+    const { searchText, employeeList } = this.state;
 
     if (searchText === '') {
-      this.setState({ clientList: clientList });
-      this.getClients()
+      this.setState({ employeeList: employeeList });
+      this.getEmployee()
     } else {
-      // console.log(clientList)
+      // console.log(employeeList)
       // this.getClients():
-      const filteredList = clientList.filter(
+      const filteredList = employeeList.filter(
 
-        (item) => item.client_name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+        (item) => item.employee_name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
       );
       // console.log(filteredList),
-      this.setState({ clientList: filteredList });
+      this.setState({ employeeList: filteredList });
     }
   }
 
   handleOrderClick = () => {
-    const { clientList } = this.state;
+    const { employeeList } = this.state;
 
-    const newList = [...clientList];
-    // console.log(newList)
-    // newList.sort((a, b) => {return b.client_Name - a.client_Name});
+    const newList = [...employeeList];
 
-    newList.sort((a, b) => (a.client_name > b.client_name ? 1 : b.client_name > a.client_name ? -1 : 0));
+    newList.sort((a, b) => (a.employee_name > b.employee_name ? 1 : b.employee_name > a.employee_name ? -1 : 0));
 
-    this.setState({ clientList: newList });
+    this.setState({ employeeList: newList });
   }
 
 
   render() {
-    const { searchText, allTransactions, clientList } = this.state;
+    const { searchText, allTransactions, employeeList } = this.state;
     return (
       <View style={styles.container}>
 
         <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.searchArea}>
-        <TouchableOpacity
+          <TouchableOpacity
             onPress={() => this.props.navigation.navigate("Lista")}
-            style={{marginStart:RFValue(3)}}
+            style={{ marginStart: RFValue(3) }}
           >
             <Ionicons
               name={this.state.back}
               size={RFValue(40)}
-              // color="#888"
+            // color="#888"
             />
           </TouchableOpacity>
           <TextInput
             style={styles.input}
-            placeholder="Pesquise um cliente"
+            placeholder="Pesquise um funcionário"
             placeholderTextColor="#888"
             value={searchText}
             onChangeText={(t) => this.setState({ searchText: t })}
+            returnKeyType="done" // Mudei aqui para "done"
+            onSubmitEditing={() => Keyboard.dismiss()}
           />
           <TouchableOpacity
             onPress={this.handleOrderClick}
@@ -136,7 +137,7 @@ export default class  Client extends Component {
         </View>
 
         <FlatList
-          data={clientList}
+          data={employeeList}
           renderItem={this.renderItem}
           keyExtractor={(item, index) => index.toString()}
           style={styles.list}
@@ -161,8 +162,8 @@ const styles = StyleSheet.create({
     height: RFValue(50),
     backgroundColor: '#f1f1f1',
     margin: RFValue(30), //
-    marginStart: RFValue(10), 
-    marginEnd: RFValue(10), 
+    marginStart: RFValue(10),
+    marginEnd: RFValue(10),
     borderWidth: RFValue(2), // Updated to RfValue
     borderRadius: RFValue(5), // Updated to RfValue
     fontSize: RFValue(19), // Updated to RfValue

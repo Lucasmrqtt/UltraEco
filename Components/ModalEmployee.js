@@ -9,24 +9,25 @@ import {
   TextInput,
   FlatList,
   StatusBar,
-  Alert
+  Alert,
+  Keyboard
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { db } from "../config";
-
+import db from "../config";
+import { collection, getDocs } from "firebase/firestore";
 
 export default class ModalEmployee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      speakerIcon: "chevron-back-outline",
-      abc: "text-outline",
+      speakerIcon: "arrow-back",
       photo: "person-circle-outline",
       searchText: "",
+      check: "checkmark-outline",
       list: [],
       employeeList: [],
-
+      selectedEmployees: [], 
     };
   }
 
@@ -41,17 +42,58 @@ export default class ModalEmployee extends React.Component {
     }
   }
 
-  getEmployee = async () => {
-    const employee = collection(db, "Employee")
-    const employeeSnapshot = await getDocs(employee)
-    const employeeList = employeeSnapshot.docs.map(doc => doc.data());
-    this.setState({ employeeList: [...employeeList] })
+  handleFilterList() {
+    const { searchText, employeeList } = this.state;
+
+    if (searchText === '') {
+      this.setState({ employeeList: employeeList });
+      this.getEmployee();
+    } else {
+      const filteredList = employeeList.filter(
+        (item) => item.employee_name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+      );
+      this.setState({ employeeList: filteredList });
+    }
   }
 
+  getEmployee = async () => {
+    const employeeSnapshot = await getDocs(collection(db, "Employee"));
+    const employeeData = employeeSnapshot.docs.map(doc => doc.data());
+    this.setState({ employeeList: employeeData })
+  }
+
+  handleEmployeeSelect = (selectedEmployee) => {
+    const { selectedEmployees } = this.state;
+    const index = selectedEmployees.findIndex(employee => employee.employee_name === selectedEmployee.employee_name);
+    if (index === -1) {
+      // Se o serviço não estiver selecionado, adicione-o aos serviços selecionados
+      this.setState(prevState => ({
+        selectedEmployees: [...prevState.selectedEmployees, selectedEmployee]
+      }));
+      // console.log(selectedEmployees)
+    } else {
+      // Se o serviço já estiver selecionado, remova-o dos serviços selecionados
+      this.setState(prevState => ({
+        selectedEmployees: prevState.selectedEmployees.filter(employee => employee.employee_name !== selectedEmployee.employee_name)
+      }));
+      // console.log(selectedEmployees)
+    }
+  }
+  handleOrderClick = (selectedEmployees) => {
+    // Faça algo com os dados do serviço selecionado
+    // console.log(selectedEmployees);
+    // Chame a função onEmployeeSelect passando os dados do serviço selecionado
+    this.props.onEmployeeSelect(selectedEmployees);
+  }
+  
   renderItem = ({ item }) => {
-    // console.log(item)
+    const isSelected = this.state.selectedEmployees.some(selected => selected.employee_name === item.employee_name);
+ 
     return (
-      <TouchableOpacity style={styles.item}>
+      <TouchableOpacity
+        style={[styles.item, isSelected ? {backgroundColor:"#9ecdff"} : null]}
+        onPress={() => this.handleEmployeeSelect(item)}
+      >
         <Ionicons
           name={this.state.photo}
           size={RFValue(50)}
@@ -59,47 +101,21 @@ export default class ModalEmployee extends React.Component {
           style={styles.itemPhoto}
         />
         <View style={styles.itemInfo}>
-          <Text style={styles.itemP1}>{item.employee_Name}</Text>
+          <Text style={styles.itemP1}>{item.employee_name}</Text>
+          {/* <Text style={styles.itemP2}>R${item.employee_value}</Text> */}
         </View>
       </TouchableOpacity>
     )
   }
 
-  handleFilterList() {
-    const { searchText, employeeList } = this.state;
-
-    if (searchText === '') {
-      this.setState({ employeeList: employeeList });
-      this.getEmployee()
-    } else {
-      const filteredList = employeeList.filter(
-
-        (item) => item.employee_Name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
-      );
-      this.setState({ employeeList: filteredList });
-    }
-  }
-
-  handleOrderClick = () => {
-    const { employeeList } = this.state;
-
-    const newList = [...employeeList];
-    // console.log(newList)
-
-    newList.sort((a, b) => (a.employee_Name > b.employee_Name ? 1 : b.employee_Name > a.employee_Name ? -1 : 0));
-
-    this.setState({ employeeList: newList });
-  }
-
   render() {
-    const { searchText, allTransactions, employeeList } = this.state;
+    const { searchText, employeeList } = this.state;
     return (
       <View style={styles.container}>
-
-        <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.searchArea}>
           <TouchableOpacity
-            onPress={this.props.handleClose}>
+            onPress={this.props.handleClose}
+          >
             <Ionicons
               name={this.state.speakerIcon}
               size={RFValue(40)}
@@ -107,19 +123,21 @@ export default class ModalEmployee extends React.Component {
           </TouchableOpacity>
           <TextInput
             style={styles.input}
-            placeholder="Pesquise um profissional"
+            placeholder="Pesquise um serviço"
             placeholderTextColor="#888"
             value={searchText}
             onChangeText={(t) => this.setState({ searchText: t })}
+            returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
           />
           <TouchableOpacity
-            onPress={this.handleOrderClick}
+            onPress={() => this.handleOrderClick(this.state.selectedEmployees)}
             style={styles.orderButton}
           >
             <Ionicons
-              name={this.state.abc}
-              size={RFValue(20)}
-              color="#888"
+              name={this.state.check}
+              size={RFValue(35)}
+              // color="#888"
             />
           </TouchableOpacity>
         </View>
@@ -137,15 +155,19 @@ export default class ModalEmployee extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FFF',
+    // height: RFValue(400),
+    flex: 0.7,
+    top: RFValue(220),
+    // width: RFValue(400),
+    backgroundColor: '#fff',
+    borderWidth: RFValue(2), // Updated to RfValue
   },
   droidSafeArea: {
     height: Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
     backgroundColor: '#f5f5f5',
   },
   input: {
-    flex: 1,
+    // flex: 1,
     height: RFValue(50),
     backgroundColor: '#f1f1f1',
     margin: RFValue(30), // 
@@ -165,23 +187,18 @@ const styles = StyleSheet.create({
     width: RFValue(32),
     marginRight: RFValue(30), // Updated to RfValue
     alignItems: 'center',
-    justifyContent: 'center',
-    // backgroundColor: '#f1f',
-    
+    justifyContent: 'center'
   },
   list: {
     flex: 1,
-    // backgroundColor: '#f1f',
-
   },
   item: {
     flexDirection: 'row',
-    // width: "100%",
+    width: "100%",
     borderBottomWidth: RFValue(1), // Updated to RfValue
     borderBottomColor: '#000',
-    // backgroundColor: '#f1f',
-    paddingTop: RFValue(1), // Updated to RfValue
-    paddingBottom: RFValue(1), // Updated to RfValue
+    paddingTop: RFValue(10), // Updated to RfValue
+    paddingBottom: RFValue(10), // Updated to RfValue
   },
   itemPhoto: {
     // width: RFValue(50), // Updated to RfValue
@@ -192,12 +209,11 @@ const styles = StyleSheet.create({
   },
   itemInfo: {
     marginLeft: RFValue(20), // Updated to RfValue
-    // backgroundColor: '#f1f',
-    alignItems:'center', 
-    justifyContent:'center'
+    justifyContent: 'center'
   },
   itemP1: {
-    fontSize: RFValue(19),
+    fontSize: RFValue(20),
     color: '#000',
+    // marginTop: RFValue(7), // Updated to RfValue
   },
 });

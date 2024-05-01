@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Platform, SafeAreaView } from 'react-native';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  TouchableOpacity, 
+  tatusBar, 
+  Platform, 
+  SafeAreaView 
+} from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { LineChart, Grid, XAxis, YAxis } from 'react-native-svg-charts';
@@ -9,7 +17,8 @@ export default class WaterSavingsChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      speakerIcon: 'chevron-back-outline',
+      speakerIcon: "arrow-back",
+
     };
   }
 

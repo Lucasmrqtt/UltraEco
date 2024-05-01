@@ -20,7 +20,7 @@ import ActionModal from "../Components/ActionModal";
 import ButtonStyle from "../Components/ButtonStyle";
 import Settings from "../Screens/settings";
 import List from '../Screens/list';
-import Clients from "../Screens/clients";
+// import ListClients from "../Screens/ListClients";
 
 import Welcome from "../Screens/welcome";
 import Login from "../Screens/login";

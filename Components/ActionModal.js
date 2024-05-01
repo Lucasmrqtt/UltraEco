@@ -9,8 +9,10 @@ import {
   StatusBar,
   Platform,
   SafeAreaView,
+  Keyboard
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default class ActionModal extends React.Component {
   constructor(props) {
@@ -78,9 +80,11 @@ export default class ActionModal extends React.Component {
                 this.props.handleClose();
                 this.props.navigation.navigate("Employee");
               }}>
-              <Image
-                source={require("../assets/employee.png")}
-                style={styles.icons} />
+              <Ionicons
+                name={"person-add-outline"}
+                size={RFValue(35)}
+                style={styles.icons} 
+              />
               <Text style={styles.text}>Funcionário</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -105,6 +109,8 @@ export default class ActionModal extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
+
   },
   droidSafeArea: {
     marginTop:

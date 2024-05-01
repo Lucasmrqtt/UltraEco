@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import TabNavigator from "./tabNavigator";
 
 import AddClients from "../Screens/addClients"; //Feito
-import Client from "../Screens/clients";
+import ListClient from "../Screens/listClients";
 import ListService from "../Screens/listService";
 import CashFlow from "../Screens/cashFlow"; //Feito
 import Historic from "../Screens/historic";
@@ -17,6 +17,8 @@ import Service from "../Screens/service";
 import ProfileClient from "../Screens/profileClient";
 import EcoMonitor from "../Screens/ecoMonitor";
 import List from "../Screens/list";
+import ListEmployee from "../Screens/listEmployee";
+import AddTeam from "../Screens/addTeam";
 // import Dashboard from "../Screens/dashboard";
 const Stack = createStackNavigator()
 
@@ -30,9 +32,11 @@ export default class StackNavigator extends Component {
         <Stack.Screen name="Employee" component={Employee}/>
         <Stack.Screen name="Scheduling" component={Scheduling} />
         <Stack.Screen name="AddClients" component={AddClients} />
+        <Stack.Screen name="AddTeam" component={AddTeam} />
         {/* <Stack.Screen name="List" component={List} />x */}
-        <Stack.Screen name="Client" component={Client} />
+        <Stack.Screen name="ListClient" component={ListClient} />
         <Stack.Screen name="ListService" component={ListService} />
+        <Stack.Screen name="ListEmployee" component={ListEmployee} />
         <Stack.Screen name="Expenses" component={Expenses} />
         <Stack.Screen name="Revenue" component={Revenue} />
         <Stack.Screen name="RegisterServices" component={RegisterServices} />

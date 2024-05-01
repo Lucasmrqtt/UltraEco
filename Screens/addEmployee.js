@@ -9,18 +9,22 @@ import {
   Platform,
   SafeAreaView,
   TextInput,
+  Keyboard,
+  Image
 } from "react-native";
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import db from "../config";
-import { collection, addDoc} from "firebase/firestore"; 
+import { collection, addDoc } from "firebase/firestore";
+import { TextInputMask } from "react-native-masked-text"; 4
 
 export default class Employee extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      speakerIcon: "chevron-back-outline",
+      speakerIcon: "arrow-back",
       name: "",
+      cpf: "",
       // id: 0
     }
   }
@@ -28,21 +32,39 @@ export default class Employee extends Component {
   handleSearchTextChange1 = (text) => {
     this.setState({ name: text })
   }
+  handleSearchTextChange2 = (text) => {
+    this.setState({ cpf: text })
+  }
 
-  registerEmployee = async (name) => {
-    if (
-      name
-    ) {
-      await addDoc(collection(db, "Employee"), {
-        // employee_Id: this.state.id,
-        employee_Name: name
-      })
-      // this.setState(prevState => ({ id: prevState.id + 1 }))
-      Alert.alert("Funcionário cadastrado com sucesso!")
+  registerEmployee = async () => {
+    const { name, cpf } = this.state
+    if (this.state.cpf.length > 13) {
+      if (
+        name &&
+        cpf
+      ) {
+        console.log(cpf)
+        await addDoc(collection(db, "Employee"), {
+          // employee_Id: this.state.id,
+          employee_name: name,
+          employee_cpf: cpf
+        })
+        // this.setState(prevState => ({ id: prevState.id + 1 }))
+        Alert.alert("Funcionário cadastrado com sucesso!")
+        this.setState({ cpf: "" })
+        this.setState({ name: "" })
+      } else {
+        Alert.alert(
+          "Error",
+          "Todos os campos são obrigatórios!",
+          [{ text: "OK" }],
+          { cancelable: false }
+        );
+      }
     } else {
       Alert.alert(
         "Error",
-        "Todos os campos são obrigatórios!",
+        "O CPF deve conter 11 caracteres!",
         [{ text: "OK" }],
         { cancelable: false }
       );
@@ -51,13 +73,12 @@ export default class Employee extends Component {
 
 
   render() {
-    const { name, speakerIcon } = this.state
+    const { name, cpf, speakerIcon } = this.state
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
         <View style={styles.header}>
           <TouchableOpacity
-            style={styles.back}
             onPress={() => this.props.navigation.navigate("Home")}
           >
             <Ionicons name={speakerIcon} size={RFValue(40)} />
@@ -65,13 +86,18 @@ export default class Employee extends Component {
           <View style={styles.title}>
             <Text style={styles.titleText}>Novo Funcionário</Text>
           </View>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("AddTeam")}>
+            <Image
+              source={require("../assets/employee.png")}
+              style={styles.image} />
+          </TouchableOpacity>
         </View>
 
         <View style={styles.body}>
           <View style={styles.margin}>
             <Text style={styles.bodyText}>Nome</Text>
             <TextInput
-              placeholder="Digite o nome do seu cliente aqui"
+              placeholder="Digite o nome do seu funcionário aqui"
               placeholderStyle={{
                 justifyContent: "center",
               }}
@@ -79,7 +105,23 @@ export default class Employee extends Component {
               value={name}
               style={styles.textInputName}
               maxLength={40}
+              returnKeyType="done" // Mudei aqui para "done"
+              onSubmitEditing={() => Keyboard.dismiss()}
             />
+          </View>
+          <View style={styles.margin}>
+            <Text style={styles.bodyText}>CPF</Text>
+
+            <TextInputMask
+              style={styles.textInputName}
+              type={"cpf"}
+              placeholder="999.999.999-99"
+              value={cpf}
+              onChangeText={this.handleSearchTextChange2}
+              returnKeyType="done" // Mudei aqui para "done"
+              onSubmitEditing={() => Keyboard.dismiss()}
+            />
+
           </View>
         </View>
 
@@ -92,7 +134,7 @@ export default class Employee extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.fotterTouchableOpacityRight}
-            onPress={() => this.registerEmployee(name)}  
+            onPress={() => this.registerEmployee(name)}
           >
             <Text style={styles.fotterTextAdvance}>Avançar</Text>
           </TouchableOpacity>
@@ -115,28 +157,27 @@ const styles = StyleSheet.create({
   },
   header: {
     // backgroundColor: "pink",
+    marginTop:RFValue(3),
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     paddingHorizontal: RFValue(10),
   },
-  back: {
-    // backgroundColor: "brown",
-    // justifyContent: 'flex-start',
-  },
   title: {
-    // backgroundColor: "blue",
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    marginLeft: RFValue(20),
   },
   titleText: {
-    // backgroundColor: "purple",
     fontWeight: 'bold',
     fontSize: RFValue(20),
-    paddingRight: RFValue(65),
     marginTop: RFValue(3),
+  },
+  image: {
+    width: RFValue(40),
+    height: RFValue(40),
+    marginEnd: 20,
+    marginTop:RFValue(1),
   },
   textInputName: {
     borderWidth: RFValue(1.5),
@@ -192,13 +233,13 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     fontWeight: 'bold',
-    fontSize: RFValue(20)
+    fontSize: RFValue(16)
   },
   fotter: {
     // backgroundColor:"gray",
     justifyContent: 'space-between',
     flexDirection: 'row',
-    top: Platform.OS == "ios" ? "151%" : "121%"
+    top: Platform.OS == "ios" ? "131%" : "101%"
     // alignSelf: 'flex-end'
   },
   fotterTouchableOpacityLeft: {
@@ -230,4 +271,5 @@ const styles = StyleSheet.create({
     fontSize: RFValue(30),
     color: "white"
   },
+
 })

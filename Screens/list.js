@@ -7,13 +7,14 @@ import {
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import Client from './clients';
+import Client from './listClients';
 
 export default class List extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      speakerIcon: "chevron-back-outline",
+      speakerIcon: "arrow-back",
+
     }
   }
 
@@ -22,7 +23,7 @@ export default class List extends Component {
       <View style={styles.container}>
         <TouchableOpacity 
         style={styles.button}
-        onPress={() => this.props.navigation.navigate("Client")}
+        onPress={() => this.props.navigation.navigate("ListClient")}
         >
           <Text style={styles.buttonText}>
             Clientes
@@ -32,8 +33,16 @@ export default class List extends Component {
         style={styles.button}
         onPress={() => this.props.navigation.navigate("ListService")}
         >
-          <Text style={styles.buttonText}>
+          <Text style={styles.buttonText}> 
             Serviços
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+        style={styles.button}
+        onPress={() => this.props.navigation.navigate("ListEmployee")}
+        >
+          <Text style={styles.buttonText}>
+            Profissional/Equipe
           </Text>
         </TouchableOpacity>
       </View>

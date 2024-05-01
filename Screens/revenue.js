@@ -24,7 +24,7 @@ export default class Revenue extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      speakerIcon: "chevron-back-outline",
+      speakerIcon: "arrow-back",
       Check: "checkmark-outline",
       money: 'R$0,00',
       name: '',
@@ -136,6 +136,8 @@ export default class Revenue extends Component {
                 maxLength={20}
                 autoFocus
                 style={styles.value}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
             </View>
             <TouchableOpacity onPress={Keyboard.dismiss}>
@@ -155,6 +157,8 @@ export default class Revenue extends Component {
             onChangeText={this.handleValueChange}
             value={name}
             placeholder={"Nome da receita"}
+            returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
           />
 
           <View style={{ zIndex: 99, }} >
@@ -217,6 +221,8 @@ export default class Revenue extends Component {
                 style={styles.textInputBirth}
                 maxLength={2}
                 ref={(input) => (this.textInputDay = input)}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
 
               <TextInput
@@ -231,6 +237,8 @@ export default class Revenue extends Component {
                 style={styles.textInputBirth}
                 maxLength={2}
                 ref={(input) => (this.textInputMonth = input)}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
 
               <TextInput
@@ -245,6 +253,8 @@ export default class Revenue extends Component {
                 style={[styles.textInputBirth, { width: RFValue(60) }]}
                 maxLength={4}
                 ref={(input) => (this.textInputYear = input)}
+                returnKeyType="done" // Mudei aqui para "done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
             </View>
           </View>

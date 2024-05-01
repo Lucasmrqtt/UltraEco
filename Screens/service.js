@@ -17,7 +17,7 @@ export default class Service extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      speakerIcon: "chevron-back-outline",
+      speakerIcon: "arrow-back",
       photo: "person-circle-outline",
     }
   }

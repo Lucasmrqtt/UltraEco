@@ -7,24 +7,27 @@ import {
   StatusBar,
   Platform,
   SafeAreaView,
-  ScrollView
+  ScrollView, 
+  Alert
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import db from "../config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 
 export default class ProfileClient extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      speakerIcon: "chevron-back-outline",
+      speakerIcon: "arrow-back",
       clientList: [],
+      client: this.props.route.params.item
     }
   }
 
   componentDidMount() {
     this.getClients()
+    console.log(this.state.client)
   }
 
   getClients = async () => {
@@ -41,9 +44,41 @@ export default class ProfileClient extends Component {
       return 'Não especificado';
     }
   }
-
+  deleteClient = async () => {
+    const { client } = this.state;
+    const { client_name, id } = client;
+    Alert.alert(
+      'Excluir Cliente',
+      `Você deseja excluir ${client_name}?`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Excluir',
+          onPress: () => {
+            Alert.alert(
+              'Confirmar',
+              'Esta ação é irreversível. Tem certeza?',
+              [
+                { text: 'Cancelar', style: 'cancel' },
+                {
+                  text: 'Confirmar',
+                  onPress: async () => {
+                    await deleteDoc(doc(db, "clients", id));
+                    Alert.alert('Sucesso', 'Cliente excluído com sucesso!');
+                    this.props.navigation.goBack(); // Navigate back to the previous screen
+                  }
+                }
+              ]
+            );
+          }
+        }
+      ]
+    );
+  };
+  
+  
   render() {
-    const { speakerIcon, clientList } = this.state;
+    const { speakerIcon, clientList, client } = this.state;
     return (
       <ScrollView style={styles.container}>
         <SafeAreaView style={styles.droidSafeArea} />
@@ -52,12 +87,14 @@ export default class ProfileClient extends Component {
             <Ionicons
               name={speakerIcon}
               size={RFValue(40)}
-              onPress={() => this.props.navigation.navigate("Client")}
+              onPress={() => this.props.navigation.navigate("ListClient")}
             // onPress={() => this.props.navigation.navigate("Agenda")}
             />
           </TouchableOpacity>
           <View style={styles.title}>
-            <Text style={styles.titleText}>{clientList.client_name}</Text>
+            <Text style={styles.titleText}>
+              {clientList && clientList.length > 0 ? client.client_name : null}
+            </Text>
           </View>
         </View>
 
@@ -72,7 +109,7 @@ export default class ProfileClient extends Component {
             <View style={[styles.margin, { marginTop: RFValue(13), }]}>
               <Text style={styles.titleBody}>Nome</Text>
               <Text style={styles.infoValue}>
-                {clientList && clientList.length > 0 ? clientList[0].client_name : null}
+                {clientList && clientList.length > 0 ? client.client_name : null}
               </Text>
 
             </View>
@@ -80,7 +117,7 @@ export default class ProfileClient extends Component {
               <View style={styles.margin}>
                 <Text style={styles.titleBody}>Nascimento</Text>
                 <Text style={styles.infoValue}>{clientList && clientList.length > 0 ?
-                  this.formatTimestamp(clientList[0].client_data) :
+                  this.formatTimestamp(client.client_data) :
                   'Não especificado'
                 }</Text>
               </View>
@@ -88,7 +125,7 @@ export default class ProfileClient extends Component {
                 <Text style={styles.titleBody}>Carros</Text>
                 {clientList && clientList.length > 0 ?
                   <Text style={styles.infoValue}>
-                    {clientList[0].client_car1}{"\n"}{clientList[0].client_car2}
+                    {client.client_car1}{"\n"}{client.client_car2}
                   </Text>
                   : null
                 }
@@ -97,11 +134,11 @@ export default class ProfileClient extends Component {
             <View style={styles.margin}>
               <Text style={styles.titleBody}>Telefone</Text>
               <Text style={styles.infoValue}>
-                {clientList && clientList.length > 0 ? clientList[0].client_phone : null}
+                {clientList && clientList.length > 0 ? client.client_phone : null}
               </Text>
             </View>
           </View>
-          <View style={styles.Adress}>
+          <View style={styles.adress}>
             <Text style={{
               fontSize: 25,
               fontWeight: 'bold',
@@ -112,17 +149,17 @@ export default class ProfileClient extends Component {
             <View style={[styles.margin, { marginTop: RFValue(13), }]}>
               <Text style={styles.titleBody}>Endereço</Text>
               <Text style={styles.infoValue}>
-                {clientList && clientList.length > 0 ? clientList[0].client_house_adress || 'Não especificado' : 'Não especificado'}
+                {clientList && clientList.length > 0 ? client.client_house_adress || 'Não especificado' : 'Não especificado'}
               </Text>
             </View>
             <View style={styles.margin}>
               <Text style={styles.titleBody}>Bairro</Text>
               <Text style={styles.infoValue}>
-                {clientList && clientList.length > 0 ? clientList[0].client_house_neighborhood || 'Não especificado' : 'Não especificado'}
+                {clientList && clientList.length > 0 ? client.client_house_neighborhood || 'Não especificado' : 'Não especificado'}
               </Text>
             </View>
           </View>
-          <View style={styles.Adress}>
+          <View style={styles.adress}>
             <Text style={{
               fontSize: 25,
               fontWeight: 'bold',
@@ -133,19 +170,24 @@ export default class ProfileClient extends Component {
             <View style={[styles.margin, { marginTop: RFValue(13), }]}>
               <Text style={styles.titleBody}>Endereço</Text>
               <Text style={styles.infoValue}>
-                {clientList && clientList.length > 0 ? clientList[0].client_work_adress || 'Não especificado' : 'Não especificado'}
+                {clientList && clientList.length > 0 ? client.client_work_adress || 'Não especificado' : 'Não especificado'}
               </Text>
             </View>
             <View style={styles.margin}>
               <Text style={styles.titleBody}>Bairro</Text>
               <Text style={styles.infoValue}>
-                {clientList && clientList.length > 0 ? clientList[0].client_work_neighborhood || 'Não especificado' : 'Não especificado'}
+                {clientList && clientList.length > 0 ? client.client_work_neighborhood || 'Não especificado' : 'Não especificado'}
               </Text>
             </View>
           </View>
         </View>
 
-        <View style={styles.space}></View>
+        {/* <View style={styles.space}></View> */}
+        <TouchableOpacity style={styles.delet} onPress={() => this.deleteClient(client)}>
+          <Text style={styles.deletTxt}>
+            Excluir
+          </Text>
+        </TouchableOpacity>
 
       </ScrollView>
     )
@@ -164,10 +206,6 @@ const styles = StyleSheet.create({
       Platform.OS === 'android' ? StatusBar.currentHeight : RFValue(35),
   },
   header: {
-    // backgroundColor: "pink",
-    // backgroundColor: "#bdbdbd",
-    // borderBottomWidth: RFValue(1),
-    // borderBottomColor: "#bdbdbd",
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -209,7 +247,7 @@ const styles = StyleSheet.create({
     // borderWidth: RFValue(1),
     paddingStart: RFValue(15),
   },
-  Adress: {
+  adress: {
     paddingBottom: RFValue(14),
     marginTop: RFValue(10),
     // borderWidth: RFValue(1),
@@ -227,9 +265,27 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     // alignItems:'center',
   },
-  space: {
-    width: "100%",
-    // backgroundColor: "pink",
-    height: RFValue(100)
+  delet: {
+    backgroundColor: "red", // Mudando a cor de fundo para vermelho
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    paddingHorizontal: RFValue(25),
+    paddingVertical: RFValue(10),
+    borderWidth: RFValue(2),
+    borderRadius: RFValue(10),
+    borderColor: "darkred", // Mudando a cor da borda para vermelho escuro
+    shadowColor: "black", // Adicionando uma sombra
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 5,
+    top: RFValue(20)
   },
+  deletTxt: {
+    color: 'white', // Cor do texto
+    fontSize: RFValue(16), // Tamanho da fonte
+    fontWeight: 'bold' // Negrito
+  }
+
 })

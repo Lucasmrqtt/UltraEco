@@ -154,7 +154,7 @@ export default class Dashboard extends Component {
       this.textInputMonth.focus();
     }
   }
-  
+
 
   handleSearchTextChange1 = (text, e) => {
     // Remover toLowerCase e usar parseInt
@@ -380,7 +380,7 @@ export default class Dashboard extends Component {
         <SafeAreaView style={styles.droidSafeArea} />
         <ScrollView>
           <View style={styles.header}>
-            
+
             <TouchableOpacity style={styles.cashFlow} onPress={() => this.props.navigation.navigate("EcoMonitor")}
             >
               <Text style={styles.cashFlowText}> Acessar </Text>
@@ -567,7 +567,8 @@ export default class Dashboard extends Component {
                     maxLength={2}
                     ref={(input) => (this.textInputBirth = input)}
                     onKeyPress={(e) => this.handleKeyPress1(dayValue1, e)} // Adiciona o evento onKeyPress
-
+                    returnKeyType="done" // Mudei aqui para "done"
+                    onSubmitEditing={() => Keyboard.dismiss()}
                   />
                   <TextInput
                     placeholder="Mês"
@@ -582,7 +583,8 @@ export default class Dashboard extends Component {
                     maxLength={2}
                     ref={(input) => (this.textInputMonth = input)}
                     onKeyPress={(e) => this.handleKeyPress2(dayValue2, e)} // Adiciona o evento onKeyPress
-
+                    returnKeyType="done" // Mudei aqui para "done"
+                    onSubmitEditing={() => Keyboard.dismiss()}
                   />
 
                   <TextInput
@@ -598,6 +600,8 @@ export default class Dashboard extends Component {
                     maxLength={4}
                     ref={(input) => (this.textInputYear = input)}
                     onKeyPress={(e) => this.handleKeyPress3(dayValue3, e)} // Adiciona o evento onKeyPress
+                    returnKeyType="done" // Mudei aqui para "done"
+                    onSubmitEditing={() => Keyboard.dismiss()}
 
                   />
                 </View>
@@ -612,6 +616,8 @@ export default class Dashboard extends Component {
                     value={searchText}
                     style={styles.filterTextInput}
                     maxLength={40}
+                    returnKeyType="done" // Mudei aqui para "done"
+                    onSubmitEditing={() => Keyboard.dismiss()}
                   />
                 </View>
               </View>
